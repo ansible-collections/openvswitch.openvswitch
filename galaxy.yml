@@ -7,4 +7,4 @@ license_file: LICENSE
 name: openvswitch
 namespace: openvswitch
 readme: README.rst
-repository: https://github.com/ansible-collections/openvswitch
+repository: https://github.com/ansible-collections/openvswitch.openvswitch
