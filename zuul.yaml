@@ -2,4 +2,6 @@
 - project:
     check:
       jobs:
-        - ansible-test-network-unit-openvswitch-python27
+        - ansible-test-network-unit-openvswitch-python27:
+            vars:
+              ansible_test_collections: true
