@@ -5,6 +5,7 @@ dependencies:
   "ansible.netcommon": "*"
 license_file: LICENSE
 name: openvswitch
+tags: [networking, vswitch, bridge, vlan]
 namespace: openvswitch
 readme: README.rst
 repository: https://github.com/ansible-collections/openvswitch.openvswitch
