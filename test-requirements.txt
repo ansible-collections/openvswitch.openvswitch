@@ -2,4 +2,4 @@ black==19.3b0 ; python_version > '3.5'
 flake8
 yamllint
 pytest-xdist
-coverage
+coverage==4.5.4
