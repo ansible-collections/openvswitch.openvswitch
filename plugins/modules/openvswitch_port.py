@@ -10,14 +10,12 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "network",
-}
+ANSIBLE_METADATA = {"metadata_version": "1.1", "supported_by": "network"}
 
 
-DOCUMENTATION = """module: openvswitch_port
+DOCUMENTATION = """
+module: openvswitch_port
+version_added: "1.0.0"
 author: David Stygstra (@stygstra)
 short_description: Manage Open vSwitch ports
 requirements:
@@ -58,20 +56,20 @@ options:
 
 EXAMPLES = """
 # Creates port eth2 on bridge br-ex
-- openvswitch_port:
+- openvswitch.openvswitch.openvswitch_port:
     bridge: br-ex
     port: eth2
     state: present
 
 # Creates port eth6
-- openvswitch_port:
+- openvswitch.openvswitch.openvswitch_port:
     bridge: bridge-loop
     port: eth6
     state: present
     set: Interface eth6
 
 # Creates port vlan10 with tag 10 on bridge br-ex
-- openvswitch_port:
+- openvswitch.openvswitch.openvswitch_port:
     bridge: br-ex
     port: vlan10
     tag: 10
@@ -80,7 +78,7 @@ EXAMPLES = """
 
 # Assign interface id server1-vifeth6 and mac address 00:00:5E:00:53:23
 # to port vifeth6 and setup port to be managed by a controller.
-- openvswitch_port:
+- openvswitch.openvswitch.openvswitch_port:
     bridge: br-int
     port: vifeth6
     state: present

@@ -10,14 +10,12 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "network",
-}
+ANSIBLE_METADATA = {"metadata_version": "1.1", "supported_by": "network"}
 
 
-DOCUMENTATION = """module: openvswitch_bridge
+DOCUMENTATION = """
+module: openvswitch_bridge
+version_added: "1.0.0"
 author: David Stygstra (@stygstra)
 short_description: Manage Open vSwitch bridges
 requirements:
@@ -65,19 +63,19 @@ options:
 
 EXAMPLES = """
 # Create a bridge named br-int
-- openvswitch_bridge:
+- openvswitch.openvswitch.openvswitch_bridge:
     bridge: br-int
     state: present
 
 # Create a fake bridge named br-int within br-parent on the VLAN 405
-- openvswitch_bridge:
+- openvswitch.openvswitch.openvswitch_bridge:
     bridge: br-int
     parent: br-parent
     vlan: 405
     state: present
 
 # Create an integration bridge
-- openvswitch_bridge:
+- openvswitch.openvswitch.openvswitch_bridge:
     bridge: br-int
     state: present
     fail_mode: secure

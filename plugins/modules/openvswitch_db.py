@@ -11,14 +11,12 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "network",
-}
+ANSIBLE_METADATA = {"metadata_version": "1.1", "supported_by": "network"}
 
 
-DOCUMENTATION = """module: openvswitch_db
+DOCUMENTATION = """
+module: openvswitch_db
+version_added: "1.0.0"
 author: Mark Hamilton (@markleehamilton) <mhamilton@vmware.com>
 short_description: Configure open vswitch database.
 requirements:
@@ -66,7 +64,7 @@ options:
 EXAMPLES = """
 # Increase the maximum idle time to 50 seconds before pruning unused kernel
 # rules.
-- openvswitch_db:
+- openvswitch.openvswitch.openvswitch_db:
     table: open_vswitch
     record: .
     col: other_config
@@ -74,7 +72,7 @@ EXAMPLES = """
     value: 50000
 
 # Disable in band copy
-- openvswitch_db:
+- openvswitch.openvswitch.openvswitch_db:
     table: Bridge
     record: br-int
     col: other_config
@@ -82,7 +80,7 @@ EXAMPLES = """
     value: true
 
 # Remove in band key
-- openvswitch_db:
+- openvswitch.openvswitch.openvswitch_db:
     state: present
     table: Bridge
     record: br-int
@@ -90,7 +88,7 @@ EXAMPLES = """
     key: disable-in-band
 
 # Mark port with tag 10
-- openvswitch_db:
+- openvswitch.openvswitch.openvswitch_db:
     table: Port
     record: port0
     col: tag
