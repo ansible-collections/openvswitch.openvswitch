@@ -12,13 +12,13 @@ __metaclass__ = type
 
 DOCUMENTATION = """
 module: openvswitch_port
-version_added: "1.0.0"
 author: David Stygstra (@stygstra)
 short_description: Manage Open vSwitch ports
 requirements:
 - ovs-vsctl
 description:
 - Manage Open vSwitch ports
+version_added: 1.0.0
 options:
   bridge:
     required: true
@@ -82,7 +82,7 @@ EXAMPLES = """
   args:
     external_ids:
       iface-id: '{{ inventory_hostname }}-vifeth6'
-      attached-mac: '00:00:5E:00:53:23'
+      attached-mac: 00:00:5E:00:53:23
       vm-id: '{{ inventory_hostname }}'
       iface-status: active
 """
