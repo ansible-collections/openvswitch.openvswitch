@@ -13,6 +13,15 @@ The Open vSwitch collection supports local connections only.
 
 Click the ``Content`` button to see the list of content included in this collection.
 
+<!--start collection content-->
+## Modules
+Name | Description
+--- | ---
+[openvswitch.openvswitch.openvswitch_bridge](https://github.com/ansible-collections/openvswitch.openvswitch/blob/master/docs/openvswitch.openvswitch.openvswitch_bridge.rst)|Manage Open vSwitch bridges
+[openvswitch.openvswitch.openvswitch_db](https://github.com/ansible-collections/openvswitch.openvswitch/blob/master/docs/openvswitch.openvswitch.openvswitch_db.rst)|Configure open vswitch database.
+[openvswitch.openvswitch.openvswitch_port](https://github.com/ansible-collections/openvswitch.openvswitch/blob/master/docs/openvswitch.openvswitch.openvswitch_port.rst)|Manage Open vSwitch ports
+<!--end collection content-->
+
 ## Installing this collection
 
 You can install the Open vSwitch collection with the Ansible Galaxy CLI:

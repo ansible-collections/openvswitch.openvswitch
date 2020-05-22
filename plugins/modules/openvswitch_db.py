@@ -13,13 +13,13 @@ __metaclass__ = type
 
 DOCUMENTATION = """
 module: openvswitch_db
-version_added: "1.0.0"
 author: Mark Hamilton (@markleehamilton) <mhamilton@vmware.com>
 short_description: Configure open vswitch database.
 requirements:
 - ovs-vsctl >= 2.3.3
 description:
 - Set column values in record in database table.
+version_added: 1.0.0
 options:
   state:
     required: false
