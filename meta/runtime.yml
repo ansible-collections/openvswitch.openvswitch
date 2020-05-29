@@ -1,0 +1,10 @@
+---
+requires_ansible: '>=2.9'
+plugin_routing:
+  modules:
+    bridge:
+      redirect: openvswitch.openvswitch.openvswitch_bridge
+    db:
+      redirect: openvswitch.openvswitch.openvswitch_db
+    port:
+      redirect: openvswitch.openvswitch.openvswitch_port
