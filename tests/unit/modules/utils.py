@@ -1,3 +1,5 @@
+# pylint: skip-file
+
 import json
 
 from ansible_collections.openvswitch.openvswitch.tests.unit.compat import (
