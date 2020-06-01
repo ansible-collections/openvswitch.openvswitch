@@ -2,9 +2,9 @@
 .. _openvswitch.openvswitch.openvswitch_port_:
 
 
-*****
+****************************************
 openvswitch.openvswitch.openvswitch_port
-*****
+****************************************
 
 **Manage Open vSwitch ports**
 
