@@ -2,9 +2,9 @@
 .. _openvswitch.openvswitch.openvswitch_db_:
 
 
-*****
+**************************************
 openvswitch.openvswitch.openvswitch_db
-*****
+**************************************
 
 **Configure open vswitch database.**
 
