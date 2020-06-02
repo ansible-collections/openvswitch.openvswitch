@@ -1,3 +1,4 @@
+# pylint: skip-file
 #
 # (c) 2016 Red Hat Inc.
 #

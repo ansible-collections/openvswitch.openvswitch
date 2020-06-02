@@ -2,9 +2,9 @@
 .. _openvswitch.openvswitch.openvswitch_bridge_:
 
 
-*****
+******************************************
 openvswitch.openvswitch.openvswitch_bridge
-*****
+******************************************
 
 **Manage Open vSwitch bridges**
 
