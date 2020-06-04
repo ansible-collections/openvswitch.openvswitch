@@ -9,3 +9,4 @@ tags: [networking, vswitch, bridge, vlan]
 namespace: openvswitch
 readme: README.md
 repository: https://github.com/ansible-collections/openvswitch.openvswitch
+version: 1.1.1
