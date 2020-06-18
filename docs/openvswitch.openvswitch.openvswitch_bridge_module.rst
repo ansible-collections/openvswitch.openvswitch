@@ -1,12 +1,13 @@
+:orphan:
 
-.. _openvswitch.openvswitch.openvswitch_db_:
+.. _openvswitch.openvswitch.openvswitch_bridge_module:
 
 
-**************************************
-openvswitch.openvswitch.openvswitch_db
-**************************************
+******************************************
+openvswitch.openvswitch.openvswitch_bridge
+******************************************
 
-**Configure open vswitch database.**
+**Manage Open vSwitch bridges**
 
 
 Version added: 1.0.0
@@ -18,15 +19,15 @@ Version added: 1.0.0
 
 Synopsis
 --------
-- Set column values in record in database table.
+- Manage Open vSwitch bridges
 
 
 
 Requirements
 ------------
-The below requirements are needed on the local master node that executes this .
+The below requirements are needed on the host that executes this module.
 
-- ovs-vsctl >= 2.3.3
+- ovs-vsctl
 
 
 Parameters
@@ -38,13 +39,12 @@ Parameters
         <tr>
             <th colspan="1">Parameter</th>
             <th>Choices/<font color="blue">Defaults</font></th>
-                            <th>Configuration</th>
                         <th width="100%">Comments</th>
         </tr>
                     <tr>
                                                                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>col</b>
+                    <b>bridge</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">-</span>
@@ -52,16 +52,14 @@ Parameters
                                     </td>
                                 <td>
                                                                                                                                                             </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
-                                            <div>Identifies the column in the record.</div>
+                                                                <td>
+                                            <div>Name of bridge or fake bridge to manage</div>
                                                         </td>
             </tr>
                                 <tr>
                                                                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>key</b>
+                    <b>external_ids</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">-</span>
@@ -69,27 +67,57 @@ Parameters
                                     </td>
                                 <td>
                                                                                                                                                             </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
-                                            <div>Identifies the key in the record column, when the column is a map type.</div>
+                                                                <td>
+                                            <div>A dictionary of external-ids. Omitting this parameter is a No-op. To  clear all external-ids pass an empty value.</div>
                                                         </td>
             </tr>
                                 <tr>
                                                                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>record</b>
+                    <b>fail_mode</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">-</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
+                                    </td>
+                                <td>
+                                                                                                                            <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>secure</li>
+                                                                                                                                                                                                <li>standalone</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Set bridge fail-mode. The default value (None) is a No-op.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>parent</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">-</span>
+                                                                    </div>
                                     </td>
                                 <td>
                                                                                                                                                             </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
-                                            <div>Identifies the record in the table.</div>
+                                                                <td>
+                                            <div>Bridge parent of the fake bridge to manage</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>set</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">-</span>
+                                                                    </div>
+                                    </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Run set command after bridge configuration. This parameter is non-idempotent, play will always return <em>changed</em> state if present</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -107,27 +135,8 @@ Parameters
                                                                                                                                                                                                 <li>absent</li>
                                                                                     </ul>
                                                                             </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
-                                            <div>Configures the state of the key. When set to <em>present</em>, the <em>key</em> and <em>value</em> pair will be set on the <em>record</em> and when set to <em>absent</em> the <em>key</em> will not be set.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>table</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">-</span>
-                                                 / <span style="color: red">required</span>                    </div>
-                                    </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
-                                            <div>Identifies the table in the database.</div>
+                                                                <td>
+                                            <div>Whether the bridge should exist</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -142,27 +151,23 @@ Parameters
                                 <td>
                                                                                                                                                                     <b>Default:</b><br/><div style="color: blue">5</div>
                                     </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
+                                                                <td>
                                             <div>How long to wait for ovs-vswitchd to respond</div>
                                                         </td>
             </tr>
                                 <tr>
                                                                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>value</b>
+                    <b>vlan</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">-</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                     </td>
                                 <td>
                                                                                                                                                             </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
-                                            <div>Expected value for the table, record, column and key.</div>
+                                                                <td>
+                                            <div>The VLAN id of the fake bridge to manage (must be between 0 and 4095). This parameter is required if <em>parent</em> parameter is set.</div>
                                                         </td>
             </tr>
                         </table>
@@ -177,37 +182,26 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    # Increase the maximum idle time to 50 seconds before pruning unused kernel
-    # rules.
-    - openvswitch.openvswitch.openvswitch_db:
-        table: open_vswitch
-        record: .
-        col: other_config
-        key: max-idle
-        value: 50000
-
-    # Disable in band copy
-    - openvswitch.openvswitch.openvswitch_db:
-        table: Bridge
-        record: br-int
-        col: other_config
-        key: disable-in-band
-        value: true
-
-    # Remove in band key
-    - openvswitch.openvswitch.openvswitch_db:
+    # Create a bridge named br-int
+    - openvswitch.openvswitch.openvswitch_bridge:
+        bridge: br-int
         state: present
-        table: Bridge
-        record: br-int
-        col: other_config
-        key: disable-in-band
 
-    # Mark port with tag 10
-    - openvswitch.openvswitch.openvswitch_db:
-        table: Port
-        record: port0
-        col: tag
-        value: 10
+    # Create a fake bridge named br-int within br-parent on the VLAN 405
+    - openvswitch.openvswitch.openvswitch_bridge:
+        bridge: br-int
+        parent: br-parent
+        vlan: 405
+        state: present
+
+    # Create an integration bridge
+    - openvswitch.openvswitch.openvswitch_bridge:
+        bridge: br-int
+        state: present
+        fail_mode: secure
+      args:
+        external_ids:
+          bridge-id: br-int
 
 
 
@@ -220,11 +214,7 @@ Status
 Authors
 ~~~~~~~
 
-- Mark Hamilton (@markleehamilton) <mhamilton@vmware.com>
-
-
-.. hint::
-    If you notice any issues in this documentation, you can `edit this document <https://github.com/ansible/ansible/edit/devel/lib/ansible/plugins//?description=%23%23%23%23%23%20SUMMARY%0A%3C!---%20Your%20description%20here%20--%3E%0A%0A%0A%23%23%23%23%23%20ISSUE%20TYPE%0A-%20Docs%20Pull%20Request%0A%0A%2Blabel:%20docsite_pr>`_ to improve it.
+- David Stygstra (@stygstra)
 
 
 .. hint::

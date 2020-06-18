@@ -5,6 +5,15 @@
 
 The Open vSwitch collection includes a variety of Ansible content to help automate the management of Open vSwitch.
 
+<!--start requires_ansible-->
+## Ansible version compatibility
+
+This collection has been tested against following Ansible versions: **>=2.9.10,<2.11**.
+
+Plugins and modules within a collection may be tested with only specific Ansible versions. 
+A collection may contain metadata that identifies these versions. 
+PEP440 is the schema used to describe the versions of Ansible.
+<!--end requires_ansible-->
 
 ### Supported connections
 The Open vSwitch collection supports local connections only.
@@ -14,12 +23,13 @@ The Open vSwitch collection supports local connections only.
 Click the ``Content`` button to see the list of content included in this collection.
 
 <!--start collection content-->
-## Modules
+### Modules
 Name | Description
 --- | ---
-[openvswitch.openvswitch.openvswitch_bridge](https://github.com/ansible-collections/openvswitch.openvswitch/blob/master/docs/openvswitch.openvswitch.openvswitch_bridge.rst)|Manage Open vSwitch bridges
-[openvswitch.openvswitch.openvswitch_db](https://github.com/ansible-collections/openvswitch.openvswitch/blob/master/docs/openvswitch.openvswitch.openvswitch_db.rst)|Configure open vswitch database.
-[openvswitch.openvswitch.openvswitch_port](https://github.com/ansible-collections/openvswitch.openvswitch/blob/master/docs/openvswitch.openvswitch.openvswitch_port.rst)|Manage Open vSwitch ports
+[openvswitch.openvswitch.openvswitch_bridge](https://github.com/ansible-collections/openvswitch.openvswitch/blob/master/docs/openvswitch.openvswitch.openvswitch_bridge_module.rst)|Manage Open vSwitch bridges
+[openvswitch.openvswitch.openvswitch_db](https://github.com/ansible-collections/openvswitch.openvswitch/blob/master/docs/openvswitch.openvswitch.openvswitch_db_module.rst)|Configure open vswitch database.
+[openvswitch.openvswitch.openvswitch_port](https://github.com/ansible-collections/openvswitch.openvswitch/blob/master/docs/openvswitch.openvswitch.openvswitch_port_module.rst)|Manage Open vSwitch ports
+
 <!--end collection content-->
 
 ## Installing this collection

@@ -1,12 +1,13 @@
+:orphan:
 
-.. _openvswitch.openvswitch.openvswitch_bridge_:
+.. _openvswitch.openvswitch.openvswitch_port_module:
 
 
-******************************************
-openvswitch.openvswitch.openvswitch_bridge
-******************************************
+****************************************
+openvswitch.openvswitch.openvswitch_port
+****************************************
 
-**Manage Open vSwitch bridges**
+**Manage Open vSwitch ports**
 
 
 Version added: 1.0.0
@@ -18,13 +19,13 @@ Version added: 1.0.0
 
 Synopsis
 --------
-- Manage Open vSwitch bridges
+- Manage Open vSwitch ports
 
 
 
 Requirements
 ------------
-The below requirements are needed on the local master node that executes this .
+The below requirements are needed on the host that executes this module.
 
 - ovs-vsctl
 
@@ -38,7 +39,6 @@ Parameters
         <tr>
             <th colspan="1">Parameter</th>
             <th>Choices/<font color="blue">Defaults</font></th>
-                            <th>Configuration</th>
                         <th width="100%">Comments</th>
         </tr>
                     <tr>
@@ -52,10 +52,8 @@ Parameters
                                     </td>
                                 <td>
                                                                                                                                                             </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
-                                            <div>Name of bridge or fake bridge to manage</div>
+                                                                <td>
+                                            <div>Name of bridge to manage</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -68,49 +66,25 @@ Parameters
                                                                     </div>
                                     </td>
                                 <td>
-                                                                                                                                                            </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
-                                            <div>A dictionary of external-ids. Omitting this parameter is a No-op. To  clear all external-ids pass an empty value.</div>
+                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">{}</div>
+                                    </td>
+                                                                <td>
+                                            <div>Dictionary of external_ids applied to a port.</div>
                                                         </td>
             </tr>
                                 <tr>
                                                                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>fail_mode</b>
+                    <b>port</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">-</span>
-                                                                    </div>
-                                    </td>
-                                <td>
-                                                                                                                            <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>secure</li>
-                                                                                                                                                                                                <li>standalone</li>
-                                                                                    </ul>
-                                                                            </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
-                                            <div>Set bridge fail-mode. The default value (None) is a No-op.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>parent</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">-</span>
-                                                                    </div>
+                                                 / <span style="color: red">required</span>                    </div>
                                     </td>
                                 <td>
                                                                                                                                                             </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
-                                            <div>Bridge parent of the fake bridge to manage</div>
+                                                                <td>
+                                            <div>Name of port to manage on the bridge</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -124,10 +98,8 @@ Parameters
                                     </td>
                                 <td>
                                                                                                                                                             </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
-                                            <div>Run set command after bridge configuration. This parameter is non-idempotent, play will always return <em>changed</em> state if present</div>
+                                                                <td>
+                                            <div>Set a single property on a port.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -145,10 +117,23 @@ Parameters
                                                                                                                                                                                                 <li>absent</li>
                                                                                     </ul>
                                                                             </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
-                                            <div>Whether the bridge should exist</div>
+                                                                <td>
+                                            <div>Whether the port should exist</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>tag</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">-</span>
+                                                                    </div>
+                                    </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>VLAN tag for this port. Must be a value between 0 and 4095.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -163,27 +148,8 @@ Parameters
                                 <td>
                                                                                                                                                                     <b>Default:</b><br/><div style="color: blue">5</div>
                                     </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
+                                                                <td>
                                             <div>How long to wait for ovs-vswitchd to respond</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>vlan</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">-</span>
-                                                                    </div>
-                                    </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
-                                            <div>The VLAN id of the fake bridge to manage (must be between 0 and 4095). This parameter is required if <em>parent</em> parameter is set.</div>
                                                         </td>
             </tr>
                         </table>
@@ -198,26 +164,39 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    # Create a bridge named br-int
-    - openvswitch.openvswitch.openvswitch_bridge:
-        bridge: br-int
+    # Creates port eth2 on bridge br-ex
+    - openvswitch.openvswitch.openvswitch_port:
+        bridge: br-ex
+        port: eth2
         state: present
 
-    # Create a fake bridge named br-int within br-parent on the VLAN 405
-    - openvswitch.openvswitch.openvswitch_bridge:
-        bridge: br-int
-        parent: br-parent
-        vlan: 405
+    # Creates port eth6
+    - openvswitch.openvswitch.openvswitch_port:
+        bridge: bridge-loop
+        port: eth6
         state: present
+        set: Interface eth6
 
-    # Create an integration bridge
-    - openvswitch.openvswitch.openvswitch_bridge:
-        bridge: br-int
+    # Creates port vlan10 with tag 10 on bridge br-ex
+    - openvswitch.openvswitch.openvswitch_port:
+        bridge: br-ex
+        port: vlan10
+        tag: 10
         state: present
-        fail_mode: secure
+        set: Interface vlan10
+
+    # Assign interface id server1-vifeth6 and mac address 00:00:5E:00:53:23
+    # to port vifeth6 and setup port to be managed by a controller.
+    - openvswitch.openvswitch.openvswitch_port:
+        bridge: br-int
+        port: vifeth6
+        state: present
       args:
         external_ids:
-          bridge-id: br-int
+          iface-id: '{{ inventory_hostname }}-vifeth6'
+          attached-mac: 00:00:5E:00:53:23
+          vm-id: '{{ inventory_hostname }}'
+          iface-status: active
 
 
 
@@ -231,10 +210,6 @@ Authors
 ~~~~~~~
 
 - David Stygstra (@stygstra)
-
-
-.. hint::
-    If you notice any issues in this documentation, you can `edit this document <https://github.com/ansible/ansible/edit/devel/lib/ansible/plugins//?description=%23%23%23%23%23%20SUMMARY%0A%3C!---%20Your%20description%20here%20--%3E%0A%0A%0A%23%23%23%23%23%20ISSUE%20TYPE%0A-%20Docs%20Pull%20Request%0A%0A%2Blabel:%20docsite_pr>`_ to improve it.
 
 
 .. hint::

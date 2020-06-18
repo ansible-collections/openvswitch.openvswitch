@@ -1,12 +1,13 @@
+:orphan:
 
-.. _openvswitch.openvswitch.openvswitch_port_:
+.. _openvswitch.openvswitch.openvswitch_db_module:
 
 
-****************************************
-openvswitch.openvswitch.openvswitch_port
-****************************************
+**************************************
+openvswitch.openvswitch.openvswitch_db
+**************************************
 
-**Manage Open vSwitch ports**
+**Configure open vswitch database.**
 
 
 Version added: 1.0.0
@@ -18,15 +19,15 @@ Version added: 1.0.0
 
 Synopsis
 --------
-- Manage Open vSwitch ports
+- Set column values in record in database table.
 
 
 
 Requirements
 ------------
-The below requirements are needed on the local master node that executes this .
+The below requirements are needed on the host that executes this module.
 
-- ovs-vsctl
+- ovs-vsctl >= 2.3.3
 
 
 Parameters
@@ -38,13 +39,12 @@ Parameters
         <tr>
             <th colspan="1">Parameter</th>
             <th>Choices/<font color="blue">Defaults</font></th>
-                            <th>Configuration</th>
                         <th width="100%">Comments</th>
         </tr>
                     <tr>
                                                                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>bridge</b>
+                    <b>col</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">-</span>
@@ -52,34 +52,29 @@ Parameters
                                     </td>
                                 <td>
                                                                                                                                                             </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
-                                            <div>Name of bridge to manage</div>
+                                                                <td>
+                                            <div>Identifies the column in the record.</div>
                                                         </td>
             </tr>
                                 <tr>
                                                                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>external_ids</b>
+                    <b>key</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">-</span>
                                                                     </div>
                                     </td>
                                 <td>
-                                                                                                                                                                    <b>Default:</b><br/><div style="color: blue">{}</div>
-                                    </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
-                                            <div>Dictionary of external_ids applied to a port.</div>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Identifies the key in the record column, when the column is a map type.</div>
                                                         </td>
             </tr>
                                 <tr>
                                                                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>port</b>
+                    <b>record</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">-</span>
@@ -87,27 +82,8 @@ Parameters
                                     </td>
                                 <td>
                                                                                                                                                             </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
-                                            <div>Name of port to manage on the bridge</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>set</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">-</span>
-                                                                    </div>
-                                    </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
-                                            <div>Set a single property on a port.</div>
+                                                                <td>
+                                            <div>Identifies the record in the table.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -125,27 +101,23 @@ Parameters
                                                                                                                                                                                                 <li>absent</li>
                                                                                     </ul>
                                                                             </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
-                                            <div>Whether the port should exist</div>
+                                                                <td>
+                                            <div>Configures the state of the key. When set to <em>present</em>, the <em>key</em> and <em>value</em> pair will be set on the <em>record</em> and when set to <em>absent</em> the <em>key</em> will not be set.</div>
                                                         </td>
             </tr>
                                 <tr>
                                                                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>tag</b>
+                    <b>table</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">-</span>
-                                                                    </div>
+                                                 / <span style="color: red">required</span>                    </div>
                                     </td>
                                 <td>
                                                                                                                                                             </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
-                                            <div>VLAN tag for this port. Must be a value between 0 and 4095.</div>
+                                                                <td>
+                                            <div>Identifies the table in the database.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -160,10 +132,23 @@ Parameters
                                 <td>
                                                                                                                                                                     <b>Default:</b><br/><div style="color: blue">5</div>
                                     </td>
-                                                    <td>
-                                                                                            </td>
-                                                <td>
+                                                                <td>
                                             <div>How long to wait for ovs-vswitchd to respond</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>value</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">-</span>
+                                                 / <span style="color: red">required</span>                    </div>
+                                    </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Expected value for the table, record, column and key.</div>
                                                         </td>
             </tr>
                         </table>
@@ -178,39 +163,37 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    # Creates port eth2 on bridge br-ex
-    - openvswitch.openvswitch.openvswitch_port:
-        bridge: br-ex
-        port: eth2
-        state: present
+    # Increase the maximum idle time to 50 seconds before pruning unused kernel
+    # rules.
+    - openvswitch.openvswitch.openvswitch_db:
+        table: open_vswitch
+        record: .
+        col: other_config
+        key: max-idle
+        value: 50000
 
-    # Creates port eth6
-    - openvswitch.openvswitch.openvswitch_port:
-        bridge: bridge-loop
-        port: eth6
-        state: present
-        set: Interface eth6
+    # Disable in band copy
+    - openvswitch.openvswitch.openvswitch_db:
+        table: Bridge
+        record: br-int
+        col: other_config
+        key: disable-in-band
+        value: true
 
-    # Creates port vlan10 with tag 10 on bridge br-ex
-    - openvswitch.openvswitch.openvswitch_port:
-        bridge: br-ex
-        port: vlan10
-        tag: 10
+    # Remove in band key
+    - openvswitch.openvswitch.openvswitch_db:
         state: present
-        set: Interface vlan10
+        table: Bridge
+        record: br-int
+        col: other_config
+        key: disable-in-band
 
-    # Assign interface id server1-vifeth6 and mac address 00:00:5E:00:53:23
-    # to port vifeth6 and setup port to be managed by a controller.
-    - openvswitch.openvswitch.openvswitch_port:
-        bridge: br-int
-        port: vifeth6
-        state: present
-      args:
-        external_ids:
-          iface-id: '{{ inventory_hostname }}-vifeth6'
-          attached-mac: 00:00:5E:00:53:23
-          vm-id: '{{ inventory_hostname }}'
-          iface-status: active
+    # Mark port with tag 10
+    - openvswitch.openvswitch.openvswitch_db:
+        table: Port
+        record: port0
+        col: tag
+        value: 10
 
 
 
@@ -223,11 +206,7 @@ Status
 Authors
 ~~~~~~~
 
-- David Stygstra (@stygstra)
-
-
-.. hint::
-    If you notice any issues in this documentation, you can `edit this document <https://github.com/ansible/ansible/edit/devel/lib/ansible/plugins//?description=%23%23%23%23%23%20SUMMARY%0A%3C!---%20Your%20description%20here%20--%3E%0A%0A%0A%23%23%23%23%23%20ISSUE%20TYPE%0A-%20Docs%20Pull%20Request%0A%0A%2Blabel:%20docsite_pr>`_ to improve it.
+- Mark Hamilton (@markleehamilton) <mhamilton@vmware.com>
 
 
 .. hint::
