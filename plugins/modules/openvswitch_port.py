@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# pylint: skip-file
 
 # (c) 2013, David Stygstra <david.stygstra@gmail.com>
 # Portions copyright @ 2015 VMware, Inc.
