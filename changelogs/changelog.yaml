@@ -1,0 +1,14 @@
+ancestor: null
+releases:
+  1.0.0:
+    modules:
+    - description: Manage Open vSwitch bridges
+      name: openvswitch_bridge
+      namespace: ''
+    - description: Configure open vswitch database.
+      name: openvswitch_db
+      namespace: ''
+    - description: Manage Open vSwitch ports
+      name: openvswitch_port
+      namespace: ''
+    release_date: '2020-06-23'
