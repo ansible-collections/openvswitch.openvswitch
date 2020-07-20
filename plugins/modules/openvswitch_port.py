@@ -23,13 +23,16 @@ options:
     required: true
     description:
     - Name of bridge to manage
+    type: str
   port:
     required: true
     description:
     - Name of port to manage on the bridge
+    type: str
   tag:
     description:
     - VLAN tag for this port. Must be a value between 0 and 4095.
+    type: str
   state:
     default: present
     choices:
@@ -37,17 +40,21 @@ options:
     - absent
     description:
     - Whether the port should exist
+    type: str
   timeout:
     default: 5
     description:
     - How long to wait for ovs-vswitchd to respond
+    type: int
   external_ids:
     default: {}
     description:
     - Dictionary of external_ids applied to a port.
+    type: dict
   set:
     description:
     - Set a single property on a port.
+    type: str
 """
 
 EXAMPLES = """

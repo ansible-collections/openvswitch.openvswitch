@@ -30,31 +30,38 @@ options:
     choices:
     - present
     - absent
+    type: str
   table:
     required: true
     description:
     - Identifies the table in the database.
+    type: str
   record:
     required: true
     description:
     - Identifies the record in the table.
+    type: str
   col:
     required: true
     description:
     - Identifies the column in the record.
+    type: str
   key:
     required: false
     description:
     - Identifies the key in the record column, when the column is a map type.
+    type: str
   value:
     required: true
     description:
     - Expected value for the table, record, column and key.
+    type: str
   timeout:
     required: false
     default: 5
     description:
     - How long to wait for ovs-vswitchd to respond
+    type: int
 """
 
 EXAMPLES = """
