@@ -23,13 +23,16 @@ options:
     required: true
     description:
     - Name of bridge or fake bridge to manage
+    type: str
   parent:
     description:
     - Bridge parent of the fake bridge to manage
+    type: str
   vlan:
     description:
     - The VLAN id of the fake bridge to manage (must be between 0 and 4095). This
       parameter is required if I(parent) parameter is set.
+    type: int
   state:
     default: present
     choices:
@@ -37,24 +40,26 @@ options:
     - absent
     description:
     - Whether the bridge should exist
+    type: str
   timeout:
     default: 5
     description:
     - How long to wait for ovs-vswitchd to respond
+    type: int
   external_ids:
     description:
     - A dictionary of external-ids. Omitting this parameter is a No-op. To  clear
       all external-ids pass an empty value.
+    type: dict
   fail_mode:
-    choices:
-    - secure
-    - standalone
     description:
     - Set bridge fail-mode. The default value (None) is a No-op.
+    type: str
   set:
     description:
     - Run set command after bridge configuration. This parameter is non-idempotent,
       play will always return I(changed) state if present
+    type: str
 """
 
 EXAMPLES = """
