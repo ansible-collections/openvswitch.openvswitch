@@ -28,3 +28,15 @@ releases:
     fragments:
     - 1.0.2.yaml
     release_date: '2020-08-07'
+  1.0.3:
+    changes:
+      release_summary: Released for testing.
+    fragments:
+    - 1.0.3.yaml
+    release_date: '2020-08-07'
+  1.0.4:
+    changes:
+      release_summary: Rereleased 1.0.3 with updated changelog.
+    fragments:
+    - 1.0.4.yaml
+    release_date: '2020-08-08'

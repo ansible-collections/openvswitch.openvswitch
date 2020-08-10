@@ -4,6 +4,22 @@ Openvswitch Collection Release Notes
 
 .. contents:: Topics
 
+v1.0.4
+======
+
+Release Summary
+---------------
+
+Rereleased 1.0.3 with updated changelog.
+
+v1.0.3
+======
+
+Release Summary
+---------------
+
+Released for testing.
+
 v1.0.2
 ======
 
