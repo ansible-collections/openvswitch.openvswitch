@@ -40,3 +40,11 @@ releases:
     fragments:
     - 1.0.4.yaml
     release_date: '2020-08-08'
+  1.0.5:
+    changes:
+      minor_changes:
+      - Regenerated docs, add description to galaxy.yml and linked changelog to README
+        (https://github.com/ansible-collections/openvswitch.openvswitch/pull/53).
+    fragments:
+    - fixes_to_readme_and_doc.yaml
+    release_date: '2020-08-28'

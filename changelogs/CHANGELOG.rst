@@ -4,6 +4,15 @@ Openvswitch Collection Release Notes
 
 .. contents:: Topics
 
+
+v1.0.5
+======
+
+Minor Changes
+-------------
+
+- Regenerated docs, add description to galaxy.yml and linked changelog to README (https://github.com/ansible-collections/openvswitch.openvswitch/pull/53).
+
 v1.0.4
 ======
 
