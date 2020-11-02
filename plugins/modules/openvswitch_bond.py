@@ -7,9 +7,10 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: openvswitch_bond
 author: "James Denton (@busterswt)"
@@ -80,9 +81,9 @@ options:
     description:
     - Sets one or more properties on a port.
     type: list
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create an active-backup bond using eth4 and eth5 on bridge br-ex
   openvswitch.openvswitch.openvswitch_bond:
     bridge: br-ex
@@ -133,9 +134,9 @@ EXAMPLES = '''
       - "interface 0000:04:00.0 type=dpdk options:dpdk-devargs=0000:04:00.0"
       - "interface 0000:04:00.1 type=dpdk options:dpdk-devargs=0000:04:00.1"
     state: present
-'''
+"""
 
-RETURN = ''' # '''
+RETURN = """ # """
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.six import iteritems
@@ -144,14 +145,14 @@ from ansible.module_utils.six import iteritems
 def _external_ids_to_dict(text):
     text = text.strip()
 
-    if text == '{}':
+    if text == "{}":
         return None
     else:
         d = {}
 
-        for kv in text[1:-1].split(','):
+        for kv in text[1:-1].split(","):
             kv = kv.strip()
-            k, v = kv.split('=')
+            k, v = kv.split("=")
             d[k] = v
 
         return d
@@ -160,14 +161,14 @@ def _external_ids_to_dict(text):
 def _other_config_to_dict(text):
     text = text.strip()
 
-    if text == '{}':
+    if text == "{}":
         return None
     else:
         d = {}
 
-        for kv in text[1:-1].split(','):
+        for kv in text[1:-1].split(","):
             kv = kv.strip()
-            k, v = kv.split('=')
+            k, v = kv.split("=")
             d[k] = v
 
         return d
@@ -176,22 +177,21 @@ def _other_config_to_dict(text):
 def map_obj_to_commands(want, have, module):
     commands = list()
 
-    if module.params['state'] == 'absent':
+    if module.params["state"] == "absent":
         if have:
             templatized_command = (
-                "%(ovs-vsctl)s -t %(timeout)s del-port"
-                " %(bridge)s %(port)s"
+                "%(ovs-vsctl)s -t %(timeout)s del-port" " %(bridge)s %(port)s"
             )
             command = templatized_command % module.params
             commands.append(command)
     else:
         if have:
-            if want['other_config'] != have['other_config']:
-                for k, v in iteritems(want['other_config']):
+            if want["other_config"] != have["other_config"]:
+                for k, v in iteritems(want["other_config"]):
                     if (
-                         not have['other_config']
-                         or k not in have['other_config']
-                         or want['other_config'][k] != have['other_config'][k]
+                        not have["other_config"]
+                        or k not in have["other_config"]
+                        or want["other_config"][k] != have["other_config"][k]
                     ):
                         if v is None:
                             templatized_command = (
@@ -211,13 +211,13 @@ def map_obj_to_commands(want, have, module):
                             command += k + "=" + v
                             commands.append(command)
 
-            if want['external_ids'] != have['external_ids']:
-                for k, v in iteritems(want['external_ids']):
+            if want["external_ids"] != have["external_ids"]:
+                for k, v in iteritems(want["external_ids"]):
                     if (
-                         not have['external_ids']
-                         or k not in have['external_ids']
-                         or want['external_ids'][k] != have['external_ids'][k]
-                       ):
+                        not have["external_ids"]
+                        or k not in have["external_ids"]
+                        or want["external_ids"][k] != have["external_ids"][k]
+                    ):
                         if v is None:
                             templatized_command = (
                                 "%(ovs-vsctl)s -t %(timeout)s"
@@ -238,39 +238,38 @@ def map_obj_to_commands(want, have, module):
 
         else:
             templatized_command = (
-                "%(ovs-vsctl)s -t %(timeout)s add-bond"
-                " %(bridge)s %(port)s"
+                "%(ovs-vsctl)s -t %(timeout)s add-bond" " %(bridge)s %(port)s"
             )
             command = templatized_command % module.params
 
-            if want['interfaces']:
-                for interface in want['interfaces']:
+            if want["interfaces"]:
+                for interface in want["interfaces"]:
                     command += " " + interface
 
-            if want['bond_mode']:
+            if want["bond_mode"]:
                 templatized_command = " bond_mode=%(bond_mode)s"
                 command += templatized_command % module.params
 
-            if want['lacp']:
+            if want["lacp"]:
                 templatized_command = " lacp=%(lacp)s"
                 command += templatized_command % module.params
 
-            if want['bond_updelay']:
+            if want["bond_updelay"]:
                 templatized_command = " bond_updelay=%(bond_updelay)s"
                 command += templatized_command % module.params
 
-            if want['bond_downdelay']:
+            if want["bond_downdelay"]:
                 templatized_command = " bond_downdelay=%(bond_downdelay)s"
                 command += templatized_command % module.params
 
-            if want['set']:
-                for set in want['set']:
+            if want["set"]:
+                for set in want["set"]:
                     command += " -- set " + set
 
             commands.append(command)
 
-            if want['other_config']:
-                for k, v in iteritems(want['other_config']):
+            if want["other_config"]:
+                for k, v in iteritems(want["other_config"]):
                     templatized_command = (
                         "%(ovs-vsctl)s -t %(timeout)s"
                         " set port %(port)s other_config:"
@@ -279,8 +278,8 @@ def map_obj_to_commands(want, have, module):
                     command += k + "=" + v
                     commands.append(command)
 
-            if want['external_ids']:
-                for k, v in iteritems(want['external_ids']):
+            if want["external_ids"]:
+                for k, v in iteritems(want["external_ids"]):
                     templatized_command = (
                         "%(ovs-vsctl)s -t %(timeout)s"
                         " set port %(port)s external_ids:"
@@ -301,41 +300,39 @@ def map_config_to_obj(module):
 
     obj = {}
 
-    if module.params['port'] in out.splitlines():
-        obj['bridge'] = module.params['bridge']
-        obj['port'] = module.params['port']
+    if module.params["port"] in out.splitlines():
+        obj["bridge"] = module.params["bridge"]
+        obj["port"] = module.params["port"]
 
         templatized_command = (
-            "%(ovs-vsctl)s -t %(timeout)s get"
-            " Port %(port)s other_config"
+            "%(ovs-vsctl)s -t %(timeout)s get" " Port %(port)s other_config"
         )
         command = templatized_command % module.params
         rc, out, err = module.run_command(command, check_rc=True)
-        obj['other_config'] = _other_config_to_dict(out)
+        obj["other_config"] = _other_config_to_dict(out)
 
         templatized_command = (
-            "%(ovs-vsctl)s -t %(timeout)s get"
-            " Port %(port)s external_ids"
+            "%(ovs-vsctl)s -t %(timeout)s get" " Port %(port)s external_ids"
         )
         command = templatized_command % module.params
         rc, out, err = module.run_command(command, check_rc=True)
-        obj['external_ids'] = _external_ids_to_dict(out)
+        obj["external_ids"] = _external_ids_to_dict(out)
 
     return obj
 
 
 def map_params_to_obj(module):
     obj = {
-        'bridge': module.params['bridge'],
-        'port': module.params['port'],
-        'interfaces': module.params['interfaces'],
-        'bond_mode': module.params['bond_mode'],
-        'lacp': module.params['lacp'],
-        'bond_updelay': module.params['bond_updelay'],
-        'bond_downdelay': module.params['bond_downdelay'],
-        'external_ids': module.params['external_ids'],
-        'other_config': module.params['other_config'],
-        'set': module.params['set']
+        "bridge": module.params["bridge"],
+        "port": module.params["port"],
+        "interfaces": module.params["interfaces"],
+        "bond_mode": module.params["bond_mode"],
+        "lacp": module.params["lacp"],
+        "bond_updelay": module.params["bond_updelay"],
+        "bond_downdelay": module.params["bond_downdelay"],
+        "external_ids": module.params["external_ids"],
+        "other_config": module.params["other_config"],
+        "set": module.params["set"],
     }
 
     return obj
@@ -344,27 +341,26 @@ def map_params_to_obj(module):
 def main():
     """ Entry point. """
     argument_spec = {
-        'bridge': {'required': True},
-        'port': {'required': True},
-        'interfaces': {'type': 'list'},
-        'bond_mode': {
-            'default': None,
-            'choices': ['active-backup', 'balance-tcp', 'balance-slb']
+        "bridge": {"required": True},
+        "port": {"required": True},
+        "interfaces": {"type": "list"},
+        "bond_mode": {
+            "default": None,
+            "choices": ["active-backup", "balance-tcp", "balance-slb"],
         },
-        'lacp': {'default': None, 'choices': ['active', 'passive', 'off']},
-        'bond_updelay': {'default': None, 'type': 'int'},
-        'bond_downdelay': {'default': None, 'type': 'int'},
-        'state': {'default': 'present', 'choices': ['present', 'absent']},
-        'timeout': {'default': 5, 'type': 'int'},
-        'external_ids': {'default': None, 'type': 'dict'},
-        'other_config': {'default': None, 'type': 'dict'},
-        'set': {'required': False, 'type': 'list', 'default': None}
+        "lacp": {"default": None, "choices": ["active", "passive", "off"]},
+        "bond_updelay": {"default": None, "type": "int"},
+        "bond_downdelay": {"default": None, "type": "int"},
+        "state": {"default": "present", "choices": ["present", "absent"]},
+        "timeout": {"default": 5, "type": "int"},
+        "external_ids": {"default": None, "type": "dict"},
+        "other_config": {"default": None, "type": "dict"},
+        "set": {"required": False, "type": "list", "default": None},
     }
 
-    module = AnsibleModule(argument_spec=argument_spec,
-                           supports_check_mode=True)
+    module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=True)
 
-    result = {'changed': False}
+    result = {"changed": False}
 
     # We add ovs-vsctl to module_params to later build up templatized commands
     module.params["ovs-vsctl"] = module.get_bin_path("ovs-vsctl", True)
@@ -373,16 +369,17 @@ def main():
     have = map_config_to_obj(module)
 
     commands = map_obj_to_commands(want, have, module)
-    result['commands'] = commands
+    result["commands"] = commands
 
     if commands:
         if not module.check_mode:
             for c in commands:
                 module.run_command(c, check_rc=True)
-        result['changed'] = True
+        result["changed"] = True
 
     module.exit_json(**result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
+
