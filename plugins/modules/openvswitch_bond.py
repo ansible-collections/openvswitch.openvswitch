@@ -358,7 +358,9 @@ def main():
         "set": {"required": False, "type": "list", "default": None},
     }
 
-    module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=True)
+    module = AnsibleModule(
+        argument_spec=argument_spec, supports_check_mode=True
+    )
 
     result = {"changed": False}
 
@@ -382,4 +384,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
