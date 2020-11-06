@@ -1,0 +1,3 @@
+---
+major_changes:
+  - openvswitch_bond - New module for managing Open vSwitch bonds (https://github.com/ansible-collections/openvswitch.openvswitch/pull/58).

@@ -136,8 +136,6 @@ EXAMPLES = """
     state: present
 """
 
-RETURN = """ # """
-
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.six import iteritems
 
