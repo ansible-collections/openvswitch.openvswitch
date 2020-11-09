@@ -102,8 +102,7 @@ class TestOpenVSwitchBondModule(TestOpenVSwitchModule):
     def test_openvswitch_bond_absent_idempotent(self):
         set_module_args(dict(state="absent", bridge="bond-br", port="bond0"))
         self.execute_module(
-            commands=[],
-            test_name="test_openvswitch_bond_absent_idempotent"
+            commands=[], test_name="test_openvswitch_bond_absent_idempotent"
         )
 
     def test_openvswitch_bond_absent_removes_bond(self):
@@ -126,8 +125,7 @@ class TestOpenVSwitchBondModule(TestOpenVSwitchModule):
             )
         )
         self.execute_module(
-            commands=[],
-            test_name="test_openvswitch_bond_present_idempotent"
+            commands=[], test_name="test_openvswitch_bond_present_idempotent"
         )
 
     def test_openvswitch_bond_present_creates_bond(self):
