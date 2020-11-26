@@ -1,3 +1,0 @@
----
-bugfixes:
-  - Add version key to galaxy.yaml to work around ansible-galaxy bug (https://github.com/ansible-collections/openvswitch.openvswitch/issues/59)

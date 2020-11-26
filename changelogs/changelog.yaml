@@ -48,3 +48,13 @@ releases:
     fragments:
     - fixes_to_readme_and_doc.yaml
     release_date: '2020-08-28'
+  1.1.0:
+    changes:
+      bugfixes:
+      - Add version key to galaxy.yaml to work around ansible-galaxy bug (https://github.com/ansible-collections/openvswitch.openvswitch/issues/59)
+      minor_changes:
+      - openvswitch_bond - New module for managing Open vSwitch bonds (https://github.com/ansible-collections/openvswitch.openvswitch/pull/58).
+    fragments:
+    - 1-openvswitch_bond-new-module.yaml
+    - fix_download_git.yaml
+    release_date: '2020-11-26'
