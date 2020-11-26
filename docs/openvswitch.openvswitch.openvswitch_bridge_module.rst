@@ -174,7 +174,7 @@ Parameters
 Examples
 --------
 
-.. code-block:: yaml+jinja
+.. code-block:: yaml
 
     # Create a bridge named br-int
     - openvswitch.openvswitch.openvswitch_bridge:
