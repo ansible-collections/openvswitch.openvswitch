@@ -17,7 +17,7 @@ Version added: 1.0.6
 
 Synopsis
 --------
-- Manage Open vSwitch bonds
+- Manage Open vSwitch bonds and associated options.
 
 
 
@@ -42,6 +42,56 @@ Parameters
             <tr>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>bond_downdelay</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">integer</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>Number of milliseconds a link must be down to be deactivated to prevent flapping.</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>bond_mode</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                    </div>
+                </td>
+                <td>
+                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                    <li>active-backup</li>
+                                    <li>balance-tcp</li>
+                                    <li>balance-slb</li>
+                        </ul>
+                </td>
+                <td>
+                        <div>Sets the bond mode</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>bond_updelay</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">integer</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>Number of milliseconds a link must be up to be activated to prevent flapping.</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>bridge</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
@@ -58,17 +108,17 @@ Parameters
             <tr>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>port</b>
+                    <b>external_ids</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                         / <span style="color: red">required</span>
+                        <span style="color: purple">dictionary</span>
                     </div>
                 </td>
                 <td>
+                        <b>Default:</b><br/><div style="color: blue">{}</div>
                 </td>
                 <td>
-                        <div>Name of port (bond) to manage on the bridge</div>
+                        <div>Dictionary of external_ids applied to a port.</div>
                 </td>
             </tr>
             <tr>
@@ -90,26 +140,6 @@ Parameters
             <tr>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>bond-mode</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                    </div>
-                </td>
-                <td>
-                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li><div style="color: blue"><b>active-backup</b>&nbsp;&larr;</div></li>
-                                    <li>balance-tcp</li>
-                                    <li>balance-slb</li>
-                        </ul>
-                </td>
-                <td>
-                        <div>Sets the bond mode</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>lacp</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
@@ -118,43 +148,60 @@ Parameters
                 </td>
                 <td>
                         <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                    <li><div style="color: blue"><b>active</b>&nbsp;&larr;</div></li>
+                                    <li>active</li>
                                     <li>passive</li>
                                     <li>off</li>
                         </ul>
                 </td>
                 <td>
-                        <div>Sets the bond mode</div>
+                        <div>Sets LACP mode</div>
                 </td>
             </tr>
             <tr>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>bond_updelay</b>
+                    <b>other_config</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
-                        <span style="color: purple">int</span>
+                        <span style="color: purple">dictionary</span>
                     </div>
                 </td>
                 <td>
+                        <b>Default:</b><br/><div style="color: blue">{}</div>
                 </td>
                 <td>
-                        <div>Number of milliseconds a link must be up to be activated (to prevent flapping)</div>
+                        <div>Dictionary of other_config applied to a port.</div>
                 </td>
             </tr>
             <tr>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>bond_downdelay</b>
+                    <b>port</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
-                        <span style="color: purple">int</span>
+                        <span style="color: purple">string</span>
+                         / <span style="color: red">required</span>
                     </div>
                 </td>
                 <td>
                 </td>
                 <td>
-                        <div>Number of milliseconds a link must be down to be activated (to prevent flapping)</div>
+                        <div>Name of port to manage on the bridge</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>set</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>Sets one or more properties on a port.</div>
                 </td>
             </tr>
             <tr>
@@ -173,7 +220,7 @@ Parameters
                         </ul>
                 </td>
                 <td>
-                        <div>Whether the bond should exist</div>
+                        <div>Whether the port should exist</div>
                 </td>
             </tr>
             <tr>
@@ -182,7 +229,7 @@ Parameters
                     <b>timeout</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
-                        <span style="color: purple">int</span>
+                        <span style="color: purple">integer</span>
                     </div>
                 </td>
                 <td>
@@ -190,54 +237,6 @@ Parameters
                 </td>
                 <td>
                         <div>How long to wait for ovs-vswitchd to respond in seconds</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>external_ids</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">dictionary</span>
-                    </div>
-                </td>
-                <td>
-                        <b>Default:</b><br/><div style="color: blue">{}</div>
-                </td>
-                <td>
-                        <div>Dictionary of external_ids applied to a port (bond).</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>other_config</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">dictionary</span>
-                    </div>
-                </td>
-                <td>
-                        <b>Default:</b><br/><div style="color: blue">{}</div>
-                </td>
-                <td>
-                        <div>Dictionary of other_config applied to a port (bond).</div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-"></div>
-                    <b>set</b>
-                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">list</span>
-                         / <span style="color: red">required</span>
-                    </div>
-                </td>
-                <td>
-                </td>
-                <td>
-                        <div>Sets one or more properties on a port (bond).</div>
                 </td>
             </tr>
     </table>
@@ -249,25 +248,23 @@ Parameters
 Examples
 --------
 
-.. code-block:: yaml+jinja
+.. code-block:: yaml
 
-    # Create an active-backup bond using eth4 and eth5 on bridge br-ex
-    - openvswitch.openvswitch.openvswitch_bond:
+    - name: Create an active-backup bond using eth4 and eth5 on bridge br-ex
+      openvswitch.openvswitch.openvswitch_bond:
         bridge: br-ex
         port: bond1
-          interfaces:
-            - eth4
-            - eth5
-          state: present
-
-    # Delete bond1 from bridge br-ex
-    - openvswitch.openvswitch.openvswitch_bond:
+        interfaces:
+          - eth4
+          - eth5
+        state: present
+    - name: Delete the bond from bridge br-ex
+      openvswitch.openvswitch.openvswitch_bond:
         bridge: br-ex
         port: bond1
         state: absent
-
-    # Create an active LACP bond using eth4 and eth5 on bridge br-ex
-    - openvswitch.openvswitch.openvswitch_bond:
+    - name: Create an active LACP bond using eth4 and eth5 on bridge br-ex
+      openvswitch.openvswitch.openvswitch_bond:
         bridge: br-ex
         port: bond1
         interfaces:
@@ -275,11 +272,10 @@ Examples
           - eth5
         lacp: active
         state: present
-
-    # Configure bond with miimon link monitoring at 100 millisecond intervals
     # NOTE: other_config values of integer type must be represented
     # as literal strings
-    - openvswitch.openvswitch.openvswitch_bond:
+    - name: Configure bond with miimon link monitoring at 100 millisecond intervals
+      openvswitch.openvswitch.openvswitch_bond:
         bridge: br-ex
         port: bond1
         interfaces:
@@ -292,9 +288,8 @@ Examples
         other_config:
           bond-detect-mode: miimon
           bond-miimon-interval: '"100"'
-
-    # Create an active LACP bond using DPDK interfaces
-    - openvswitch.openvswitch.openvswitch_bond:
+    - name: Create an active LACP bond using DPDK interfaces
+      openvswitch.openvswitch.openvswitch_bond:
         bridge: br-provider
         port: dpdkbond
         interfaces:
@@ -305,6 +300,7 @@ Examples
           - "interface 0000:04:00.0 type=dpdk options:dpdk-devargs=0000:04:00.0"
           - "interface 0000:04:00.1 type=dpdk options:dpdk-devargs=0000:04:00.1"
         state: present
+
 
 
 

@@ -26,10 +26,10 @@ Click the ``Content`` button to see the list of content included in this collect
 ### Modules
 Name | Description
 --- | ---
+[openvswitch.openvswitch.openvswitch_bond](https://github.com/ansible-collections/openvswitch.openvswitch/blob/main/docs/openvswitch.openvswitch.openvswitch_bond_module.rst)|Manage Open vSwitch bonds
 [openvswitch.openvswitch.openvswitch_bridge](https://github.com/ansible-collections/openvswitch.openvswitch/blob/main/docs/openvswitch.openvswitch.openvswitch_bridge_module.rst)|Manage Open vSwitch bridges
 [openvswitch.openvswitch.openvswitch_db](https://github.com/ansible-collections/openvswitch.openvswitch/blob/main/docs/openvswitch.openvswitch.openvswitch_db_module.rst)|Configure open vswitch database.
 [openvswitch.openvswitch.openvswitch_port](https://github.com/ansible-collections/openvswitch.openvswitch/blob/main/docs/openvswitch.openvswitch.openvswitch_port_module.rst)|Manage Open vSwitch ports
-[openvswitch.openvswitch.openvswitch_bond](https://github.com/ansible-collections/openvswitch.openvswitch/blob/main/docs/openvswitch.openvswitch.openvswitch_bond_module.rst)|Manage Open vSwitch bonds
 
 <!--end collection content-->
 

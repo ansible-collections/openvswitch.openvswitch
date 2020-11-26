@@ -161,7 +161,7 @@ Parameters
 Examples
 --------
 
-.. code-block:: yaml+jinja
+.. code-block:: yaml
 
     # Creates port eth2 on bridge br-ex
     - openvswitch.openvswitch.openvswitch_port:

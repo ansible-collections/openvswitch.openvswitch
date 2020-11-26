@@ -162,7 +162,7 @@ Parameters
 Examples
 --------
 
-.. code-block:: yaml+jinja
+.. code-block:: yaml
 
     # Increase the maximum idle time to 50 seconds before pruning unused kernel
     # rules.
