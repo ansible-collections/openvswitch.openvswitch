@@ -5,6 +5,19 @@ Openvswitch Collection Release Notes
 .. contents:: Topics
 
 
+v1.1.0
+======
+
+Minor Changes
+-------------
+
+- openvswitch_bond - New module for managing Open vSwitch bonds (https://github.com/ansible-collections/openvswitch.openvswitch/pull/58).
+
+Bugfixes
+--------
+
+- Add version key to galaxy.yaml to work around ansible-galaxy bug (https://github.com/ansible-collections/openvswitch.openvswitch/issues/59)
+
 v1.0.5
 ======
 
