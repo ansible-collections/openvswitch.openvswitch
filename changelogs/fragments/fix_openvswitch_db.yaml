@@ -1,0 +1,3 @@
+---
+bugfixes:
+  - Allow deleting key from table without specifying value (https://github.com/ansible-collections/openvswitch.openvswitch/issues/64).
