@@ -115,8 +115,10 @@ def map_obj_to_commands(want, have, module):
         if "key" in have.keys():
             templatized_command = (
                 "%(ovs-vsctl)s -t %(timeout)s remove %(table)s %(record)s "
-                "%(col)s %(key)s=%(value)s"
+                "%(col)s %(key)s"
             )
+            if module.params.get("value"):
+                templatized_command += "=%(value)s"
             commands.append(templatized_command % module.params)
         elif module.params["key"] is None:
             templatized_command = (
@@ -214,7 +216,7 @@ def main():
         "record": {"required": True},
         "col": {"required": True},
         "key": {"required": False},
-        "value": {"required": True, "type": "str"},
+        "value": {"type": "str"},
         "timeout": {"default": 5, "type": "int"},
     }
 
@@ -226,6 +228,11 @@ def main():
 
     # We add ovs-vsctl to module_params to later build up templatized commands
     module.params["ovs-vsctl"] = module.get_bin_path("ovs-vsctl", True)
+
+    if module.params["state"] == "present" and not module.params["value"]:
+        module.fail_json(
+            msg="missing required argument value for state: present"
+        )
 
     want = map_params_to_obj(module)
     have = map_config_to_obj(module)

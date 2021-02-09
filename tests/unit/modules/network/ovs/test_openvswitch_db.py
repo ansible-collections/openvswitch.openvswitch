@@ -150,6 +150,25 @@ class TestOpenVSwitchDBModule(TestOpenVSwitchModule):
             test_name="test_openvswitch_db_absent_removes_key",
         )
 
+    def test_openvswitch_db_absent_removes_key_no_value(self):
+        set_module_args(
+            dict(
+                state="absent",
+                table="Bridge",
+                record="test-br",
+                col="other_config",
+                key="disable-in-band",
+            )
+        )
+        self.execute_module(
+            changed=True,
+            commands=[
+                "/usr/bin/ovs-vsctl -t 5 remove Bridge test-br other_config"
+                " disable-in-band"
+            ],
+            test_name="test_openvswitch_db_absent_removes_key",
+        )
+
     def test_openvswitch_db_present_idempotent(self):
         set_module_args(
             dict(
