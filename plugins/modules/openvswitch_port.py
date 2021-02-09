@@ -53,8 +53,8 @@ options:
     type: dict
   set:
     description:
-    - Set a single property on a port.
-    type: str
+    - Set multiple properties on a port.
+    type: list
 """
 
 EXAMPLES = """
@@ -177,8 +177,10 @@ def map_obj_to_commands(want, have, module):
                 command += templatized_command % module.params
 
             if want["set"]:
-                templatized_command = " -- set %(set)s"
-                command += templatized_command % module.params
+                set_command = ""
+                for x in want["set"]:
+                    set_command += " -- set {0}".format(x)
+                command += set_command
 
             commands.append(command)
 
@@ -246,7 +248,7 @@ def main():
         "timeout": {"default": 5, "type": "int"},
         "external_ids": {"default": None, "type": "dict"},
         "tag": {"default": None},
-        "set": {"required": False, "default": None},
+        "set": {"required": False, "type": "list"},
     }
 
     module = AnsibleModule(
