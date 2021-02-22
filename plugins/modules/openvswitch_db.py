@@ -52,7 +52,6 @@ options:
     - Identifies the key in the record column, when the column is a map type.
     type: str
   value:
-    required: true
     description:
     - Expected value for the table, record, column and key.
     type: str
