@@ -261,3 +261,28 @@ class TestOpenVSwitchPortModule(TestOpenVSwitchModule):
             commands=commands,
             test_name="test_openvswitch_port_present_runs_set_mode",
         )
+
+    def test_openvswitch_port_present_runs_set_mode_multiple(self):
+        set_module_args(
+            dict(
+                state="present",
+                bridge="test-br",
+                port="eth2",
+                tag=10,
+                external_ids={"foo": "bar"},
+                set=[
+                    "port eth2 other_config:stp-path-cost=10",
+                    "port eth2 type=patch",
+                ],
+            )
+        )
+        commands = [
+            "/usr/bin/ovs-vsctl -t 5 add-port test-br eth2 tag=10 -- set"
+            " port eth2 other_config:stp-path-cost=10 -- set port eth2 type=patch",
+            "/usr/bin/ovs-vsctl -t 5 set port eth2 external_ids:foo=bar",
+        ]
+        self.execute_module(
+            changed=True,
+            commands=commands,
+            test_name="test_openvswitch_port_present_runs_set_mode",
+        )

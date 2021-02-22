@@ -53,8 +53,9 @@ options:
     type: dict
   set:
     description:
-    - Set a single property on a port.
-    type: str
+    - Set multiple properties on a port.
+    type: list
+    elements: str
 """
 
 EXAMPLES = """
@@ -128,7 +129,7 @@ def map_obj_to_commands(want, have, module):
     if module.params["state"] == "absent":
         if have:
             templatized_command = (
-                "%(ovs-vsctl)s -t %(timeout)s del-port" " %(bridge)s %(port)s"
+                "%(ovs-vsctl)s -t %(timeout)s del-port %(bridge)s %(port)s"
             )
             command = templatized_command % module.params
             commands.append(command)
@@ -168,7 +169,7 @@ def map_obj_to_commands(want, have, module):
                             commands.append(command)
         else:
             templatized_command = (
-                "%(ovs-vsctl)s -t %(timeout)s add-port" " %(bridge)s %(port)s"
+                "%(ovs-vsctl)s -t %(timeout)s add-port %(bridge)s %(port)s"
             )
             command = templatized_command % module.params
 
@@ -177,8 +178,10 @@ def map_obj_to_commands(want, have, module):
                 command += templatized_command % module.params
 
             if want["set"]:
-                templatized_command = " -- set %(set)s"
-                command += templatized_command % module.params
+                set_command = ""
+                for x in want["set"]:
+                    set_command += " -- set {0}".format(x)
+                command += set_command
 
             commands.append(command)
 
@@ -209,14 +212,14 @@ def map_config_to_obj(module):
         obj["port"] = module.params["port"]
 
         templatized_command = (
-            "%(ovs-vsctl)s -t %(timeout)s get" " Port %(port)s tag"
+            "%(ovs-vsctl)s -t %(timeout)s get Port %(port)s tag"
         )
         command = templatized_command % module.params
         rc, out, err = module.run_command(command, check_rc=True)
         obj["tag"] = _tag_to_str(out)
 
         templatized_command = (
-            "%(ovs-vsctl)s -t %(timeout)s get" " Port %(port)s external_ids"
+            "%(ovs-vsctl)s -t %(timeout)s get Port %(port)s external_ids"
         )
         command = templatized_command % module.params
         rc, out, err = module.run_command(command, check_rc=True)
@@ -246,7 +249,7 @@ def main():
         "timeout": {"default": 5, "type": "int"},
         "external_ids": {"default": None, "type": "dict"},
         "tag": {"default": None},
-        "set": {"required": False, "default": None},
+        "set": {"required": False, "type": "list", "elements": "str"},
     }
 
     module = AnsibleModule(

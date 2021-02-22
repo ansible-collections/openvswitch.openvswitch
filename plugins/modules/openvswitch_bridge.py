@@ -116,7 +116,7 @@ def map_obj_to_commands(want, have, module):
     if module.params["state"] == "absent":
         if have:
             templatized_command = (
-                "%(ovs-vsctl)s -t %(timeout)s del-br" " %(bridge)s"
+                "%(ovs-vsctl)s -t %(timeout)s del-br %(bridge)s"
             )
             command = templatized_command % module.params
             commands.append(command)
@@ -156,7 +156,7 @@ def map_obj_to_commands(want, have, module):
                 commands.append(command)
         else:
             templatized_command = (
-                "%(ovs-vsctl)s -t %(timeout)s add-br" " %(bridge)s"
+                "%(ovs-vsctl)s -t %(timeout)s add-br %(bridge)s"
             )
             command = templatized_command % module.params
 
@@ -205,28 +205,28 @@ def map_config_to_obj(module):
         obj["bridge"] = module.params["bridge"]
 
         templatized_command = (
-            "%(ovs-vsctl)s -t %(timeout)s br-to-parent" " %(bridge)s"
+            "%(ovs-vsctl)s -t %(timeout)s br-to-parent %(bridge)s"
         )
         command = templatized_command % module.params
         rc, out, err = module.run_command(command, check_rc=True)
         obj["parent"] = out.strip()
 
         templatized_command = (
-            "%(ovs-vsctl)s -t %(timeout)s br-to-vlan" " %(bridge)s"
+            "%(ovs-vsctl)s -t %(timeout)s br-to-vlan %(bridge)s"
         )
         command = templatized_command % module.params
         rc, out, err = module.run_command(command, check_rc=True)
         obj["vlan"] = out.strip()
 
         templatized_command = (
-            "%(ovs-vsctl)s -t %(timeout)s get-fail-mode" " %(bridge)s"
+            "%(ovs-vsctl)s -t %(timeout)s get-fail-mode %(bridge)s"
         )
         command = templatized_command % module.params
         rc, out, err = module.run_command(command, check_rc=True)
         obj["fail_mode"] = _fail_mode_to_str(out)
 
         templatized_command = (
-            "%(ovs-vsctl)s -t %(timeout)s br-get-external-id" " %(bridge)s"
+            "%(ovs-vsctl)s -t %(timeout)s br-get-external-id %(bridge)s"
         )
         command = templatized_command % module.params
         rc, out, err = module.run_command(command, check_rc=True)
