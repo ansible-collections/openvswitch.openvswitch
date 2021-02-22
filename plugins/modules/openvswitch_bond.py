@@ -19,7 +19,7 @@ requirements:
 - ovs-vsctl
 description:
 - Manage Open vSwitch bonds and associated options.
-version_added: '1.0.6'
+version_added: '1.0.0'
 options:
   bridge:
     required: true
@@ -32,10 +32,10 @@ options:
     - Name of port to manage on the bridge
     type: str
   interfaces:
-    required: true
     description:
     - List of interfaces to add to the bond
     type: list
+    elements: str
   bond_mode:
     choices: [ active-backup, balance-tcp, balance-slb ]
     description:
@@ -81,6 +81,7 @@ options:
     description:
     - Sets one or more properties on a port.
     type: list
+    elements: str
 """
 
 EXAMPLES = """
@@ -178,7 +179,7 @@ def map_obj_to_commands(want, have, module):
     if module.params["state"] == "absent":
         if have:
             templatized_command = (
-                "%(ovs-vsctl)s -t %(timeout)s del-port" " %(bridge)s %(port)s"
+                "%(ovs-vsctl)s -t %(timeout)s del-port %(bridge)s %(port)s"
             )
             command = templatized_command % module.params
             commands.append(command)
@@ -236,7 +237,7 @@ def map_obj_to_commands(want, have, module):
 
         else:
             templatized_command = (
-                "%(ovs-vsctl)s -t %(timeout)s add-bond" " %(bridge)s %(port)s"
+                "%(ovs-vsctl)s -t %(timeout)s add-bond %(bridge)s %(port)s"
             )
             command = templatized_command % module.params
 
@@ -303,14 +304,14 @@ def map_config_to_obj(module):
         obj["port"] = module.params["port"]
 
         templatized_command = (
-            "%(ovs-vsctl)s -t %(timeout)s get" " Port %(port)s other_config"
+            "%(ovs-vsctl)s -t %(timeout)s get Port %(port)s other_config"
         )
         command = templatized_command % module.params
         rc, out, err = module.run_command(command, check_rc=True)
         obj["other_config"] = _other_config_to_dict(out)
 
         templatized_command = (
-            "%(ovs-vsctl)s -t %(timeout)s get" " Port %(port)s external_ids"
+            "%(ovs-vsctl)s -t %(timeout)s get Port %(port)s external_ids"
         )
         command = templatized_command % module.params
         rc, out, err = module.run_command(command, check_rc=True)
@@ -341,7 +342,7 @@ def main():
     argument_spec = {
         "bridge": {"required": True},
         "port": {"required": True},
-        "interfaces": {"type": "list"},
+        "interfaces": {"type": "list", "elements": "str"},
         "bond_mode": {
             "default": None,
             "choices": ["active-backup", "balance-tcp", "balance-slb"],
@@ -353,7 +354,12 @@ def main():
         "timeout": {"default": 5, "type": "int"},
         "external_ids": {"default": None, "type": "dict"},
         "other_config": {"default": None, "type": "dict"},
-        "set": {"required": False, "type": "list", "default": None},
+        "set": {
+            "required": False,
+            "type": "list",
+            "default": None,
+            "elements": "str",
+        },
     }
 
     module = AnsibleModule(
