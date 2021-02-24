@@ -8,7 +8,7 @@ openvswitch.openvswitch.openvswitch_bond
 **Manage Open vSwitch bonds**
 
 
-Version added: 1.0.6
+Version added: 1.0.0
 
 .. contents::
    :local:
@@ -128,7 +128,7 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: red">required</span>
+                         / <span style="color: purple">elements=string</span>
                     </div>
                 </td>
                 <td>
@@ -196,6 +196,7 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>
                     </div>
                 </td>
                 <td>

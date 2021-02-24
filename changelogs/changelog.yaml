@@ -58,3 +58,13 @@ releases:
     - 1-openvswitch_bond-new-module.yaml
     - fix_download_git.yaml
     release_date: '2020-11-26'
+  1.2.0:
+    changes:
+      bugfixes:
+      - Allow deleting key from table without specifying value (https://github.com/ansible-collections/openvswitch.openvswitch/issues/64).
+      minor_changes:
+      - Allow setting multiple properties on a port (https://github.com/ansible-collections/openvswitch.openvswitch/issues/63).
+    fragments:
+    - fix_openvswitch_db.yaml
+    - fix_openvswitch_port.yaml
+    release_date: '2021-02-24'

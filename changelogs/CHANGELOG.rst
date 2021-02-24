@@ -5,6 +5,19 @@ Openvswitch Collection Release Notes
 .. contents:: Topics
 
 
+v1.2.0
+======
+
+Minor Changes
+-------------
+
+- Allow setting multiple properties on a port (https://github.com/ansible-collections/openvswitch.openvswitch/issues/63).
+
+Bugfixes
+--------
+
+- Allow deleting key from table without specifying value (https://github.com/ansible-collections/openvswitch.openvswitch/issues/64).
+
 v1.1.0
 ======
 

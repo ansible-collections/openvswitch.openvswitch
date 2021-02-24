@@ -1,3 +1,0 @@
----
-minor_changes:
-  - Allow setting multiple properties on a port (https://github.com/ansible-collections/openvswitch.openvswitch/issues/63).
