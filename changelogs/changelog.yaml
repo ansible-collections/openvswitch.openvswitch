@@ -68,6 +68,11 @@ releases:
     - fix_openvswitch_db.yaml
     - fix_openvswitch_port.yaml
     release_date: '2021-02-24'
+  2.0.0:
+    changes:
+      major_changes:
+      - There is no major changes for this particular release and it was tagged by mistake and cannot be reverted.
+    release_date: '2021-02-24'
   2.0.1:
     changes:
       major_changes:
