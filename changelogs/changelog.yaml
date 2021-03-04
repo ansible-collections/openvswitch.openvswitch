@@ -77,4 +77,4 @@ releases:
     changes:
       major_changes:
       - By mistake we tagged the repo to 2.0.0 and as it wasn't intended and cannot be reverted we're releasing 2.0.1 to make the community aware of the major version update.
-    release_date: '2021-03-03’
+    release_date: '2021-03-03'
