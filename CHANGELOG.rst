@@ -17,7 +17,7 @@ v2.0.0
 
 Major Changes
 -------------
-- There's no major changes for this particular release and it was tagged by mistake and cannot be reverted.
+- There is no major changes for this particular release and it was tagged by mistake and cannot be reverted.
 
 v1.2.0
 ======
