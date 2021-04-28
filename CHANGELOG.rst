@@ -4,6 +4,20 @@ Openvswitch Collection Release Notes
 
 .. contents:: Topics
 
+v2.0.1
+======
+
+Major Changes
+-------------
+
+- By mistake we tagged the repo to 2.0.0 and as it wasn't intended and cannot be reverted we're releasing 2.0.1 to make the community aware of the major version update.
+
+v2.0.0
+======
+
+Major Changes
+-------------
+- There is no major changes for this particular release and it was tagged by mistake and cannot be reverted.
 
 v1.2.0
 ======
