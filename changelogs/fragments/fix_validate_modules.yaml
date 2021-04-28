@@ -1,0 +1,3 @@
+---
+trivial:
+  - Fix failing validate-modules test.
