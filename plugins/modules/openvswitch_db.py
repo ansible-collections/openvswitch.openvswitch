@@ -214,7 +214,7 @@ def main():
         "table": {"required": True},
         "record": {"required": True},
         "col": {"required": True},
-        "key": {"required": False},
+        "key": {"required": False, "no_log": False},
         "value": {"type": "str"},
         "timeout": {"default": 5, "type": "int"},
     }
