@@ -13,3 +13,4 @@ namespace: openvswitch
 readme: README.md
 description: Ansible Network Collection for Open vSwitch
 repository: https://github.com/ansible-collections/openvswitch.openvswitch
+issues: https://github.com/ansible-collections/openvswitch.openvswitch/issues
