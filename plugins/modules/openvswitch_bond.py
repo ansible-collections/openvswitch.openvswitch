@@ -162,6 +162,7 @@ def _other_config_to_dict(text):
 
     if text == "{}":
         return None
+
     else:
         d = {}
 
