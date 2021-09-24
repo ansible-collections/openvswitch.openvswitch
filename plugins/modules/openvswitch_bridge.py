@@ -87,6 +87,7 @@ EXAMPLES = """
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.six import iteritems
+from ansible.module_utils._text import to_text
 
 
 def _fail_mode_to_str(text):
@@ -147,7 +148,7 @@ def map_obj_to_commands(want, have, module):
                             command += " " + k + " " + v
                             commands.append(command)
 
-            if want["vlan"] and want["vlan"] != have["vlan"]:
+            if want["vlan"] and to_text(want["vlan"]) != have["vlan"]:
                 templatized_command = (
                     "%(ovs-vsctl)s -t %(timeout)s"
                     " set port %(bridge)s tag=%(vlan)s"
