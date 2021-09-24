@@ -4,6 +4,15 @@ Openvswitch Collection Release Notes
 
 .. contents:: Topics
 
+
+v2.0.2
+======
+
+Bugfixes
+--------
+
+- `openvswitch_bridge` - Fix idempotency for VLAN bridges
+
 v2.0.1
 ======
 
@@ -17,6 +26,7 @@ v2.0.0
 
 Major Changes
 -------------
+
 - There is no major changes for this particular release and it was tagged by mistake and cannot be reverted.
 
 v1.2.0
