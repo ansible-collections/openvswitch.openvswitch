@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# coding: utf-8 -*-
 
 #
 # (c) 2015, Mark Hamilton <mhamilton@vmware.com>
@@ -11,20 +10,15 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "network",
-}
-
-
-DOCUMENTATION = """module: openvswitch_db
+DOCUMENTATION = """
+module: openvswitch_db
 author: Mark Hamilton (@markleehamilton) <mhamilton@vmware.com>
 short_description: Configure open vswitch database.
 requirements:
 - ovs-vsctl >= 2.3.3
 description:
 - Set column values in record in database table.
+version_added: 1.0.0
 options:
   state:
     required: false
@@ -36,37 +30,43 @@ options:
     choices:
     - present
     - absent
+    type: str
   table:
     required: true
     description:
     - Identifies the table in the database.
+    type: str
   record:
     required: true
     description:
     - Identifies the record in the table.
+    type: str
   col:
     required: true
     description:
     - Identifies the column in the record.
+    type: str
   key:
     required: false
     description:
     - Identifies the key in the record column, when the column is a map type.
+    type: str
   value:
-    required: true
     description:
     - Expected value for the table, record, column and key.
+    type: str
   timeout:
     required: false
     default: 5
     description:
     - How long to wait for ovs-vswitchd to respond
+    type: int
 """
 
 EXAMPLES = """
 # Increase the maximum idle time to 50 seconds before pruning unused kernel
 # rules.
-- openvswitch_db:
+- openvswitch.openvswitch.openvswitch_db:
     table: open_vswitch
     record: .
     col: other_config
@@ -74,7 +74,7 @@ EXAMPLES = """
     value: 50000
 
 # Disable in band copy
-- openvswitch_db:
+- openvswitch.openvswitch.openvswitch_db:
     table: Bridge
     record: br-int
     col: other_config
@@ -82,7 +82,7 @@ EXAMPLES = """
     value: true
 
 # Remove in band key
-- openvswitch_db:
+- openvswitch.openvswitch.openvswitch_db:
     state: present
     table: Bridge
     record: br-int
@@ -90,7 +90,7 @@ EXAMPLES = """
     key: disable-in-band
 
 # Mark port with tag 10
-- openvswitch_db:
+- openvswitch.openvswitch.openvswitch_db:
     table: Port
     record: port0
     col: tag
@@ -114,8 +114,10 @@ def map_obj_to_commands(want, have, module):
         if "key" in have.keys():
             templatized_command = (
                 "%(ovs-vsctl)s -t %(timeout)s remove %(table)s %(record)s "
-                "%(col)s %(key)s=%(value)s"
+                "%(col)s %(key)s"
             )
+            if module.params.get("value"):
+                templatized_command += "=%(value)s"
             commands.append(templatized_command % module.params)
         elif module.params["key"] is None:
             templatized_command = (
@@ -169,7 +171,7 @@ def map_config_to_obj(module):
     col_value_to_dict = {}
     if NON_EMPTY_MAP_RE.match(col_value):
         for kv in col_value[1:-1].split(", "):
-            k, v = kv.split("=")
+            k, v = kv.split("=", 1)
             col_value_to_dict[k.strip()] = v.strip('"')
 
     obj = {
@@ -212,8 +214,8 @@ def main():
         "table": {"required": True},
         "record": {"required": True},
         "col": {"required": True},
-        "key": {"required": False},
-        "value": {"required": True, "type": "str"},
+        "key": {"required": False, "no_log": False},
+        "value": {"type": "str"},
         "timeout": {"default": 5, "type": "int"},
     }
 
@@ -225,6 +227,11 @@ def main():
 
     # We add ovs-vsctl to module_params to later build up templatized commands
     module.params["ovs-vsctl"] = module.get_bin_path("ovs-vsctl", True)
+
+    if module.params["state"] == "present" and not module.params["value"]:
+        module.fail_json(
+            msg="missing required argument value for state: present"
+        )
 
     want = map_params_to_obj(module)
     have = map_config_to_obj(module)

@@ -5,6 +5,12 @@ dependencies:
   "ansible.netcommon": "*"
 license_file: LICENSE
 name: openvswitch
+tags: [networking, vswitch, bridge, vlan]
+# NOTE(pabelanger): We create an empty version key to keep ansible-galaxy
+# happy. We dynamically inject version info based on git information.
+version: null
 namespace: openvswitch
-readme: README.rst
-repository: https://github.com/ansible-collections/openvswitch
+readme: README.md
+description: Ansible Network Collection for Open vSwitch
+repository: https://github.com/ansible-collections/openvswitch.openvswitch
+issues: https://github.com/ansible-collections/openvswitch.openvswitch/issues

@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# coding: utf-8 -*-
 
 # (c) 2013, David Stygstra <david.stygstra@gmail.com>
 # Portions copyright @ 2015 VMware, Inc.
@@ -10,32 +9,30 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "network",
-}
-
-
-DOCUMENTATION = """module: openvswitch_port
+DOCUMENTATION = """
+module: openvswitch_port
 author: David Stygstra (@stygstra)
 short_description: Manage Open vSwitch ports
 requirements:
 - ovs-vsctl
 description:
 - Manage Open vSwitch ports
+version_added: 1.0.0
 options:
   bridge:
     required: true
     description:
     - Name of bridge to manage
+    type: str
   port:
     required: true
     description:
     - Name of port to manage on the bridge
+    type: str
   tag:
     description:
     - VLAN tag for this port. Must be a value between 0 and 4095.
+    type: str
   state:
     default: present
     choices:
@@ -43,35 +40,40 @@ options:
     - absent
     description:
     - Whether the port should exist
+    type: str
   timeout:
     default: 5
     description:
     - How long to wait for ovs-vswitchd to respond
+    type: int
   external_ids:
     default: {}
     description:
     - Dictionary of external_ids applied to a port.
+    type: dict
   set:
     description:
-    - Set a single property on a port.
+    - Set multiple properties on a port.
+    type: list
+    elements: str
 """
 
 EXAMPLES = """
 # Creates port eth2 on bridge br-ex
-- openvswitch_port:
+- openvswitch.openvswitch.openvswitch_port:
     bridge: br-ex
     port: eth2
     state: present
 
 # Creates port eth6
-- openvswitch_port:
+- openvswitch.openvswitch.openvswitch_port:
     bridge: bridge-loop
     port: eth6
     state: present
     set: Interface eth6
 
 # Creates port vlan10 with tag 10 on bridge br-ex
-- openvswitch_port:
+- openvswitch.openvswitch.openvswitch_port:
     bridge: br-ex
     port: vlan10
     tag: 10
@@ -80,14 +82,14 @@ EXAMPLES = """
 
 # Assign interface id server1-vifeth6 and mac address 00:00:5E:00:53:23
 # to port vifeth6 and setup port to be managed by a controller.
-- openvswitch_port:
+- openvswitch.openvswitch.openvswitch_port:
     bridge: br-int
     port: vifeth6
     state: present
   args:
     external_ids:
       iface-id: '{{ inventory_hostname }}-vifeth6'
-      attached-mac: '00:00:5E:00:53:23'
+      attached-mac: 00:00:5E:00:53:23
       vm-id: '{{ inventory_hostname }}'
       iface-status: active
 """
@@ -127,7 +129,7 @@ def map_obj_to_commands(want, have, module):
     if module.params["state"] == "absent":
         if have:
             templatized_command = (
-                "%(ovs-vsctl)s -t %(timeout)s del-port" " %(bridge)s %(port)s"
+                "%(ovs-vsctl)s -t %(timeout)s del-port %(bridge)s %(port)s"
             )
             command = templatized_command % module.params
             commands.append(command)
@@ -167,7 +169,7 @@ def map_obj_to_commands(want, have, module):
                             commands.append(command)
         else:
             templatized_command = (
-                "%(ovs-vsctl)s -t %(timeout)s add-port" " %(bridge)s %(port)s"
+                "%(ovs-vsctl)s -t %(timeout)s add-port %(bridge)s %(port)s"
             )
             command = templatized_command % module.params
 
@@ -176,8 +178,10 @@ def map_obj_to_commands(want, have, module):
                 command += templatized_command % module.params
 
             if want["set"]:
-                templatized_command = " -- set %(set)s"
-                command += templatized_command % module.params
+                set_command = ""
+                for x in want["set"]:
+                    set_command += " -- set {0}".format(x)
+                command += set_command
 
             commands.append(command)
 
@@ -208,14 +212,14 @@ def map_config_to_obj(module):
         obj["port"] = module.params["port"]
 
         templatized_command = (
-            "%(ovs-vsctl)s -t %(timeout)s get" " Port %(port)s tag"
+            "%(ovs-vsctl)s -t %(timeout)s get Port %(port)s tag"
         )
         command = templatized_command % module.params
         rc, out, err = module.run_command(command, check_rc=True)
         obj["tag"] = _tag_to_str(out)
 
         templatized_command = (
-            "%(ovs-vsctl)s -t %(timeout)s get" " Port %(port)s external_ids"
+            "%(ovs-vsctl)s -t %(timeout)s get Port %(port)s external_ids"
         )
         command = templatized_command % module.params
         rc, out, err = module.run_command(command, check_rc=True)
@@ -245,7 +249,7 @@ def main():
         "timeout": {"default": 5, "type": "int"},
         "external_ids": {"default": None, "type": "dict"},
         "tag": {"default": None},
-        "set": {"required": False, "default": None},
+        "set": {"required": False, "type": "list", "elements": "str"},
     }
 
     module = AnsibleModule(
