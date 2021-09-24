@@ -1,0 +1,35 @@
+plugins:
+  become: {}
+  cache: {}
+  callback: {}
+  cliconf: {}
+  connection: {}
+  httpapi: {}
+  inventory: {}
+  lookup: {}
+  module:
+    openvswitch_bond:
+      description: Manage Open vSwitch bonds
+      name: openvswitch_bond
+      namespace: private.var.folders.84.qwfwbspx3hjfvxvq2hf2rk500000gn.T.antsibull-changelogt7ojelj3.collections.ansible_collections.openvswitch.openvswitch.plugins.modules
+      version_added: 1.0.0
+    openvswitch_bridge:
+      description: Manage Open vSwitch bridges
+      name: openvswitch_bridge
+      namespace: private.var.folders.84.qwfwbspx3hjfvxvq2hf2rk500000gn.T.antsibull-changelogt7ojelj3.collections.ansible_collections.openvswitch.openvswitch.plugins.modules
+      version_added: 1.0.0
+    openvswitch_db:
+      description: Configure open vswitch database.
+      name: openvswitch_db
+      namespace: private.var.folders.84.qwfwbspx3hjfvxvq2hf2rk500000gn.T.antsibull-changelogt7ojelj3.collections.ansible_collections.openvswitch.openvswitch.plugins.modules
+      version_added: 1.0.0
+    openvswitch_port:
+      description: Manage Open vSwitch ports
+      name: openvswitch_port
+      namespace: private.var.folders.84.qwfwbspx3hjfvxvq2hf2rk500000gn.T.antsibull-changelogt7ojelj3.collections.ansible_collections.openvswitch.openvswitch.plugins.modules
+      version_added: 1.0.0
+  netconf: {}
+  shell: {}
+  strategy: {}
+  vars: {}
+version: 2.0.2

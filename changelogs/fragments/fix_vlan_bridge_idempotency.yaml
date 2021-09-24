@@ -1,3 +1,0 @@
----
-bugfixes:
-  - "`openvswitch_bridge` - Fix idempotency for VLAN bridges"

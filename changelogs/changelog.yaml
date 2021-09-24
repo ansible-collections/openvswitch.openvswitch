@@ -71,10 +71,23 @@ releases:
   2.0.0:
     changes:
       major_changes:
-      - There is no major changes for this particular release and it was tagged by mistake and cannot be reverted.
+      - There is no major changes for this particular release and it was tagged by
+        mistake and cannot be reverted.
     release_date: '2021-02-24'
   2.0.1:
     changes:
       major_changes:
-      - By mistake we tagged the repo to 2.0.0 and as it wasn't intended and cannot be reverted we're releasing 2.0.1 to make the community aware of the major version update.
+      - By mistake we tagged the repo to 2.0.0 and as it wasn't intended and cannot
+        be reverted we're releasing 2.0.1 to make the community aware of the major
+        version update.
     release_date: '2021-03-03'
+  2.0.2:
+    changes:
+      bugfixes:
+      - '`openvswitch_bridge` - Fix idempotency for VLAN bridges'
+    fragments:
+    - 69-remove_tests_sanity_requirements.yml
+    - fix_validate_modules.yaml
+    - fix_vlan_bridge_idempotency.yaml
+    - pylint_fixes.yaml
+    release_date: '2021-09-24'
