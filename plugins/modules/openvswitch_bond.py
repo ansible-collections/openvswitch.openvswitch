@@ -149,7 +149,6 @@ def _external_ids_to_dict(text):
 
     else:
         d = {}
-
         for kv in text[1:-1].split(","):
             kv = kv.strip()
             k, v = kv.split("=")
