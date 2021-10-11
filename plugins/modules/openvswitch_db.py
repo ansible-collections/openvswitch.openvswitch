@@ -243,7 +243,9 @@ def main():
     # We add ovs-vsctl to module_params to later build up templatized commands
     module.params["ovs-vsctl"] = module.get_bin_path("ovs-vsctl", True)
     if module.params.get("database_socket"):
-        module.params["ovs-vsctl"] += ' --db=' + module.params.get("database_socket")
+        module.params["ovs-vsctl"] += " --db=" + module.params.get(
+            "database_socket"
+        )
 
     if module.params["state"] == "present" and not module.params["value"]:
         module.fail_json(

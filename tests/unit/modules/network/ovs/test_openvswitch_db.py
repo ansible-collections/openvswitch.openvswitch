@@ -245,7 +245,7 @@ class TestOpenVSwitchDBModule(TestOpenVSwitchModule):
                 record="test-br",
                 col="other_config",
                 key="disable-in-band",
-                database_socket='unix:/opt/second.sock',
+                database_socket="unix:/opt/second.sock",
                 value="false",
             )
         )

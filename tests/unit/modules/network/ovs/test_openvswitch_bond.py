@@ -120,10 +120,12 @@ class TestOpenVSwitchBondModule(TestOpenVSwitchModule):
                 state="absent",
                 bridge="bond-br",
                 port="bond0",
-                database_socket='unix:/opt/second.sock'
+                database_socket="unix:/opt/second.sock",
             )
         )
-        commands = ["/usr/bin/ovs-vsctl --db=unix:/opt/second.sock -t 5 del-port bond-br bond0"]
+        commands = [
+            "/usr/bin/ovs-vsctl --db=unix:/opt/second.sock -t 5 del-port bond-br bond0"
+        ]
         self.execute_module(
             changed=True,
             commands=commands,
