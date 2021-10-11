@@ -61,6 +61,12 @@ options:
     description:
     - How long to wait for ovs-vswitchd to respond
     type: int
+  database_socket:
+    description:
+    - Path/ip to datbase socket to use
+    - Default path is used if not specified
+    - Path should start with 'unix:' prefix
+    type: str
 """
 
 EXAMPLES = """
@@ -95,6 +101,14 @@ EXAMPLES = """
     record: port0
     col: tag
     value: 10
+
+# Mark port with tag 10 for OVSDB with socket in /opt/second.sock
+- openvswitch.openvswitch.openvswitch_db:
+    table: Port
+    record: port0
+    col: tag
+    value: 10
+    database_socket: unix:/opt/second.sock
 """
 import re
 
@@ -217,6 +231,7 @@ def main():
         "key": {"required": False, "no_log": False},
         "value": {"type": "str"},
         "timeout": {"default": 5, "type": "int"},
+        "database_socket": {"default": None},
     }
 
     module = AnsibleModule(
@@ -227,6 +242,8 @@ def main():
 
     # We add ovs-vsctl to module_params to later build up templatized commands
     module.params["ovs-vsctl"] = module.get_bin_path("ovs-vsctl", True)
+    if module.params.get("database_socket"):
+        module.params["ovs-vsctl"] += ' --db=' + module.params.get("database_socket")
 
     if module.params["state"] == "present" and not module.params["value"]:
         module.fail_json(

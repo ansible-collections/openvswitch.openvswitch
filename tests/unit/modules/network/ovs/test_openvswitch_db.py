@@ -237,6 +237,27 @@ class TestOpenVSwitchDBModule(TestOpenVSwitchModule):
             test_name="test_openvswitch_db_present_updates_key",
         )
 
+    def test_openvswitch_uses_database_socket(self):
+        set_module_args(
+            dict(
+                state="present",
+                table="Bridge",
+                record="test-br",
+                col="other_config",
+                key="disable-in-band",
+                database_socket='unix:/opt/second.sock',
+                value="false",
+            )
+        )
+        self.execute_module(
+            changed=True,
+            commands=[
+                "/usr/bin/ovs-vsctl --db=unix:/opt/second.sock -t 5 set Bridge test-br other_config"
+                ":disable-in-band=false"
+            ],
+            test_name="test_openvswitch_db_present_updates_key",
+        )
+
     def test_openvswitch_db_present_missing_key_on_map(self):
         set_module_args(
             dict(

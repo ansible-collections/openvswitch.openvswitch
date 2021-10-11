@@ -56,6 +56,12 @@ options:
     - Set multiple properties on a port.
     type: list
     elements: str
+  database_socket:
+    description:
+    - Path/ip to datbase socket to use
+    - Default path is used if not specified
+    - Path should start with 'unix:' prefix
+    type: str
 """
 
 EXAMPLES = """
@@ -92,6 +98,15 @@ EXAMPLES = """
       attached-mac: 00:00:5E:00:53:23
       vm-id: '{{ inventory_hostname }}'
       iface-status: active
+
+# Plugs port veth0 into brdige br0 for database for OVSDB instance
+# with socket unix:/opt/second_ovsdb.sock
+- openvswitch.openvswitch.openvswitch_port:
+    bridge: br0
+    port: veth0
+    state: present
+    database_socket: unix:/opt/second_ovsdb.sock
+
 """
 
 from ansible.module_utils.basic import AnsibleModule
@@ -249,6 +264,7 @@ def main():
         "timeout": {"default": 5, "type": "int"},
         "external_ids": {"default": None, "type": "dict"},
         "tag": {"default": None},
+        "database_socket": {"default": None},
         "set": {"required": False, "type": "list", "elements": "str"},
     }
 
@@ -260,6 +276,8 @@ def main():
 
     # We add ovs-vsctl to module_params to later build up templatized commands
     module.params["ovs-vsctl"] = module.get_bin_path("ovs-vsctl", True)
+    if module.params.get("database_socket"):
+        module.params["ovs-vsctl"] += ' --db=' + module.params.get("database_socket")
 
     want = map_params_to_obj(module)
     have = map_config_to_obj(module)

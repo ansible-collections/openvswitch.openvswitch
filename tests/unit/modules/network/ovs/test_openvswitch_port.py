@@ -286,3 +286,24 @@ class TestOpenVSwitchPortModule(TestOpenVSwitchModule):
             commands=commands,
             test_name="test_openvswitch_port_present_runs_set_mode",
         )
+
+    def test_openvswitch_database_socket(self):
+        set_module_args(
+            dict(
+                state="present",
+                bridge="test-br",
+                port="eth2",
+                database_socket="unix:/opt/second.sock",
+                tag=10,
+                external_ids={"foo": "bar"},
+            )
+        )
+        commands = [
+            "/usr/bin/ovs-vsctl --db=unix:/opt/second.sock -t 5 add-port test-br eth2 tag=10",
+            "/usr/bin/ovs-vsctl --db=unix:/opt/second.sock -t 5 set port eth2 external_ids:foo=bar",
+        ]
+        self.execute_module(
+            changed=True,
+            commands=commands,
+            test_name="test_openvswitch_port_present_creates_port",
+        )
