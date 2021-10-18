@@ -1,0 +1,61 @@
+- Added code to perform get operation. Added testcases to test the get operation
+- Prepare for v2.0.2 (#82)
+- existing vlan is a string, convert wanted vlan before comparing (#81)
+- added 'issues' to 'galaxy.yml' (#78)
+- Fix pylint issue (#79)
+- Update README: freenode -> libera.chat (#76)
+- To update the tagged version to 2.0.1 (#71)
+- Fix validate-modules failure (#73)
+- Move CHANGELOG.rst to top-level (#70)
+- Remove tests/sanity/requirements.txt (#69)
+- Prepare for release (#68)
+- Allow setting multiple properties on a port (#66)
+- Allow deleting key from db without specifying value (#65)
+- Add changelog for 1.1.0 (#62)
+- Update docs for for release (#61)
+- Adds Open vSwitch bond management module (#58)
+- Fix galaxy.yaml (#60)
+- Remove ansible from requirements.txt (#57)
+- Prepare for 1.0.5 release (#53)
+- Add changelog for 1.0.3 (#51)
+- Add changelog (#50)
+- Update docs (#48)
+- Remove ignores for sanity test (#47)
+- Add missing dependencies for unit testing (#46)
+- Update references to main (#44)
+- Add changelog files (#41)
+- Updates for release readiness (#39)
+- Fix error when '=' is used in the dpdk-extra (#34)
+- added contributor link etc (#37)
+- Update collection version in README (#35)
+- Update runtime.yml requires_ansible version (#33)
+- Updates needed to pass ansible-test sanity (#27)
+- Add bindep.txt support (#23)
+- Add runtime.yml file (#21)
+- Add coverage support to ovs  (#17)
+- Merge pull request #20 from danielmellado/update_module_docs
+- Add OVS modules DOC
+- Merge pull request #19 from danielmellado/adapt_ovs_collection
+- Remove ANSIBLE_METADATA
+- Adapt examples to collection format
+- Merge pull request #18 from samccann/ovs_reame
+- update ovs readme
+- Merge pull request #16 from JPrause/openvswtich_tag
+- Adding labels to the tags section
+- Merge pull request #13 from pabelanger/temp/ansible.cfg
+- Merge pull request #12 from NilashishC/master
+- Add missing ansible.cfg for integration tests
+- Add pytest as a requirement
+- Merge pull request #10 from pabelanger/master
+- Update repo location in galaxy.yml
+- Merge pull request #6 from pabelanger/master
+- Move python dependencies to top level
+- Merge pull request #5 from pabelanger/master
+- Add LICENSE file
+- Merge pull request #3 from pabelanger/master
+- Add prepare_ovs_tests files
+- Merge pull request #2 from CaptTrews/master
+- Updated from network content collector
+- Merge pull request #1 from pabelanger/master
+- Bootstrap repo for testing
+- Initial commit

@@ -30,6 +30,7 @@ options:
     choices:
     - present
     - absent
+    - get
     type: str
   table:
     required: true
@@ -95,6 +96,41 @@ EXAMPLES = """
     record: port0
     col: tag
     value: 10
+
+# Get interface statistics
+- openvswitch.openvswitch.openvswitch_db:
+    state: get
+    table: interface
+    record: ifname
+    col: statistics
+
+# Get tx_packets value
+- openvswitch.openvswitch.openvswitch_db:
+    state: get
+    table: interface
+    record: ifname
+    col: statistics
+    key: tx_packets
+
+# Get mtu value
+- openvswitch.openvswitch.openvswitch_db:
+    state: get
+    table: interface
+    record: ifname
+    col: mtu
+"""
+
+RETURN = """
+commands:
+    description: List of commands sent
+    returned: when state is get
+    type: list
+    sample: ["/usr/local/bin/ovs-vsctl -t 5 get interface vhuclient1 statistics:tx_packets"]
+output:
+    description: Output of the commands
+    returned: when state is get
+    type: dict
+    sample: {"tx_packets": "0"}
 """
 import re
 
@@ -107,7 +143,7 @@ MAP_RE = re.compile(r"{.*}")
 
 
 def map_obj_to_commands(want, have, module):
-    """ Define ovs-vsctl command to meet desired state """
+    """Define ovs-vsctl command to meet desired state"""
     commands = list()
 
     if module.params["state"] == "absent":
@@ -123,6 +159,19 @@ def map_obj_to_commands(want, have, module):
             templatized_command = (
                 "%(ovs-vsctl)s -t %(timeout)s remove %(table)s %(record)s "
                 "%(col)s"
+            )
+            commands.append(templatized_command % module.params)
+    elif module.params["state"] == "get":
+        if module.params["key"] is None:
+            templatized_command = (
+                "%(ovs-vsctl)s -t %(timeout)s get %(table)s %(record)s "
+                "%(col)s"
+            )
+            commands.append(templatized_command % module.params)
+        else:
+            templatized_command = (
+                "%(ovs-vsctl)s -t %(timeout)s get %(table)s %(record)s "
+                "%(col)s:%(key)s"
             )
             commands.append(templatized_command % module.params)
     else:
@@ -163,7 +212,7 @@ def map_config_to_obj(module):
     # Map types require key argument
     has_key = module.params["key"] is not None
     is_map = MAP_RE.match(col_value)
-    if is_map and not has_key:
+    if is_map and not has_key and module.params["state"] != "get":
         module.fail_json(
             msg="missing required arguments: key for map type of column"
         )
@@ -208,9 +257,12 @@ def map_params_to_obj(module):
 
 
 def main():
-    """ Entry point for ansible module. """
+    """Entry point for ansible module."""
     argument_spec = {
-        "state": {"default": "present", "choices": ["present", "absent"]},
+        "state": {
+            "default": "present",
+            "choices": ["present", "absent", "get"],
+        },
         "table": {"required": True},
         "record": {"required": True},
         "col": {"required": True},
@@ -242,8 +294,27 @@ def main():
     if commands:
         if not module.check_mode:
             for c in commands:
-                module.run_command(c, check_rc=True)
+                rc, out, err = module.run_command(c, check_rc=True)
         result["changed"] = True
+
+        string_to_dict = {}
+
+        if NON_EMPTY_MAP_RE.match(str(out)):
+            for kv in re.split(r", ", out[1:-1]):
+                k, v = re.split(r"=", kv, 1)
+                string_to_dict[re.search("\\w*", k).group(0)] = re.search(
+                    "\\d*", v
+                ).group(0)
+        else:
+            if module.params["key"] is not None:
+                string_to_dict[module.params["key"]] = re.search(
+                    "\\w*", str(out)
+                ).group(0)
+            else:
+                string_to_dict[module.params["col"]] = re.search(
+                    "\\w*", str(out)
+                ).group(0)
+        result["output"] = string_to_dict
 
     module.exit_json(**result)
 
