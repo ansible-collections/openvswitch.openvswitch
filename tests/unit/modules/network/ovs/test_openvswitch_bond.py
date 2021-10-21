@@ -114,6 +114,24 @@ class TestOpenVSwitchBondModule(TestOpenVSwitchModule):
             test_name="test_openvswitch_bond_absent_removes_bond",
         )
 
+    def test_openvswitch_bond_database_socket(self):
+        set_module_args(
+            dict(
+                state="absent",
+                bridge="bond-br",
+                port="bond0",
+                database_socket="unix:/opt/second.sock",
+            )
+        )
+        commands = [
+            "/usr/bin/ovs-vsctl --db=unix:/opt/second.sock -t 5 del-port bond-br bond0"
+        ]
+        self.execute_module(
+            changed=True,
+            commands=commands,
+            test_name="test_openvswitch_bond_absent_removes_bond",
+        )
+
     def test_openvswitch_bond_present_idempotent(self):
         set_module_args(
             dict(

@@ -212,6 +212,25 @@ class TestOpenVSwitchBridgeModule(TestOpenVSwitchModule):
             test_name="test_openvswitch_bridge_present_creates_fake_bridge",
         )
 
+    def test_openvswitch_bridge_uses_database_socket(self):
+        set_module_args(
+            dict(
+                state="present",
+                bridge="test-br2",
+                parent="test-br",
+                database_socket="unix:/opt/second.sock",
+                vlan=10,
+            )
+        )
+        commands = [
+            "/usr/bin/ovs-vsctl --db=unix:/opt/second.sock -t 5 add-br test-br2 test-br 10"
+        ]
+        self.execute_module(
+            changed=True,
+            commands=commands,
+            test_name="test_openvswitch_bridge_present_creates_fake_bridge",
+        )
+
     @pytest.mark.usefixtures("patched_openvswitch_bridge")
     def test_openvswitch_bridge_updates_vlan(self):
         set_module_args(

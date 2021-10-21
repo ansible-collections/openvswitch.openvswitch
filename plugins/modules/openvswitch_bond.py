@@ -82,6 +82,12 @@ options:
     - Sets one or more properties on a port.
     type: list
     elements: str
+  database_socket:
+    description:
+    - Path/ip to datbase socket to use
+    - Default path is used if not specified
+    - Path should start with 'unix:' prefix
+    type: str
 """
 
 EXAMPLES = """
@@ -135,6 +141,15 @@ EXAMPLES = """
       - "interface 0000:04:00.0 type=dpdk options:dpdk-devargs=0000:04:00.0"
       - "interface 0000:04:00.1 type=dpdk options:dpdk-devargs=0000:04:00.1"
     state: present
+- name: Create an active-backup bond using eth4 and eth5 on bridge br-ex in second OVS database
+  openvswitch.openvswitch.openvswitch_bond:
+    bridge: br-ex
+    port: bond1
+    interfaces:
+      - eth4
+      - eth5
+    state: present
+    database_socket: unix:/opt/second.sock
 """
 
 from ansible.module_utils.basic import AnsibleModule
@@ -361,6 +376,7 @@ def main():
             "default": None,
             "elements": "str",
         },
+        "database_socket": {"default": None},
     }
 
     module = AnsibleModule(
@@ -371,6 +387,10 @@ def main():
 
     # We add ovs-vsctl to module_params to later build up templatized commands
     module.params["ovs-vsctl"] = module.get_bin_path("ovs-vsctl", True)
+    if module.params.get("database_socket"):
+        module.params["ovs-vsctl"] += " --db=" + module.params.get(
+            "database_socket"
+        )
 
     want = map_params_to_obj(module)
     have = map_config_to_obj(module)

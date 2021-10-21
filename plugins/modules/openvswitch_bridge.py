@@ -60,6 +60,12 @@ options:
     - Run set command after bridge configuration. This parameter is non-idempotent,
       play will always return I(changed) state if present
     type: str
+  database_socket:
+    description:
+    - Path/ip to datbase socket to use
+    - Default path is used if not specified
+    - Path should start with 'unix:' prefix
+    type: str
 """
 
 EXAMPLES = """
@@ -83,6 +89,11 @@ EXAMPLES = """
   args:
     external_ids:
       bridge-id: br-int
+# Create a bridge named br0 in database with socket at /opt/second.sock
+- openvswitch.openvswitch.openvswitch_bridge:
+    bridge: br0
+    state: present
+    database_socket: unix:/opt/second.sock
 """
 
 from ansible.module_utils.basic import AnsibleModule
@@ -260,6 +271,7 @@ def main():
         "external_ids": {"default": None, "type": "dict"},
         "fail_mode": {"default": None},
         "set": {"required": False, "default": None},
+        "database_socket": {"default": None},
     }
 
     required_if = [("parent", not None, ("vlan",))]
@@ -274,6 +286,10 @@ def main():
 
     # We add ovs-vsctl to module_params to later build up templatized commands
     module.params["ovs-vsctl"] = module.get_bin_path("ovs-vsctl", True)
+    if module.params.get("database_socket"):
+        module.params["ovs-vsctl"] += " --db=" + module.params.get(
+            "database_socket"
+        )
 
     want = map_params_to_obj(module)
     have = map_config_to_obj(module)
