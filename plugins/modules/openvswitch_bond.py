@@ -161,7 +161,6 @@ def _external_ids_to_dict(text):
 
     if text == "{}":
         return None
-
     else:
         d = {}
 
