@@ -99,6 +99,7 @@ Parameters
                         <ul style="margin: 0; padding: 0"><b>Choices:</b>
                                     <li><div style="color: blue"><b>present</b>&nbsp;&larr;</div></li>
                                     <li>absent</li>
+                                    <li>read</li>
                         </ul>
                 </td>
                 <td>
