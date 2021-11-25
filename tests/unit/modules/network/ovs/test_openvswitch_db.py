@@ -80,6 +80,18 @@ test_name_side_effect_matrix = {
         (0, "openvswitch_db_disable_in_band_true.cfg", None),
         (0, None, None),
     ],
+    "test_openvswitch_db_get_with_key": [
+        (0, "openvswitch_db_disable_in_band_true.cfg", None),
+        (0, None, None),
+    ],
+    "test_openvswitch_db_get_without_key": [
+        (0, "openvswitch_db_disable_in_band_true.cfg", None),
+        (0, None, None),
+    ],
+    "test_openvswitch_db_get_non_dict": [
+        (0, "openvswitch_db_disable_in_band_true.cfg", None),
+        (0, None, None),
+    ],
 }
 
 
@@ -285,4 +297,57 @@ class TestOpenVSwitchDBModule(TestOpenVSwitchModule):
         )
         self.execute_module(
             changed=True, test_name="test_openvswitch_db_present_stp_enable"
+        )
+
+    def test_openvswitch_db_get_with_key(self):
+        set_module_args(
+            dict(
+                state="read",
+                table="Bridge",
+                record="test-br",
+                col="other_config",
+                key="disable-in-band",
+                value="true",
+            )
+        )
+        self.execute_module(
+            changed=True,
+            commands=[
+                "/usr/bin/ovs-vsctl -t 5 get Bridge test-br other_config:disable-in-band"
+            ],
+            test_name="test_openvswitch_db_get_with_key",
+        )
+
+    def test_openvswitch_db_get_without_key(self):
+        set_module_args(
+            dict(
+                state="read",
+                table="Bridge",
+                record="test-br",
+                col="other_config",
+                value="true",
+            )
+        )
+        self.execute_module(
+            changed=True,
+            commands=[
+                "/usr/bin/ovs-vsctl -t 5 get Bridge test-br other_config"
+            ],
+            test_name="test_openvswitch_db_get_without_key",
+        )
+
+    def test_openvswitch_db_get_non_dict(self):
+        set_module_args(
+            dict(
+                state="read",
+                table="Bridge",
+                record="test-br",
+                col="name",
+                value="true",
+            )
+        )
+        self.execute_module(
+            changed=True,
+            commands=["/usr/bin/ovs-vsctl -t 5 get Bridge test-br name"],
+            test_name="test_openvswitch_db_get_non_dict",
         )
