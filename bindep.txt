@@ -4,3 +4,6 @@
 gcc-c++ [doc test platform:rpm]
 libyaml-devel [test platform:rpm]
 libyaml-dev [test platform:dpkg]
+libssh-devel [test platform:rpm]
+libffi-devel [test platform:rpm]
+openssl-devel [test platform:rpm]
