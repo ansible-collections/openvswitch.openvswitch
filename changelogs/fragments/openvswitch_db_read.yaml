@@ -1,3 +1,0 @@
----
-minor_changes:
- - Allows read operation in openvswitch_db module(https://github.com/ansible-collections/openvswitch.openvswitch/pull/88)
