@@ -91,3 +91,12 @@ releases:
     - fix_vlan_bridge_idempotency.yaml
     - pylint_fixes.yaml
     release_date: '2021-09-24'
+  2.1.0:
+    changes:
+      minor_changes:
+      - Allows read operation in openvswitch_db module(https://github.com/ansible-collections/openvswitch.openvswitch/pull/88)
+      - openvswitch modules got support for database socket parameter.
+    fragments:
+    - 84-ovs-modules-database-socket.yaml
+    - openvswitch_db_read.yaml
+    release_date: '2021-12-07'

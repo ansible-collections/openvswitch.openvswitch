@@ -5,6 +5,15 @@ Openvswitch Collection Release Notes
 .. contents:: Topics
 
 
+v2.1.0
+======
+
+Minor Changes
+-------------
+
+- Allows read operation in openvswitch_db module(https://github.com/ansible-collections/openvswitch.openvswitch/pull/88)
+- openvswitch modules got support for database socket parameter.
+
 v2.0.2
 ======
 
