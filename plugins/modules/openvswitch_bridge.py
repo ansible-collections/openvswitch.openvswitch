@@ -104,8 +104,7 @@ from ansible.module_utils._text import to_text
 def _fail_mode_to_str(text):
     if not text:
         return None
-    else:
-        return text.strip()
+    return text.strip()
 
 
 def _external_ids_to_dict(text):
