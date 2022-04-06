@@ -58,6 +58,23 @@ Parameters
             <tr>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>database_socket</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>Path/ip to datbase socket to use</div>
+                        <div>Default path is used if not specified</div>
+                        <div>Path should start with &#x27;unix:&#x27; prefix</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>external_ids</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
@@ -196,6 +213,11 @@ Examples
       args:
         external_ids:
           bridge-id: br-int
+    # Create a bridge named br0 in database with socket at /opt/second.sock
+    - openvswitch.openvswitch.openvswitch_bridge:
+        bridge: br0
+        state: present
+        database_socket: unix:/opt/second.sock
 
 
 

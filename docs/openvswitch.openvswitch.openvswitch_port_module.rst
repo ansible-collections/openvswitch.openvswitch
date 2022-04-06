@@ -58,6 +58,23 @@ Parameters
             <tr>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>database_socket</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>Path/ip to datbase socket to use</div>
+                        <div>Default path is used if not specified</div>
+                        <div>Path should start with &#x27;unix:&#x27; prefix</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>external_ids</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
@@ -197,6 +214,14 @@ Examples
           attached-mac: 00:00:5E:00:53:23
           vm-id: '{{ inventory_hostname }}'
           iface-status: active
+
+    # Plugs port veth0 into brdige br0 for database for OVSDB instance
+    # with socket unix:/opt/second_ovsdb.sock
+    - openvswitch.openvswitch.openvswitch_port:
+        bridge: br0
+        port: veth0
+        state: present
+        database_socket: unix:/opt/second_ovsdb.sock
 
 
 

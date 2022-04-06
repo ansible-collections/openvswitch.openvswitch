@@ -58,6 +58,23 @@ Parameters
             <tr>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>database_socket</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>Path/ip to datbase socket to use</div>
+                        <div>Default path is used if not specified</div>
+                        <div>Path should start with &#x27;unix:&#x27; prefix</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>key</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
@@ -196,7 +213,86 @@ Examples
         col: tag
         value: 10
 
+    # Mark port with tag 10 for OVSDB with socket in /opt/second.sock
+    - openvswitch.openvswitch.openvswitch_db:
+        table: Port
+        record: port0
+        col: tag
+        value: 10
+        database_socket: unix:/opt/second.sock
 
+    # Get interface statistics
+    - openvswitch.openvswitch.openvswitch_db:
+        state: read
+        table: interface
+        record: ifname
+        col: statistics
+
+    # Get tx_packets value
+    - openvswitch.openvswitch.openvswitch_db:
+        state: read
+        table: interface
+        record: ifname
+        col: statistics
+        key: tx_packets
+
+    # Get mtu value
+    - openvswitch.openvswitch.openvswitch_db:
+        state: read
+        table: interface
+        record: ifname
+        col: mtu
+
+
+
+Return Values
+-------------
+Common return values are documented `here <https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values>`_, the following are the fields unique to this module:
+
+.. raw:: html
+
+    <table border=0 cellpadding=0 class="documentation-table">
+        <tr>
+            <th colspan="1">Key</th>
+            <th>Returned</th>
+            <th width="100%">Description</th>
+        </tr>
+            <tr>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-"></div>
+                    <b>commands</b>
+                    <a class="ansibleOptionLink" href="#return-" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">list</span>
+                    </div>
+                </td>
+                <td>when state is read</td>
+                <td>
+                            <div>List of commands sent</div>
+                    <br/>
+                        <div style="font-size: smaller"><b>Sample:</b></div>
+                        <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">[&#x27;/usr/local/bin/ovs-vsctl -t 5 get interface vhuclient1 statistics:tx_packets&#x27;]</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-"></div>
+                    <b>output</b>
+                    <a class="ansibleOptionLink" href="#return-" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">dictionary</span>
+                    </div>
+                </td>
+                <td>when state is read</td>
+                <td>
+                            <div>Output of the commands</div>
+                    <br/>
+                        <div style="font-size: smaller"><b>Sample:</b></div>
+                        <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{&#x27;tx_packets&#x27;: &#x27;0&#x27;}</div>
+                </td>
+            </tr>
+    </table>
+    <br/><br/>
 
 
 Status
