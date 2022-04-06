@@ -36,4 +36,4 @@
         update_cache: yes
       become: yes
       when: ansible_distribution == 'Fedora'
-  when: prepare_ovs_tests_task | default(True) | bool
+  when: prepare_ovs_tests_task | default(False) | bool
