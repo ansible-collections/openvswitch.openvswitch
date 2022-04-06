@@ -157,7 +157,7 @@ MAP_RE = re.compile(r"{.*}")
 
 
 def map_obj_to_commands(want, have, module):
-    """ Define ovs-vsctl command to meet desired state """
+    """Define ovs-vsctl command to meet desired state"""
     commands = list()
 
     if module.params["state"] == "absent":
@@ -271,7 +271,7 @@ def map_params_to_obj(module):
 
 
 def main():
-    """ Entry point for ansible module. """
+    """Entry point for ansible module."""
     argument_spec = {
         "state": {
             "default": "present",

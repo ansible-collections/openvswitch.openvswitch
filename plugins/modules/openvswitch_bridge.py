@@ -261,7 +261,7 @@ def map_params_to_obj(module):
 
 
 def main():
-    """ Entry point. """
+    """Entry point."""
     argument_spec = {
         "bridge": {"required": True},
         "parent": {"default": None},

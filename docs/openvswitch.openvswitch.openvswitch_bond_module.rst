@@ -108,6 +108,23 @@ Parameters
             <tr>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>database_socket</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>Path/ip to datbase socket to use</div>
+                        <div>Default path is used if not specified</div>
+                        <div>Path should start with &#x27;unix:&#x27; prefix</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>external_ids</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
@@ -301,6 +318,15 @@ Examples
           - "interface 0000:04:00.0 type=dpdk options:dpdk-devargs=0000:04:00.0"
           - "interface 0000:04:00.1 type=dpdk options:dpdk-devargs=0000:04:00.1"
         state: present
+    - name: Create an active-backup bond using eth4 and eth5 on bridge br-ex in second OVS database
+      openvswitch.openvswitch.openvswitch_bond:
+        bridge: br-ex
+        port: bond1
+        interfaces:
+          - eth4
+          - eth5
+        state: present
+        database_socket: unix:/opt/second.sock
 
 
 
