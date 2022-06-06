@@ -126,13 +126,9 @@ class TestOpenVSwitchBridgeModule(TestOpenVSwitchModule):
     def setUp(self):
         super(TestOpenVSwitchBridgeModule, self).setUp()
 
-        self.mock_run_command = patch(
-            "ansible.module_utils.basic.AnsibleModule.run_command"
-        )
+        self.mock_run_command = patch("ansible.module_utils.basic.AnsibleModule.run_command")
         self.run_command = self.mock_run_command.start()
-        self.mock_get_bin_path = patch(
-            "ansible.module_utils.basic.AnsibleModule.get_bin_path"
-        )
+        self.mock_get_bin_path = patch("ansible.module_utils.basic.AnsibleModule.get_bin_path")
         self.get_bin_path = self.mock_get_bin_path.start()
 
     def tearDown(self):
@@ -155,9 +151,7 @@ class TestOpenVSwitchBridgeModule(TestOpenVSwitchModule):
 
     def test_openvswitch_bridge_absent_idempotent(self):
         set_module_args(dict(state="absent", bridge="test-br"))
-        self.execute_module(
-            test_name="test_openvswitch_bridge_absent_idempotent"
-        )
+        self.execute_module(test_name="test_openvswitch_bridge_absent_idempotent")
 
     def test_openvswitch_bridge_absent_removes_bridge(self):
         set_module_args(dict(state="absent", bridge="test-br"))
@@ -177,9 +171,7 @@ class TestOpenVSwitchBridgeModule(TestOpenVSwitchModule):
                 external_ids={"foo": "bar"},
             )
         )
-        self.execute_module(
-            test_name="test_openvswitch_bridge_present_idempotent"
-        )
+        self.execute_module(test_name="test_openvswitch_bridge_present_idempotent")
 
     def test_openvswitch_bridge_present_creates_bridge(self):
         set_module_args(
@@ -202,9 +194,7 @@ class TestOpenVSwitchBridgeModule(TestOpenVSwitchModule):
         )
 
     def test_openvswitch_bridge_present_creates_fake_bridge(self):
-        set_module_args(
-            dict(state="present", bridge="test-br2", parent="test-br", vlan=10)
-        )
+        set_module_args(dict(state="present", bridge="test-br2", parent="test-br", vlan=10))
         commands = ["/usr/bin/ovs-vsctl -t 5 add-br test-br2 test-br 10"]
         self.execute_module(
             changed=True,
@@ -222,9 +212,7 @@ class TestOpenVSwitchBridgeModule(TestOpenVSwitchModule):
                 vlan=10,
             )
         )
-        commands = [
-            "/usr/bin/ovs-vsctl --db=unix:/opt/second.sock -t 5 add-br test-br2 test-br 10"
-        ]
+        commands = ["/usr/bin/ovs-vsctl --db=unix:/opt/second.sock -t 5 add-br test-br2 test-br 10"]
         self.execute_module(
             changed=True,
             commands=commands,
@@ -257,9 +245,7 @@ class TestOpenVSwitchBridgeModule(TestOpenVSwitchModule):
                 external_ids={"bip": "bop"},
             )
         )
-        commands = [
-            "/usr/bin/ovs-vsctl -t 5 br-set-external-id test-br bip bop"
-        ]
+        commands = ["/usr/bin/ovs-vsctl -t 5 br-set-external-id test-br bip bop"]
         self.execute_module(
             changed=True,
             commands=commands,
@@ -309,8 +295,7 @@ class TestOpenVSwitchBridgeModule(TestOpenVSwitchModule):
             )
         )
         commands = [
-            "/usr/bin/ovs-vsctl -t 5 add-br test-br -- set bridge test-br"
-            " datapath_type=netdev",
+            "/usr/bin/ovs-vsctl -t 5 add-br test-br -- set bridge test-br" " datapath_type=netdev",
             "/usr/bin/ovs-vsctl -t 5 set-fail-mode test-br secure",
             "/usr/bin/ovs-vsctl -t 5 br-set-external-id test-br foo bar",
         ]

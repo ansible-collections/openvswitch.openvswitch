@@ -72,13 +72,9 @@ class TestOpenVSwitchBondModule(TestOpenVSwitchModule):
     def setUp(self):
         super(TestOpenVSwitchBondModule, self).setUp()
 
-        self.mock_run_command = patch(
-            "ansible.module_utils.basic.AnsibleModule.run_command"
-        )
+        self.mock_run_command = patch("ansible.module_utils.basic.AnsibleModule.run_command")
         self.run_command = self.mock_run_command.start()
-        self.mock_get_bin_path = patch(
-            "ansible.module_utils.basic.AnsibleModule.get_bin_path"
-        )
+        self.mock_get_bin_path = patch("ansible.module_utils.basic.AnsibleModule.get_bin_path")
         self.get_bin_path = self.mock_get_bin_path.start()
 
     def tearDown(self):
@@ -101,9 +97,7 @@ class TestOpenVSwitchBondModule(TestOpenVSwitchModule):
 
     def test_openvswitch_bond_absent_idempotent(self):
         set_module_args(dict(state="absent", bridge="bond-br", port="bond0"))
-        self.execute_module(
-            commands=[], test_name="test_openvswitch_bond_absent_idempotent"
-        )
+        self.execute_module(commands=[], test_name="test_openvswitch_bond_absent_idempotent")
 
     def test_openvswitch_bond_absent_removes_bond(self):
         set_module_args(dict(state="absent", bridge="bond-br", port="bond0"))
@@ -123,9 +117,7 @@ class TestOpenVSwitchBondModule(TestOpenVSwitchModule):
                 database_socket="unix:/opt/second.sock",
             )
         )
-        commands = [
-            "/usr/bin/ovs-vsctl --db=unix:/opt/second.sock -t 5 del-port bond-br bond0"
-        ]
+        commands = ["/usr/bin/ovs-vsctl --db=unix:/opt/second.sock -t 5 del-port bond-br bond0"]
         self.execute_module(
             changed=True,
             commands=commands,
@@ -142,9 +134,7 @@ class TestOpenVSwitchBondModule(TestOpenVSwitchModule):
                 other_config={"bond-detect-mode": "miimon"},
             )
         )
-        self.execute_module(
-            commands=[], test_name="test_openvswitch_bond_present_idempotent"
-        )
+        self.execute_module(commands=[], test_name="test_openvswitch_bond_present_idempotent")
 
     def test_openvswitch_bond_present_creates_bond(self):
         set_module_args(
@@ -161,8 +151,7 @@ class TestOpenVSwitchBondModule(TestOpenVSwitchModule):
         commands = [
             "/usr/bin/ovs-vsctl -t 5 add-bond bond-br bond0 eth3 eth4"
             " bond_updelay=100 bond_downdelay=100",
-            "/usr/bin/ovs-vsctl -t 5 set port bond0"
-            " other_config:bond-detect-mode=miimon",
+            "/usr/bin/ovs-vsctl -t 5 set port bond0" " other_config:bond-detect-mode=miimon",
         ]
         self.execute_module(
             changed=True,
@@ -182,10 +171,8 @@ class TestOpenVSwitchBondModule(TestOpenVSwitchModule):
             )
         )
         commands = [
-            "/usr/bin/ovs-vsctl -t 5 add-bond bond-br bond0 eth3 eth4"
-            " lacp=active",
-            "/usr/bin/ovs-vsctl -t 5 set port bond0"
-            " other_config:bond-detect-mode=miimon",
+            "/usr/bin/ovs-vsctl -t 5 add-bond bond-br bond0 eth3 eth4" " lacp=active",
+            "/usr/bin/ovs-vsctl -t 5 set port bond0" " other_config:bond-detect-mode=miimon",
         ]
         self.execute_module(
             changed=True,
