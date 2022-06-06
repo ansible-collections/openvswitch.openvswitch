@@ -134,15 +134,13 @@ def map_obj_to_commands(want, have, module):
         if have:
             if want["fail_mode"] != have["fail_mode"]:
                 templatized_command = (
-                    "%(ovs-vsctl)s -t %(timeout)s" " set-fail-mode %(bridge)s" " %(fail_mode)s"
+                    "%(ovs-vsctl)s -t %(timeout)s set-fail-mode %(bridge)s %(fail_mode)s"
                 )
                 command = templatized_command % module.params
                 commands.append(command)
 
             if want["external_ids"] != have["external_ids"]:
-                templatized_command = (
-                    "%(ovs-vsctl)s -t %(timeout)s" " br-set-external-id %(bridge)s"
-                )
+                templatized_command = "%(ovs-vsctl)s -t %(timeout)s br-set-external-id %(bridge)s"
                 command = templatized_command % module.params
                 if want["external_ids"]:
                     for k, v in iteritems(want["external_ids"]):
@@ -155,7 +153,7 @@ def map_obj_to_commands(want, have, module):
 
             if want["vlan"] and to_text(want["vlan"]) != have["vlan"]:
                 templatized_command = (
-                    "%(ovs-vsctl)s -t %(timeout)s" " set port %(bridge)s tag=%(vlan)s"
+                    "%(ovs-vsctl)s -t %(timeout)s set port %(bridge)s tag=%(vlan)s"
                 )
                 command = templatized_command % module.params
                 commands.append(command)
@@ -175,7 +173,7 @@ def map_obj_to_commands(want, have, module):
 
             if want["fail_mode"]:
                 templatized_command = (
-                    "%(ovs-vsctl)s -t %(timeout)s" " set-fail-mode %(bridge)s" " %(fail_mode)s"
+                    "%(ovs-vsctl)s -t %(timeout)s set-fail-mode %(bridge)s %(fail_mode)s"
                 )
                 command = templatized_command % module.params
                 commands.append(command)
@@ -183,7 +181,7 @@ def map_obj_to_commands(want, have, module):
             if want["external_ids"]:
                 for k, v in iteritems(want["external_ids"]):
                     templatized_command = (
-                        "%(ovs-vsctl)s -t %(timeout)s" " br-set-external-id %(bridge)s"
+                        "%(ovs-vsctl)s -t %(timeout)s br-set-external-id %(bridge)s"
                     )
                     command = templatized_command % module.params
                     command += " " + k + " " + v

@@ -149,9 +149,7 @@ def map_obj_to_commands(want, have, module):
     else:
         if have:
             if want["tag"] != have["tag"]:
-                templatized_command = (
-                    "%(ovs-vsctl)s -t %(timeout)s" " set port %(port)s tag=%(tag)s"
-                )
+                templatized_command = "%(ovs-vsctl)s -t %(timeout)s set port %(port)s tag=%(tag)s"
                 command = templatized_command % module.params
                 commands.append(command)
 
@@ -172,7 +170,7 @@ def map_obj_to_commands(want, have, module):
                             commands.append(command)
                         else:
                             templatized_command = (
-                                "%(ovs-vsctl)s -t %(timeout)s" " set port %(port)s" " external_ids:"
+                                "%(ovs-vsctl)s -t %(timeout)s set port %(port)s external_ids:"
                             )
                             command = templatized_command % module.params
                             command += k + "=" + v
@@ -196,7 +194,7 @@ def map_obj_to_commands(want, have, module):
             if want["external_ids"]:
                 for k, v in iteritems(want["external_ids"]):
                     templatized_command = (
-                        "%(ovs-vsctl)s -t %(timeout)s" " set port %(port)s external_ids:"
+                        "%(ovs-vsctl)s -t %(timeout)s set port %(port)s external_ids:"
                     )
                     command = templatized_command % module.params
                     command += k + "=" + v
