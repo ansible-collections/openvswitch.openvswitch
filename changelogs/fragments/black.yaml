@@ -1,3 +1,4 @@
 ---
 trivial:
   - Make black less restrictive.
+  - Update pre-commit version of update_docs
