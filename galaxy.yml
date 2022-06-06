@@ -1,8 +1,6 @@
 ---
 authors:
   - Ansible Network Community (ansible-network)
-dependencies:
-  "ansible.netcommon": "*"
 license_file: LICENSE
 name: openvswitch
 tags: [networking, vswitch, bridge, vlan]
