@@ -295,7 +295,7 @@ class TestOpenVSwitchBridgeModule(TestOpenVSwitchModule):
             )
         )
         commands = [
-            "/usr/bin/ovs-vsctl -t 5 add-br test-br -- set bridge test-br" " datapath_type=netdev",
+            "/usr/bin/ovs-vsctl -t 5 add-br test-br -- set bridge test-br datapath_type=netdev",
             "/usr/bin/ovs-vsctl -t 5 set-fail-mode test-br secure",
             "/usr/bin/ovs-vsctl -t 5 br-set-external-id test-br foo bar",
         ]

@@ -150,8 +150,8 @@ class TestOpenVSwitchBondModule(TestOpenVSwitchModule):
         )
         commands = [
             "/usr/bin/ovs-vsctl -t 5 add-bond bond-br bond0 eth3 eth4"
-            " bond_updelay=100 bond_downdelay=100",
-            "/usr/bin/ovs-vsctl -t 5 set port bond0" " other_config:bond-detect-mode=miimon",
+            + " bond_updelay=100 bond_downdelay=100",
+            "/usr/bin/ovs-vsctl -t 5 set port bond0 other_config:bond-detect-mode=miimon",
         ]
         self.execute_module(
             changed=True,
@@ -171,8 +171,8 @@ class TestOpenVSwitchBondModule(TestOpenVSwitchModule):
             )
         )
         commands = [
-            "/usr/bin/ovs-vsctl -t 5 add-bond bond-br bond0 eth3 eth4" " lacp=active",
-            "/usr/bin/ovs-vsctl -t 5 set port bond0" " other_config:bond-detect-mode=miimon",
+            "/usr/bin/ovs-vsctl -t 5 add-bond bond-br bond0 eth3 eth4 lacp=active",
+            "/usr/bin/ovs-vsctl -t 5 set port bond0 other_config:bond-detect-mode=miimon",
         ]
         self.execute_module(
             changed=True,

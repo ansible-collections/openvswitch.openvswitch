@@ -152,7 +152,7 @@ class TestOpenVSwitchDBModule(TestOpenVSwitchModule):
         self.execute_module(
             changed=True,
             commands=[
-                "/usr/bin/ovs-vsctl -t 5 remove Bridge test-br other_config" " disable-in-band=true"
+                "/usr/bin/ovs-vsctl -t 5 remove Bridge test-br other_config disable-in-band=true"
             ],
             test_name="test_openvswitch_db_absent_removes_key",
         )
@@ -169,9 +169,7 @@ class TestOpenVSwitchDBModule(TestOpenVSwitchModule):
         )
         self.execute_module(
             changed=True,
-            commands=[
-                "/usr/bin/ovs-vsctl -t 5 remove Bridge test-br other_config" " disable-in-band"
-            ],
+            commands=["/usr/bin/ovs-vsctl -t 5 remove Bridge test-br other_config disable-in-band"],
             test_name="test_openvswitch_db_absent_removes_key",
         )
 
@@ -215,7 +213,7 @@ class TestOpenVSwitchDBModule(TestOpenVSwitchModule):
         self.execute_module(
             changed=True,
             commands=[
-                "/usr/bin/ovs-vsctl -t 5 set Bridge test-br other_config" ":disable-in-band=true"
+                "/usr/bin/ovs-vsctl -t 5 set Bridge test-br other_config:disable-in-band=true"
             ],
             test_name="test_openvswitch_db_present_adds_key",
         )
@@ -234,7 +232,7 @@ class TestOpenVSwitchDBModule(TestOpenVSwitchModule):
         self.execute_module(
             changed=True,
             commands=[
-                "/usr/bin/ovs-vsctl -t 5 set Bridge test-br other_config" ":disable-in-band=false"
+                "/usr/bin/ovs-vsctl -t 5 set Bridge test-br other_config:disable-in-band=false"
             ],
             test_name="test_openvswitch_db_present_updates_key",
         )
