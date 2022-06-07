@@ -90,13 +90,9 @@ class TestOpenVSwitchPortModule(TestOpenVSwitchModule):
     def setUp(self):
         super(TestOpenVSwitchPortModule, self).setUp()
 
-        self.mock_run_command = patch(
-            "ansible.module_utils.basic.AnsibleModule.run_command"
-        )
+        self.mock_run_command = patch("ansible.module_utils.basic.AnsibleModule.run_command")
         self.run_command = self.mock_run_command.start()
-        self.mock_get_bin_path = patch(
-            "ansible.module_utils.basic.AnsibleModule.get_bin_path"
-        )
+        self.mock_get_bin_path = patch("ansible.module_utils.basic.AnsibleModule.get_bin_path")
         self.get_bin_path = self.mock_get_bin_path.start()
 
     def tearDown(self):
@@ -119,9 +115,7 @@ class TestOpenVSwitchPortModule(TestOpenVSwitchModule):
 
     def test_openvswitch_port_absent_idempotent(self):
         set_module_args(dict(state="absent", bridge="test-br", port="eth2"))
-        self.execute_module(
-            test_name="test_openvswitch_port_absent_idempotent"
-        )
+        self.execute_module(test_name="test_openvswitch_port_absent_idempotent")
 
     def test_openvswitch_port_absent_removes_port(self):
         set_module_args(dict(state="absent", bridge="test-br", port="eth2"))
@@ -142,9 +136,7 @@ class TestOpenVSwitchPortModule(TestOpenVSwitchModule):
                 external_ids={"foo": "bar"},
             )
         )
-        self.execute_module(
-            test_name="test_openvswitch_port_present_idempotent"
-        )
+        self.execute_module(test_name="test_openvswitch_port_present_idempotent")
 
     def test_openvswitch_port_present_creates_port(self):
         set_module_args(
@@ -193,9 +185,7 @@ class TestOpenVSwitchPortModule(TestOpenVSwitchModule):
                 external_ids={"foo": "baz"},
             )
         )
-        commands = [
-            "/usr/bin/ovs-vsctl -t 5 set port eth2 external_ids:foo=baz"
-        ]
+        commands = ["/usr/bin/ovs-vsctl -t 5 set port eth2 external_ids:foo=baz"]
         self.execute_module(
             changed=True,
             commands=commands,
@@ -212,9 +202,7 @@ class TestOpenVSwitchPortModule(TestOpenVSwitchModule):
                 external_ids={"foo2": "bar2"},
             )
         )
-        commands = [
-            "/usr/bin/ovs-vsctl -t 5 set port eth2 external_ids:foo2=bar2"
-        ]
+        commands = ["/usr/bin/ovs-vsctl -t 5 set port eth2 external_ids:foo2=bar2"]
         self.execute_module(
             changed=True,
             commands=commands,
@@ -231,9 +219,7 @@ class TestOpenVSwitchPortModule(TestOpenVSwitchModule):
                 external_ids={"foo": None},
             )
         )
-        commands = [
-            "/usr/bin/ovs-vsctl -t 5 remove port eth2 external_ids foo"
-        ]
+        commands = ["/usr/bin/ovs-vsctl -t 5 remove port eth2 external_ids foo"]
         self.execute_module(
             changed=True,
             commands=commands,

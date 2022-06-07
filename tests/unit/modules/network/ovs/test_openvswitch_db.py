@@ -102,13 +102,9 @@ class TestOpenVSwitchDBModule(TestOpenVSwitchModule):
     def setUp(self):
         super(TestOpenVSwitchDBModule, self).setUp()
 
-        self.mock_run_command = patch(
-            "ansible.module_utils.basic.AnsibleModule.run_command"
-        )
+        self.mock_run_command = patch("ansible.module_utils.basic.AnsibleModule.run_command")
         self.run_command = self.mock_run_command.start()
-        self.mock_get_bin_path = patch(
-            "ansible.module_utils.basic.AnsibleModule.get_bin_path"
-        )
+        self.mock_get_bin_path = patch("ansible.module_utils.basic.AnsibleModule.get_bin_path")
         self.get_bin_path = self.mock_get_bin_path.start()
 
     def tearDown(self):
@@ -156,8 +152,7 @@ class TestOpenVSwitchDBModule(TestOpenVSwitchModule):
         self.execute_module(
             changed=True,
             commands=[
-                "/usr/bin/ovs-vsctl -t 5 remove Bridge test-br other_config"
-                " disable-in-band=true"
+                "/usr/bin/ovs-vsctl -t 5 remove Bridge test-br other_config disable-in-band=true"
             ],
             test_name="test_openvswitch_db_absent_removes_key",
         )
@@ -174,10 +169,7 @@ class TestOpenVSwitchDBModule(TestOpenVSwitchModule):
         )
         self.execute_module(
             changed=True,
-            commands=[
-                "/usr/bin/ovs-vsctl -t 5 remove Bridge test-br other_config"
-                " disable-in-band"
-            ],
+            commands=["/usr/bin/ovs-vsctl -t 5 remove Bridge test-br other_config disable-in-band"],
             test_name="test_openvswitch_db_absent_removes_key",
         )
 
@@ -205,9 +197,7 @@ class TestOpenVSwitchDBModule(TestOpenVSwitchModule):
                 "value": "0xaaa00000000",
             }
         )
-        self.execute_module(
-            test_name="test_openvswitch_db_present_idempotent_value"
-        )
+        self.execute_module(test_name="test_openvswitch_db_present_idempotent_value")
 
     def test_openvswitch_db_present_adds_key(self):
         set_module_args(
@@ -223,8 +213,7 @@ class TestOpenVSwitchDBModule(TestOpenVSwitchModule):
         self.execute_module(
             changed=True,
             commands=[
-                "/usr/bin/ovs-vsctl -t 5 set Bridge test-br other_config"
-                ":disable-in-band=true"
+                "/usr/bin/ovs-vsctl -t 5 set Bridge test-br other_config:disable-in-band=true"
             ],
             test_name="test_openvswitch_db_present_adds_key",
         )
@@ -243,8 +232,7 @@ class TestOpenVSwitchDBModule(TestOpenVSwitchModule):
         self.execute_module(
             changed=True,
             commands=[
-                "/usr/bin/ovs-vsctl -t 5 set Bridge test-br other_config"
-                ":disable-in-band=false"
+                "/usr/bin/ovs-vsctl -t 5 set Bridge test-br other_config:disable-in-band=false"
             ],
             test_name="test_openvswitch_db_present_updates_key",
         )
@@ -295,9 +283,7 @@ class TestOpenVSwitchDBModule(TestOpenVSwitchModule):
                 value="true",
             )
         )
-        self.execute_module(
-            changed=True, test_name="test_openvswitch_db_present_stp_enable"
-        )
+        self.execute_module(changed=True, test_name="test_openvswitch_db_present_stp_enable")
 
     def test_openvswitch_db_get_with_key(self):
         set_module_args(
@@ -312,9 +298,7 @@ class TestOpenVSwitchDBModule(TestOpenVSwitchModule):
         )
         self.execute_module(
             changed=True,
-            commands=[
-                "/usr/bin/ovs-vsctl -t 5 get Bridge test-br other_config:disable-in-band"
-            ],
+            commands=["/usr/bin/ovs-vsctl -t 5 get Bridge test-br other_config:disable-in-band"],
             test_name="test_openvswitch_db_get_with_key",
         )
 
@@ -330,9 +314,7 @@ class TestOpenVSwitchDBModule(TestOpenVSwitchModule):
         )
         self.execute_module(
             changed=True,
-            commands=[
-                "/usr/bin/ovs-vsctl -t 5 get Bridge test-br other_config"
-            ],
+            commands=["/usr/bin/ovs-vsctl -t 5 get Bridge test-br other_config"],
             test_name="test_openvswitch_db_get_without_key",
         )
 
