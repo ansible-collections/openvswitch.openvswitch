@@ -127,49 +127,38 @@ def map_obj_to_commands(want, have, module):
 
     if module.params["state"] == "absent":
         if have:
-            templatized_command = (
-                "%(ovs-vsctl)s -t %(timeout)s del-br %(bridge)s"
-            )
+            templatized_command = "%(ovs-vsctl)s -t %(timeout)s del-br %(bridge)s"
             command = templatized_command % module.params
             commands.append(command)
     else:
         if have:
             if want["fail_mode"] != have["fail_mode"]:
                 templatized_command = (
-                    "%(ovs-vsctl)s -t %(timeout)s"
-                    " set-fail-mode %(bridge)s"
-                    " %(fail_mode)s"
+                    "%(ovs-vsctl)s -t %(timeout)s set-fail-mode %(bridge)s %(fail_mode)s"
                 )
                 command = templatized_command % module.params
                 commands.append(command)
 
             if want["external_ids"] != have["external_ids"]:
-                templatized_command = (
-                    "%(ovs-vsctl)s -t %(timeout)s"
-                    " br-set-external-id %(bridge)s"
-                )
+                templatized_command = "%(ovs-vsctl)s -t %(timeout)s br-set-external-id %(bridge)s"
                 command = templatized_command % module.params
                 if want["external_ids"]:
                     for k, v in iteritems(want["external_ids"]):
                         if (
                             k not in have["external_ids"]
-                            or want["external_ids"][k]
-                            != have["external_ids"][k]
+                            or want["external_ids"][k] != have["external_ids"][k]
                         ):
                             command += " " + k + " " + v
                             commands.append(command)
 
             if want["vlan"] and to_text(want["vlan"]) != have["vlan"]:
                 templatized_command = (
-                    "%(ovs-vsctl)s -t %(timeout)s"
-                    " set port %(bridge)s tag=%(vlan)s"
+                    "%(ovs-vsctl)s -t %(timeout)s set port %(bridge)s tag=%(vlan)s"
                 )
                 command = templatized_command % module.params
                 commands.append(command)
         else:
-            templatized_command = (
-                "%(ovs-vsctl)s -t %(timeout)s add-br %(bridge)s"
-            )
+            templatized_command = "%(ovs-vsctl)s -t %(timeout)s add-br %(bridge)s"
             command = templatized_command % module.params
 
             if want["parent"]:
@@ -184,9 +173,7 @@ def map_obj_to_commands(want, have, module):
 
             if want["fail_mode"]:
                 templatized_command = (
-                    "%(ovs-vsctl)s -t %(timeout)s"
-                    " set-fail-mode %(bridge)s"
-                    " %(fail_mode)s"
+                    "%(ovs-vsctl)s -t %(timeout)s set-fail-mode %(bridge)s %(fail_mode)s"
                 )
                 command = templatized_command % module.params
                 commands.append(command)
@@ -194,8 +181,7 @@ def map_obj_to_commands(want, have, module):
             if want["external_ids"]:
                 for k, v in iteritems(want["external_ids"]):
                     templatized_command = (
-                        "%(ovs-vsctl)s -t %(timeout)s"
-                        " br-set-external-id %(bridge)s"
+                        "%(ovs-vsctl)s -t %(timeout)s br-set-external-id %(bridge)s"
                     )
                     command = templatized_command % module.params
                     command += " " + k + " " + v
@@ -216,30 +202,22 @@ def map_config_to_obj(module):
     if module.params["bridge"] in out.splitlines():
         obj["bridge"] = module.params["bridge"]
 
-        templatized_command = (
-            "%(ovs-vsctl)s -t %(timeout)s br-to-parent %(bridge)s"
-        )
+        templatized_command = "%(ovs-vsctl)s -t %(timeout)s br-to-parent %(bridge)s"
         command = templatized_command % module.params
         rc, out, err = module.run_command(command, check_rc=True)
         obj["parent"] = out.strip()
 
-        templatized_command = (
-            "%(ovs-vsctl)s -t %(timeout)s br-to-vlan %(bridge)s"
-        )
+        templatized_command = "%(ovs-vsctl)s -t %(timeout)s br-to-vlan %(bridge)s"
         command = templatized_command % module.params
         rc, out, err = module.run_command(command, check_rc=True)
         obj["vlan"] = out.strip()
 
-        templatized_command = (
-            "%(ovs-vsctl)s -t %(timeout)s get-fail-mode %(bridge)s"
-        )
+        templatized_command = "%(ovs-vsctl)s -t %(timeout)s get-fail-mode %(bridge)s"
         command = templatized_command % module.params
         rc, out, err = module.run_command(command, check_rc=True)
         obj["fail_mode"] = _fail_mode_to_str(out)
 
-        templatized_command = (
-            "%(ovs-vsctl)s -t %(timeout)s br-get-external-id %(bridge)s"
-        )
+        templatized_command = "%(ovs-vsctl)s -t %(timeout)s br-get-external-id %(bridge)s"
         command = templatized_command % module.params
         rc, out, err = module.run_command(command, check_rc=True)
         obj["external_ids"] = _external_ids_to_dict(out)
@@ -287,9 +265,7 @@ def main():
     # We add ovs-vsctl to module_params to later build up templatized commands
     module.params["ovs-vsctl"] = module.get_bin_path("ovs-vsctl", True)
     if module.params.get("database_socket"):
-        module.params["ovs-vsctl"] += " --db=" + module.params.get(
-            "database_socket"
-        )
+        module.params["ovs-vsctl"] += " --db=" + module.params.get("database_socket")
 
     want = map_params_to_obj(module)
     have = map_config_to_obj(module)

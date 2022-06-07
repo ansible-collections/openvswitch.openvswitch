@@ -53,9 +53,7 @@ def load_fixture(name):
 
 
 class TestOpenVSwitchModule(ModuleTestCase):
-    def execute_module(
-        self, failed=False, changed=False, commands=None, test_name=None
-    ):
+    def execute_module(self, failed=False, changed=False, commands=None, test_name=None):
 
         self.load_fixtures(test_name)
 

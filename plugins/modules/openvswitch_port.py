@@ -143,18 +143,13 @@ def map_obj_to_commands(want, have, module):
 
     if module.params["state"] == "absent":
         if have:
-            templatized_command = (
-                "%(ovs-vsctl)s -t %(timeout)s del-port %(bridge)s %(port)s"
-            )
+            templatized_command = "%(ovs-vsctl)s -t %(timeout)s del-port %(bridge)s %(port)s"
             command = templatized_command % module.params
             commands.append(command)
     else:
         if have:
             if want["tag"] != have["tag"]:
-                templatized_command = (
-                    "%(ovs-vsctl)s -t %(timeout)s"
-                    " set port %(port)s tag=%(tag)s"
-                )
+                templatized_command = "%(ovs-vsctl)s -t %(timeout)s set port %(port)s tag=%(tag)s"
                 command = templatized_command % module.params
                 commands.append(command)
 
@@ -175,17 +170,13 @@ def map_obj_to_commands(want, have, module):
                             commands.append(command)
                         else:
                             templatized_command = (
-                                "%(ovs-vsctl)s -t %(timeout)s"
-                                " set port %(port)s"
-                                " external_ids:"
+                                "%(ovs-vsctl)s -t %(timeout)s set port %(port)s external_ids:"
                             )
                             command = templatized_command % module.params
                             command += k + "=" + v
                             commands.append(command)
         else:
-            templatized_command = (
-                "%(ovs-vsctl)s -t %(timeout)s add-port %(bridge)s %(port)s"
-            )
+            templatized_command = "%(ovs-vsctl)s -t %(timeout)s add-port %(bridge)s %(port)s"
             command = templatized_command % module.params
 
             if want["tag"]:
@@ -203,8 +194,7 @@ def map_obj_to_commands(want, have, module):
             if want["external_ids"]:
                 for k, v in iteritems(want["external_ids"]):
                     templatized_command = (
-                        "%(ovs-vsctl)s -t %(timeout)s"
-                        " set port %(port)s external_ids:"
+                        "%(ovs-vsctl)s -t %(timeout)s set port %(port)s external_ids:"
                     )
                     command = templatized_command % module.params
                     command += k + "=" + v
@@ -226,16 +216,12 @@ def map_config_to_obj(module):
         obj["bridge"] = module.params["bridge"]
         obj["port"] = module.params["port"]
 
-        templatized_command = (
-            "%(ovs-vsctl)s -t %(timeout)s get Port %(port)s tag"
-        )
+        templatized_command = "%(ovs-vsctl)s -t %(timeout)s get Port %(port)s tag"
         command = templatized_command % module.params
         rc, out, err = module.run_command(command, check_rc=True)
         obj["tag"] = _tag_to_str(out)
 
-        templatized_command = (
-            "%(ovs-vsctl)s -t %(timeout)s get Port %(port)s external_ids"
-        )
+        templatized_command = "%(ovs-vsctl)s -t %(timeout)s get Port %(port)s external_ids"
         command = templatized_command % module.params
         rc, out, err = module.run_command(command, check_rc=True)
         obj["external_ids"] = _external_ids_to_dict(out)
@@ -268,18 +254,14 @@ def main():
         "set": {"required": False, "type": "list", "elements": "str"},
     }
 
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True
-    )
+    module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=True)
 
     result = {"changed": False}
 
     # We add ovs-vsctl to module_params to later build up templatized commands
     module.params["ovs-vsctl"] = module.get_bin_path("ovs-vsctl", True)
     if module.params.get("database_socket"):
-        module.params["ovs-vsctl"] += " --db=" + module.params.get(
-            "database_socket"
-        )
+        module.params["ovs-vsctl"] += " --db=" + module.params.get("database_socket")
 
     want = map_params_to_obj(module)
     have = map_config_to_obj(module)

@@ -163,29 +163,21 @@ def map_obj_to_commands(want, have, module):
     if module.params["state"] == "absent":
         if "key" in have.keys():
             templatized_command = (
-                "%(ovs-vsctl)s -t %(timeout)s remove %(table)s %(record)s "
-                "%(col)s %(key)s"
+                "%(ovs-vsctl)s -t %(timeout)s remove %(table)s %(record)s %(col)s %(key)s"
             )
             if module.params.get("value"):
                 templatized_command += "=%(value)s"
             commands.append(templatized_command % module.params)
         elif module.params["key"] is None:
-            templatized_command = (
-                "%(ovs-vsctl)s -t %(timeout)s remove %(table)s %(record)s "
-                "%(col)s"
-            )
+            templatized_command = "%(ovs-vsctl)s -t %(timeout)s remove %(table)s %(record)s %(col)s"
             commands.append(templatized_command % module.params)
     elif module.params["state"] == "read":
         if module.params["key"] is None:
-            templatized_command = (
-                "%(ovs-vsctl)s -t %(timeout)s get %(table)s %(record)s "
-                "%(col)s"
-            )
+            templatized_command = "%(ovs-vsctl)s -t %(timeout)s get %(table)s %(record)s %(col)s"
             commands.append(templatized_command % module.params)
         else:
             templatized_command = (
-                "%(ovs-vsctl)s -t %(timeout)s get %(table)s %(record)s "
-                "%(col)s:%(key)s"
+                "%(ovs-vsctl)s -t %(timeout)s get %(table)s %(record)s %(col)s:%(key)s"
             )
             commands.append(templatized_command % module.params)
     else:
@@ -194,14 +186,12 @@ def map_obj_to_commands(want, have, module):
             return commands
         if module.params["key"] is None:
             templatized_command = (
-                "%(ovs-vsctl)s -t %(timeout)s set %(table)s %(record)s "
-                "%(col)s=%(value)s"
+                "%(ovs-vsctl)s -t %(timeout)s set %(table)s %(record)s %(col)s=%(value)s"
             )
             commands.append(templatized_command % module.params)
         else:
             templatized_command = (
-                "%(ovs-vsctl)s -t %(timeout)s set %(table)s %(record)s "
-                "%(col)s:%(key)s=%(value)s"
+                "%(ovs-vsctl)s -t %(timeout)s set %(table)s %(record)s %(col)s:%(key)s=%(value)s"
             )
             commands.append(templatized_command % module.params)
 
@@ -209,17 +199,13 @@ def map_obj_to_commands(want, have, module):
 
 
 def map_config_to_obj(module):
-    templatized_command = (
-        "%(ovs-vsctl)s -t %(timeout)s list %(table)s %(record)s"
-    )
+    templatized_command = "%(ovs-vsctl)s -t %(timeout)s list %(table)s %(record)s"
     command = templatized_command % module.params
     rc, out, err = module.run_command(command, check_rc=True)
     if rc != 0:
         module.fail_json(msg=err)
 
-    match = re.search(
-        r"^" + module.params["col"] + r"(\s+):(\s+)(.*)$", out, re.M
-    )
+    match = re.search(r"^" + module.params["col"] + r"(\s+):(\s+)(.*)$", out, re.M)
 
     col_value = match.group(3)
 
@@ -227,9 +213,7 @@ def map_config_to_obj(module):
     has_key = module.params["key"] is not None
     is_map = MAP_RE.match(col_value)
     if is_map and not has_key and module.params["state"] != "read":
-        module.fail_json(
-            msg="missing required arguments: key for map type of column"
-        )
+        module.fail_json(msg="missing required arguments: key for map type of column")
 
     col_value_to_dict = {}
     if NON_EMPTY_MAP_RE.match(col_value):
@@ -286,23 +270,17 @@ def main():
         "database_socket": {"default": None},
     }
 
-    module = AnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True
-    )
+    module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=True)
 
     result = {"changed": False}
 
     # We add ovs-vsctl to module_params to later build up templatized commands
     module.params["ovs-vsctl"] = module.get_bin_path("ovs-vsctl", True)
     if module.params.get("database_socket"):
-        module.params["ovs-vsctl"] += " --db=" + module.params.get(
-            "database_socket"
-        )
+        module.params["ovs-vsctl"] += " --db=" + module.params.get("database_socket")
 
     if module.params["state"] == "present" and not module.params["value"]:
-        module.fail_json(
-            msg="missing required argument value for state: present"
-        )
+        module.fail_json(msg="missing required argument value for state: present")
 
     want = map_params_to_obj(module)
     have = map_config_to_obj(module)
@@ -321,18 +299,12 @@ def main():
         if NON_EMPTY_MAP_RE.match(str(out)):
             for kv in re.split(r", ", out[1:-1]):
                 k, v = re.split(r"=", kv, 1)
-                string_to_dict[re.search("\\w*", k).group(0)] = re.search(
-                    "\\d*", v
-                ).group(0)
+                string_to_dict[re.search("\\w*", k).group(0)] = re.search("\\d*", v).group(0)
         else:
             if module.params["key"] is not None:
-                string_to_dict[module.params["key"]] = re.search(
-                    "\\w*", str(out)
-                ).group(0)
+                string_to_dict[module.params["key"]] = re.search("\\w*", str(out)).group(0)
             else:
-                string_to_dict[module.params["col"]] = re.search(
-                    "\\w*", str(out)
-                ).group(0)
+                string_to_dict[module.params["col"]] = re.search("\\w*", str(out)).group(0)
         result["output"] = string_to_dict
 
     module.exit_json(**result)
