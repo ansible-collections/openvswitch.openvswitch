@@ -84,7 +84,6 @@ test_name_side_effect_matrix = {
 
 
 class TestOpenVSwitchPortModule(TestOpenVSwitchModule):
-
     module = openvswitch_port
 
     def setUp(self):

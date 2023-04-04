@@ -96,7 +96,6 @@ test_name_side_effect_matrix = {
 
 
 class TestOpenVSwitchDBModule(TestOpenVSwitchModule):
-
     module = openvswitch_db
 
     def setUp(self):

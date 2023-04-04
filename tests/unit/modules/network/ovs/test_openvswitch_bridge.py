@@ -120,7 +120,6 @@ test_name_side_effect_matrix = {
 
 
 class TestOpenVSwitchBridgeModule(TestOpenVSwitchModule):
-
     module = openvswitch_bridge
 
     def setUp(self):
