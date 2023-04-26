@@ -126,6 +126,7 @@ def map_obj_to_commands(want, have, module):
     commands = list()
 
     if module.params["state"] == "absent":
+
         if have:
             templatized_command = "%(ovs-vsctl)s -t %(timeout)s del-br %(bridge)s"
             command = templatized_command % module.params
