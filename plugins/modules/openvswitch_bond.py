@@ -68,12 +68,10 @@ options:
     - How long to wait for ovs-vswitchd to respond in seconds
     type: int
   external_ids:
-    default: {}
     description:
     - Dictionary of external_ids applied to a port.
     type: dict
   other_config:
-    default: {}
     description:
     - Dictionary of other_config applied to a port.
     type: dict

@@ -47,7 +47,6 @@ options:
     - How long to wait for ovs-vswitchd to respond
     type: int
   external_ids:
-    default: {}
     description:
     - Dictionary of external_ids applied to a port.
     type: dict
