@@ -111,4 +111,4 @@ releases:
       - fix.yaml
       - galaxy.yml
       - gha.yaml
-    release_date: '2023-04-27'
+    release_date: "2023-04-27"
