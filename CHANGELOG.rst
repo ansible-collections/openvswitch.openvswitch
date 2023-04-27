@@ -5,6 +5,19 @@ Openvswitch Collection Release Notes
 .. contents:: Topics
 
 
+v2.1.1
+======
+
+Bugfixes
+--------
+
+- Fix galaxy version issue when installing this collection.
+
+Documentation Changes
+---------------------
+
+- Update module documentation and examples.
+
 v2.1.0
 ======
 

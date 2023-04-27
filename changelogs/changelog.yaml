@@ -100,3 +100,15 @@ releases:
       - 84-ovs-modules-database-socket.yaml
       - openvswitch_db_read.yaml
     release_date: "2021-12-07"
+  2.1.1:
+    changes:
+      bugfixes:
+        - Fix galaxy version issue when installing this collection.
+      doc_changes:
+        - Update module documentation and examples.
+    fragments:
+      - black.yaml
+      - fix.yaml
+      - galaxy.yml
+      - gha.yaml
+    release_date: '2023-04-27'
