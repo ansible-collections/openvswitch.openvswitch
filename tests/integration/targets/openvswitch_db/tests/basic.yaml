@@ -44,7 +44,7 @@
     record: .
     col: other_config
     key: pmd-cpu-mask
-    value: '0xaaa00000000'
+    value: "0xaaa00000000"
 
 - assert:
     that:
@@ -58,7 +58,7 @@
     record: .
     col: other_config
     key: pmd-cpu-mask
-    value: '0xaaa00000000'
+    value: "0xaaa00000000"
 
 - assert:
     that:
@@ -72,7 +72,7 @@
     record: .
     col: other_config
     key: pmd-cpu-mask
-    value: '0xaaa00000000'
+    value: "0xaaa00000000"
     state: absent
 
 - assert:

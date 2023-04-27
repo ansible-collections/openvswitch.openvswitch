@@ -21,15 +21,10 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-from ansible_collections.openvswitch.openvswitch.tests.unit.compat.mock import (
-    patch,
-)
-from ansible_collections.openvswitch.openvswitch.plugins.modules import (
-    openvswitch_bond,
-)
-from ansible_collections.openvswitch.openvswitch.tests.unit.modules.utils import (
-    set_module_args,
-)
+from ansible_collections.openvswitch.openvswitch.plugins.modules import openvswitch_bond
+from ansible_collections.openvswitch.openvswitch.tests.unit.compat.mock import patch
+from ansible_collections.openvswitch.openvswitch.tests.unit.modules.utils import set_module_args
+
 from .ovs_module import TestOpenVSwitchModule, load_fixture
 
 test_name_side_effect_matrix = {
