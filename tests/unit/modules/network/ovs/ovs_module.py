@@ -20,15 +20,14 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-import os
 import json
+import os
 
 from ansible_collections.openvswitch.openvswitch.tests.unit.modules.utils import (
     AnsibleExitJson,
     AnsibleFailJson,
     ModuleTestCase,
 )
-
 
 fixture_path = os.path.join(os.path.dirname(__file__), "fixtures")
 fixture_data = {}
@@ -54,7 +53,6 @@ def load_fixture(name):
 
 class TestOpenVSwitchModule(ModuleTestCase):
     def execute_module(self, failed=False, changed=False, commands=None, test_name=None):
-
         self.load_fixtures(test_name)
 
         if failed:

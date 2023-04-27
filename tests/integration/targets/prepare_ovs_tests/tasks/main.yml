@@ -3,14 +3,12 @@
 # Run below raw commands and one would succeed with apt/yum on debian/centos
 - block:
     - name: Install python
-      raw:
-        test -e /usr/bin/python || (apt-get -y update && apt-get install -y python-minimal)
+      raw: test -e /usr/bin/python || (apt-get -y update && apt-get install -y python-minimal)
       become: yes
       ignore_errors: yes
 
     - name: Install python
-      raw:
-        test -e /usr/bin/python || (yum -y update && yum install -y python)
+      raw: test -e /usr/bin/python || (yum -y update && yum install -y python)
       become: yes
       ignore_errors: yes
 
