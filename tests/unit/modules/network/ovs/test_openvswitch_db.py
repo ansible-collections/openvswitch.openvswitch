@@ -21,19 +21,13 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-from ansible_collections.openvswitch.openvswitch.plugins.modules import (
-    openvswitch_db,
-)
-from ansible_collections.openvswitch.openvswitch.tests.unit.compat.mock import (
-    patch,
-    MagicMock,
-)
-from ansible_collections.openvswitch.openvswitch.tests.unit.modules.utils import (
-    set_module_args,
-)
-from .ovs_module import TestOpenVSwitchModule, load_fixture
-
 import pytest
+
+from ansible_collections.openvswitch.openvswitch.plugins.modules import openvswitch_db
+from ansible_collections.openvswitch.openvswitch.tests.unit.compat.mock import MagicMock, patch
+from ansible_collections.openvswitch.openvswitch.tests.unit.modules.utils import set_module_args
+
+from .ovs_module import TestOpenVSwitchModule, load_fixture
 
 
 @pytest.fixture
@@ -96,7 +90,6 @@ test_name_side_effect_matrix = {
 
 
 class TestOpenVSwitchDBModule(TestOpenVSwitchModule):
-
     module = openvswitch_db
 
     def setUp(self):
