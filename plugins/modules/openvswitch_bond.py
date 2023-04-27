@@ -68,12 +68,12 @@ options:
     - How long to wait for ovs-vswitchd to respond in seconds
     type: int
   external_ids:
-    default: None
+    default: {}
     description:
     - Dictionary of external_ids applied to a port.
     type: dict
   other_config:
-    default: None
+    default: {}
     description:
     - Dictionary of other_config applied to a port.
     type: dict
@@ -352,8 +352,8 @@ def main():
         "bond_downdelay": {"default": None, "type": "int"},
         "state": {"default": "present", "choices": ["present", "absent"]},
         "timeout": {"default": 5, "type": "int"},
-        "external_ids": {"default": None, "type": "dict"},
-        "other_config": {"default": None, "type": "dict"},
+        "external_ids": {"default": {}, "type": "dict"},
+        "other_config": {"default": {}, "type": "dict"},
         "set": {
             "required": False,
             "type": "list",

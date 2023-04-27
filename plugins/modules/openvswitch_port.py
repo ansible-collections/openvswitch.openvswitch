@@ -47,7 +47,7 @@ options:
     - How long to wait for ovs-vswitchd to respond
     type: int
   external_ids:
-    default: None
+    default: {}
     description:
     - Dictionary of external_ids applied to a port.
     type: dict
@@ -248,7 +248,7 @@ def main():
         "port": {"required": True},
         "state": {"default": "present", "choices": ["present", "absent"]},
         "timeout": {"default": 5, "type": "int"},
-        "external_ids": {"default": None, "type": "dict"},
+        "external_ids": {"default": {}, "type": "dict"},
         "tag": {"default": None},
         "database_socket": {"default": None},
         "set": {"required": False, "type": "list", "elements": "str"},
