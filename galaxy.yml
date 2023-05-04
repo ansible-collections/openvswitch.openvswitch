@@ -6,7 +6,7 @@ name: openvswitch
 tags: [networking, vswitch, bridge, vlan]
 # NOTE(pabelanger): We create an empty version key to keep ansible-galaxy
 # happy. We dynamically inject version info based on git information.
-version: 2.1.1
+version: 2.1.2-dev
 namespace: openvswitch
 readme: README.md
 description: Ansible Network Collection for Open vSwitch
