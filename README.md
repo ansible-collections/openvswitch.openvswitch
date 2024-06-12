@@ -1,23 +1,23 @@
-
-
 # Open vSwitch Collection
-[![CI](https://zuul-ci.org/gated.svg)](https://dashboard.zuul.ansible.com/t/ansible/project/github.com/ansible-collections/openvswitch.openvswitch) <!--[![Codecov](https://img.shields.io/codecov/c/github/ansible-collections/vyos)](https://codecov.io/gh/ansible-collections/openvswitch.openvswitch)-->
+
+[![CI](https://zuul-ci.org/gated.svg)](https://dashboard.zuul.ansible.com/t/ansible/project/github.com/ansible-collections/openvswitch.openvswitch)
+
+⚠️ **The openvswitch.openvswitch collection has been [deprecated](https://forum.ansible.com/t/the-bullhorn-123/2568#project-updates-8) and will reach it's end-of-life on December, 2025. We are no longer accepting new pull requests, except for ones that fix critical bugs or security vulnerabilities. Compatibility with ansible-core>2.17 is not guaranteed.**
 
 The Open vSwitch collection includes a variety of Ansible content to help automate the management of Open vSwitch.
 
 <!--start requires_ansible-->
 ## Ansible version compatibility
 
-This collection has been tested against following Ansible versions: **>=2.9.10**.
+This collection has been tested against following Ansible versions: **<2.18.0,>=2.15.0**.
 
-For collections that support Ansible 2.9, please ensure you update your `network_os` to use the
-fully qualified collection name (for example, `cisco.ios.ios`).
 Plugins and modules within a collection may be tested with only specific Ansible versions.
 A collection may contain metadata that identifies these versions.
 PEP440 is the schema used to describe the versions of Ansible.
 <!--end requires_ansible-->
 
 ### Supported connections
+
 The Open vSwitch collection supports local connections only.
 
 ## Included content
@@ -26,6 +26,7 @@ Click the ``Content`` button to see the list of content included in this collect
 
 <!--start collection content-->
 ### Modules
+
 Name | Description
 --- | ---
 [openvswitch.openvswitch.openvswitch_bond](https://github.com/ansible-collections/openvswitch.openvswitch/blob/main/docs/openvswitch.openvswitch.openvswitch_bond_module.rst)|Manage Open vSwitch bonds
@@ -48,6 +49,7 @@ You can also include it in a `requirements.yml` file and install it with `ansibl
 collections:
   - name: openvswitch.openvswitch
 ```
+
 ## Using this collection
 
 You can call modules by their Fully Qualified Collection Namespace (FQCN), such as `openvswitch.openvswitch.openvswitch_port`.
@@ -63,7 +65,6 @@ The following example task replaces configuration changes in the existing config
 ```
 
 **NOTE**: For Ansible 2.9, you may not see deprecation warnings when you run your playbooks with this collection. Use this documentation to track when a module is deprecated.
-
 
 ### See Also:
 
