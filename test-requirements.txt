@@ -1,3 +1,8 @@
+# zuul linters via tox
+black==24.4.2
+flake8
+yamllint
+
 # Unit test runner
 pytest-ansible
 pytest-xdist
