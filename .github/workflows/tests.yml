@@ -12,7 +12,7 @@ on:  # yamllint disable-line rule:truthy
   schedule:
     - cron: '0 0 * * *'
 env:
-  $MATRIX_EXCLUDE: >-
+  MATRIX_EXCLUDE: >-
      [
         {
           "ansible-version": "stable-2.15",
