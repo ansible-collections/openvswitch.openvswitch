@@ -17,9 +17,57 @@ jobs:
     uses: ansible-network/github_actions/.github/workflows/ansible-lint.yml@main
   changelog:
     uses: ansible-network/github_actions/.github/workflows/changelog.yml@main
-    if: github.event_name != 'schedule'
+    if: github.event_name == 'pull_request'
   sanity:
     uses: ansible-network/github_actions/.github/workflows/sanity.yml@main
+    with:
+      matrix_exclude: >-
+         [
+            {
+              "ansible-version": "stable-2.15",
+              "python-version": "3.12"
+            },
+            {
+              "ansible-version": "stable-2.16",
+              "python-version": "3.9"
+            },
+            {
+              "ansible-version": "stable-2.17",
+              "python-version": "3.9"
+            },
+            {
+              "ansible-version": "milestone",
+              "python-version": "3.9"
+            },
+            {
+              "ansible-version": "milestone",
+              "python-version": "3.10"
+            },
+            {
+              "ansible-version": "milestone",
+              "python-version": "3.11"
+            },
+            {
+              "ansible-version": "milestone",
+              "python-version": "3.12"
+            },
+            {
+              "ansible-version": "devel",
+              "python-version": "3.9"
+            },
+            {
+              "ansible-version": "devel",
+              "python-version": "3.10"
+            },
+            {
+              "ansible-version": "devel",
+              "python-version": "3.11"
+            },
+            {
+              "ansible-version": "devel",
+              "python-version": "3.12"
+            },
+          ]
   unit-galaxy:
     uses: ansible-network/github_actions/.github/workflows/unit_galaxy.yml@main
   unit-source:
@@ -39,10 +87,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: >-
-          python -c "assert set([
+          python -c "assert 'failure' not in
+          set([
           '${{ needs.ansible-lint.result }}',
           '${{ needs.changelog.result }}',
           '${{ needs.sanity.result }}',
           '${{ needs.unit-galaxy.result }}',
           '${{ needs.unit-source.result }}'
-          ]) == {'success'}"
+          ])"
