@@ -11,54 +11,7 @@ on:  # yamllint disable-line rule:truthy
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'
-env:
-  MATRIX_EXCLUDE: >-
-     [
-        {
-          "ansible-version": "stable-2.15",
-          "python-version": "3.12"
-        },
-        {
-          "ansible-version": "stable-2.16",
-          "python-version": "3.9"
-        },
-        {
-          "ansible-version": "stable-2.17",
-          "python-version": "3.9"
-        },
-        {
-          "ansible-version": "milestone",
-          "python-version": "3.9"
-        },
-        {
-          "ansible-version": "milestone",
-          "python-version": "3.10"
-        },
-        {
-          "ansible-version": "milestone",
-          "python-version": "3.11"
-        },
-        {
-          "ansible-version": "milestone",
-          "python-version": "3.12"
-        },
-        {
-          "ansible-version": "devel",
-          "python-version": "3.9"
-        },
-        {
-          "ansible-version": "devel",
-          "python-version": "3.10"
-        },
-        {
-          "ansible-version": "devel",
-          "python-version": "3.11"
-        },
-        {
-          "ansible-version": "devel",
-          "python-version": "3.12"
-        },
-     ]
+
 jobs:
   ansible-lint:
     uses: ansible-network/github_actions/.github/workflows/ansible-lint.yml@main
@@ -68,18 +21,18 @@ jobs:
   sanity:
     uses: ansible-network/github_actions/.github/workflows/sanity.yml@main
     with:
-      matrix_exclude: ${{ env.MATRIX_EXCLUDE }}
+      matrix_exclude: ${{ vars.MATRIX_EXCLUDE }}
   unit-galaxy:
     uses: ansible-network/github_actions/.github/workflows/unit_galaxy.yml@main
     with:
-      matrix_exclude: ${{ env.MATRIX_EXCLUDE }}
+      matrix_exclude: ${{ vars.MATRIX_EXCLUDE }}
   unit-source:
     uses: ansible-network/github_actions/.github/workflows/unit_source.yml@main
     with:
       collection_pre_install: >-
         git+https://github.com/ansible-collections/ansible.utils.git
         git+https://github.com/ansible-collections/ansible.netcommon.git
-      matrix_exclude: ${{ env.MATRIX_EXCLUDE }}
+      matrix_exclude: ${{ vars.MATRIX_EXCLUDE }}
   all_green:
     if: ${{ always() && (github.event_name != 'schedule') }}
     needs:
