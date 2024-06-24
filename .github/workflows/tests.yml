@@ -20,19 +20,54 @@ jobs:
     if: github.event_name != 'schedule'
   sanity:
     uses: ansible-network/github_actions/.github/workflows/sanity.yml@main
-    strategy:
-      matrix:
-        ansible-version:
-          - stable-2.15
-          - stable-2.16
-          - stable-2.17
-        python-version:
-          - "3.9"
-          - "3.10"
-          - "3.11"
-          - "3.12"
-        exclude: ${{ fromJSON(inputs.matrix_exclude) }}
-        include: ${{ fromJSON(inputs.matrix_include) }}
+    with:
+      matrix_exclude: >-
+         [
+            {
+              "ansible-version": "stable-2.15",
+              "python-version": "3.12"
+            },
+            {
+              "ansible-version": "stable-2.16",
+              "python-version": "3.9"
+            },
+            {
+              "ansible-version": "stable-2.17",
+              "python-version": "3.9"
+            },
+            {
+              "ansible-version": "milestone",
+              "python-version": "3.9"
+            },
+            {
+              "ansible-version": "milestone",
+              "python-version": "3.10"
+            },
+            {
+              "ansible-version": "milestone",
+              "python-version": "3.11"
+            },
+            {
+              "ansible-version": "milestone",
+              "python-version": "3.12"
+            },
+            {
+              "ansible-version": "devel",
+              "python-version": "3.9"
+            },
+            {
+              "ansible-version": "devel",
+              "python-version": "3.10"
+            },
+            {
+              "ansible-version": "devel",
+              "python-version": "3.11"
+            },
+            {
+              "ansible-version": "devel",
+              "python-version": "3.12"
+            },
+          ]
   unit-galaxy:
     uses: ansible-network/github_actions/.github/workflows/unit_galaxy.yml@main
   unit-source:
