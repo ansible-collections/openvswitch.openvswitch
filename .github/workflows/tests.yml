@@ -20,10 +20,8 @@ jobs:
     if: github.event_name != 'schedule'
   sanity:
     uses: ansible-network/github_actions/.github/workflows/sanity.yml@main
-    with:
+    strategy:
       matrix:
-        os:
-          - ubuntu-latest
         ansible-version:
           - stable-2.15
           - stable-2.16
@@ -33,6 +31,8 @@ jobs:
           - "3.10"
           - "3.11"
           - "3.12"
+        exclude: ${{ fromJSON(inputs.matrix_exclude) }}
+        include: ${{ fromJSON(inputs.matrix_include) }}
   unit-galaxy:
     uses: ansible-network/github_actions/.github/workflows/unit_galaxy.yml@main
   unit-source:
