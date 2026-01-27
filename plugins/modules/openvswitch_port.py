@@ -106,7 +106,6 @@ EXAMPLES = """
     port: veth0
     state: present
     database_socket: unix:/opt/second_ovsdb.sock
-
 """
 
 from ansible.module_utils.basic import AnsibleModule
