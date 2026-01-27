@@ -36,7 +36,10 @@ jobs:
         git+https://github.com/ansible-collections/ansible.netcommon.git
       matrix_exclude: ${{ vars.MATRIX_EXCLUDE }}
   all_green:
-    if: ${{ always() && (github.event_name != 'schedule') }}
+    if: >-
+      always() &&
+      github.actor != 'pre-commit-ci[bot]' &&
+      github.event_name != 'schedule'
     needs:
       - ansible-lint
       - changelog
