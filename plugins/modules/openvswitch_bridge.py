@@ -98,7 +98,6 @@ EXAMPLES = """
 
 from ansible.module_utils._text import to_text
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.six import iteritems
 
 
 def _fail_mode_to_str(text):
@@ -143,7 +142,7 @@ def map_obj_to_commands(want, have, module):
                 templatized_command = "%(ovs-vsctl)s -t %(timeout)s br-set-external-id %(bridge)s"
                 command = templatized_command % module.params
                 if want["external_ids"]:
-                    for k, v in iteritems(want["external_ids"]):
+                    for k, v in want["external_ids"].items():
                         if (
                             k not in have["external_ids"]
                             or want["external_ids"][k] != have["external_ids"][k]
@@ -179,7 +178,7 @@ def map_obj_to_commands(want, have, module):
                 commands.append(command)
 
             if want["external_ids"]:
-                for k, v in iteritems(want["external_ids"]):
+                for k, v in want["external_ids"].items():
                     templatized_command = (
                         "%(ovs-vsctl)s -t %(timeout)s br-set-external-id %(bridge)s"
                     )

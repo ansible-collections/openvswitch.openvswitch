@@ -106,11 +106,9 @@ EXAMPLES = """
     port: veth0
     state: present
     database_socket: unix:/opt/second_ovsdb.sock
-
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.six import iteritems
 
 
 def _external_ids_to_dict(text):
@@ -154,7 +152,7 @@ def map_obj_to_commands(want, have, module):
                 commands.append(command)
 
             if want["external_ids"] != have["external_ids"]:
-                for k, v in iteritems(want["external_ids"]):
+                for k, v in want["external_ids"].items():
                     if (
                         not have["external_ids"]
                         or k not in have["external_ids"]
@@ -192,7 +190,7 @@ def map_obj_to_commands(want, have, module):
             commands.append(command)
 
             if want["external_ids"]:
-                for k, v in iteritems(want["external_ids"]):
+                for k, v in want["external_ids"].items():
                     templatized_command = (
                         "%(ovs-vsctl)s -t %(timeout)s set port %(port)s external_ids:"
                     )
