@@ -1,0 +1,4 @@
+breaking_changes:
+  - Minimum required ansible-core version is now 2.15
+minor_changes:
+  - Added support for ansible-core 2.18, 2.19 and 2.20
