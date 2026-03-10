@@ -48,12 +48,15 @@ jobs:
       - unit-source
     runs-on: ubuntu-latest
     steps:
-      - run: >-
-          python -c "assert 'failure' not in
-          set([
+      - run: |
+          python -c "
+          results = [
           '${{ needs.ansible-lint.result }}',
           '${{ needs.changelog.result }}',
           '${{ needs.sanity.result }}',
           '${{ needs.unit-galaxy.result }}',
           '${{ needs.unit-source.result }}'
-          ])"
+          ]
+          print(results)
+          assert all(r in ('success', 'skipped') for r in results)
+          "
