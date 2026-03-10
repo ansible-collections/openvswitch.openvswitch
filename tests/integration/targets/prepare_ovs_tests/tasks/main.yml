@@ -1,6 +1,6 @@
 ---
 # No easy way to know OS type without python or without ansible facts.
-# Run below raw commands and one would succeed with apt/yum on debian/centos
+# Run below raw commands and one would succeed with apt/dnf on debian/centos
 - name: Run prepare_ovs_tests
   when: prepare_ovs_tests_task | default(False) | bool
   block:
@@ -19,7 +19,7 @@
       when: ansible_distribution == 'Ubuntu'
 
     - name: Install openvswitch package if we are on Fedora
-      ansible.builtin.yum:
+      ansible.builtin.dnf:
         name: openvswitch
         state: installed
         update_cache: true

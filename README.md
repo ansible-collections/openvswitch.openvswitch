@@ -1,15 +1,14 @@
 # Open vSwitch Collection
 
-[![CI](https://zuul-ci.org/gated.svg)](https://dashboard.zuul.ansible.com/t/ansible/project/github.com/ansible-collections/openvswitch.openvswitch)
-
-⚠️ **The openvswitch.openvswitch collection has been [deprecated](https://forum.ansible.com/t/the-bullhorn-123/2568#project-updates-8) and will reach it's end-of-life on December, 2025. We are no longer accepting new pull requests, except for ones that fix critical bugs or security vulnerabilities. This collection is not supported with ansible-core>2.17.**
+[![Unit Tests](https://github.com/ansible-collections/openvswitch.openvswitch/actions/workflows/tests.yml/badge.svg)](https://github.com/ansible-collections/openvswitch.openvswitch/actions/workflows/tests.yml)
+[![Code Coverage](https://github.com/ansible-collections/openvswitch.openvswitch/actions/workflows/codecoverage.yml/badge.svg)](https://github.com/ansible-collections/openvswitch.openvswitch/actions/workflows/codecoverage.yml)
 
 The Open vSwitch collection includes a variety of Ansible content to help automate the management of Open vSwitch.
 
 <!--start requires_ansible-->
 ## Ansible version compatibility
 
-This collection has been tested against following Ansible versions: **<2.18.0,>=2.15.0**.
+This collection has been tested against following Ansible versions: **<2.21.0,>=2.15.0**.
 
 Plugins and modules within a collection may be tested with only specific Ansible versions.
 A collection may contain metadata that identifies these versions.
@@ -63,8 +62,6 @@ The following example task replaces configuration changes in the existing config
       port: eth2
     state: present
 ```
-
-**NOTE**: For Ansible 2.9, you may not see deprecation warnings when you run your playbooks with this collection. Use this documentation to track when a module is deprecated.
 
 ### See Also:
 
