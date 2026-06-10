@@ -112,3 +112,21 @@ releases:
       - galaxy.yml
       - gha.yaml
     release_date: "2023-04-27"
+  2.2.0:
+    changes:
+      breaking_changes:
+        - Minimum required ansible-core version is now 2.15
+      minor_changes:
+        - Added support for ansible-core 2.18, 2.19 and 2.20
+        - Remove extra newline in openvswitch_port docs
+    fragments:
+      - add_gha_periodic.yaml
+      - ansible_versions_changes.yaml
+      - remove_newline_openvswitch_port.yaml
+    release_date: "2026-04-16"
+  2.2.1:
+    changes:
+      breaking_changes:
+        - Minimum required ansible-core version is now 2.16
+      minor_changes:
+        - Added support for ansible-core 2.21

@@ -4,6 +4,32 @@ Openvswitch Collection Release Notes
 
 .. contents:: Topics
 
+v2.2.1
+======
+
+Minor Changes
+-------------
+
+- Added support for ansible-core 2.21
+
+Breaking Changes / Porting Guide
+--------------------------------
+
+- Minimum required ansible-core version is now 2.16
+
+v2.2.0
+======
+
+Minor Changes
+-------------
+
+- Added support for ansible-core 2.18, 2.19 and 2.20
+- Remove extra newline in openvswitch_port docs
+
+Breaking Changes / Porting Guide
+--------------------------------
+
+- Minimum required ansible-core version is now 2.15
 
 v2.1.1
 ======
