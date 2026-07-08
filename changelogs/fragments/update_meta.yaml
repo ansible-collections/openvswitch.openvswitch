@@ -1,0 +1,3 @@
+---
+bugfixes:
+  - fixed collection meta defenition with minimal supported ansible version.
