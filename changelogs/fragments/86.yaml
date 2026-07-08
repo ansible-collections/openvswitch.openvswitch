@@ -1,2 +1,0 @@
-bugfixes:
-  - openvswitch_bridge - fix module failure when bridge with fail-mode already set exists and fail_mode is not specified (https://github.com/ansible-collections/openvswitch.openvswitch/issues/86).

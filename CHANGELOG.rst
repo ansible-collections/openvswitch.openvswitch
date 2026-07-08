@@ -11,11 +11,22 @@ Minor Changes
 -------------
 
 - Added support for ansible-core 2.21
+- openvswitch_bridge - allow the set parameter to accept a list of strings to chain multiple set sub-commands (https://github.com/ansible-collections/openvswitch.openvswitch/issues/117).
+- openvswitch_bridge, openvswitch_port, openvswitch_db, openvswitch_bond - add diff mode support (https://github.com/ansible-collections/openvswitch.openvswitch/pull/140).
 
 Breaking Changes / Porting Guide
 --------------------------------
 
 - Minimum required ansible-core version is now 2.16
+
+Bugfixes
+--------
+
+- openvswitch_bridge - fix module failure when bridge with fail-mode already set exists and fail_mode is not specified (https://github.com/ansible-collections/openvswitch.openvswitch/issues/86).
+- openvswitch_db - fix NameError when running in check mode with state present or absent because ``out`` was referenced before assignment (https://github.com/ansible-collections/openvswitch.openvswitch/pull/140).
+- openvswitch_db - fix read state incorrectly reporting changed=true (https://github.com/ansible-collections/openvswitch.openvswitch/issues/111).
+- openvswitch_db - fix read state returning empty value for keys with hyphens or values containing special characters (https://github.com/ansible-collections/openvswitch.openvswitch/issues/111).
+
 
 v2.2.0
 ======
