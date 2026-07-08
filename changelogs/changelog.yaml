@@ -130,6 +130,9 @@ releases:
       - Minimum required ansible-core version is now 2.16
       minor_changes:
       - Added support for ansible-core 2.21
+  2.2.2:
+    changes:
+      minor_changes:
       - openvswitch_bridge - allow the set parameter to accept a list of strings to
         chain multiple set sub-commands (https://github.com/ansible-collections/openvswitch.openvswitch/issues/117).
       - openvswitch_bridge, openvswitch_port, openvswitch_db, openvswitch_bond - add
@@ -142,9 +145,11 @@ releases:
       - openvswitch_db - fix read state incorrectly reporting changed=true (https://github.com/ansible-collections/openvswitch.openvswitch/issues/111).
       - openvswitch_db - fix read state returning empty value for keys with hyphens
         or values containing special characters (https://github.com/ansible-collections/openvswitch.openvswitch/issues/111).
+      - fixed collection meta definition with minimal supported ansible version.
     fragments:
     - 111.yaml
     - 117.yaml
     - 140.yaml
     - 86.yaml
+    - update_meta.yaml
     release_date: '2026-07-08'
