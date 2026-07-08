@@ -86,7 +86,7 @@ Please read and familiarize yourself with this document.
 
 ## Changelogs
 
-Release notes are available [here](https://github.com/ansible-collections/openvswitch.openvswitch/blob/main/changelogs/CHANGELOG.rst).
+Release notes are available [here](https://github.com/ansible-collections/openvswitch.openvswitch/blob/main/CHANGELOG.rst).
 
 ## Roadmap
 
