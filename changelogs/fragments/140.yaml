@@ -1,4 +1,0 @@
-minor_changes:
-  - openvswitch_bridge, openvswitch_port, openvswitch_db, openvswitch_bond - add diff mode support (https://github.com/ansible-collections/openvswitch.openvswitch/pull/140).
-bugfixes:
-  - openvswitch_db - fix NameError when running in check mode with state present or absent because ``out`` was referenced before assignment (https://github.com/ansible-collections/openvswitch.openvswitch/pull/140).

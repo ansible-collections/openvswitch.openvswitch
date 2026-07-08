@@ -1,2 +1,0 @@
-minor_changes:
-  - openvswitch_bridge - allow the set parameter to accept a list of strings to chain multiple set sub-commands (https://github.com/ansible-collections/openvswitch.openvswitch/issues/117).

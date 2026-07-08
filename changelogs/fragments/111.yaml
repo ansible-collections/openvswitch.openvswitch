@@ -1,3 +1,0 @@
-bugfixes:
-  - openvswitch_db - fix read state returning empty value for keys with hyphens or values containing special characters (https://github.com/ansible-collections/openvswitch.openvswitch/issues/111).
-  - openvswitch_db - fix read state incorrectly reporting changed=true (https://github.com/ansible-collections/openvswitch.openvswitch/issues/111).
