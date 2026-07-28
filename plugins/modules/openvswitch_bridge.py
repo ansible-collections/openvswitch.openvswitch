@@ -55,6 +55,12 @@ options:
     description:
     - Set bridge fail-mode. The default value (None) is a No-op.
     type: str
+  mtu_request:
+    description:
+    - Set the MTU request for the bridge's internal interface. The default value
+      (None) is a No-op.
+    type: int
+    version_added: 2.3.0
   set:
     description:
     - Run set command after bridge configuration. This parameter is non-idempotent,
@@ -103,6 +109,12 @@ EXAMPLES = """
     set:
       - Bridge br-int other-config:datapath-id=0000000000000001
       - Bridge br-int protocols=OpenFlow13
+
+# Create a bridge named br-int with an MTU request of 1500
+- openvswitch.openvswitch.openvswitch_bridge:
+    bridge: br-int
+    state: present
+    mtu_request: 1500
 """
 
 from ansible.module_utils._text import to_text
@@ -114,6 +126,18 @@ def _fail_mode_to_str(text):
         return None
     else:
         return text.strip()
+
+
+def _mtu_request_to_str(text):
+    if not text:
+        return None
+
+    text = text.strip()
+
+    if text == "[]":
+        return None
+
+    return text
 
 
 def _external_ids_to_dict(text):
@@ -165,6 +189,11 @@ def map_obj_to_commands(want, have, module):
                 )
                 command = templatized_command % module.params
                 commands.append(command)
+
+            if want["mtu_request"] and to_text(want["mtu_request"]) != have["mtu_request"]:
+                templatized_command = "%(ovs-vsctl)s -t %(timeout)s set Interface %(bridge)s mtu_request=%(mtu_request)s"
+                command = templatized_command % module.params
+                commands.append(command)
         else:
             templatized_command = "%(ovs-vsctl)s -t %(timeout)s add-br %(bridge)s"
             command = templatized_command % module.params
@@ -187,6 +216,11 @@ def map_obj_to_commands(want, have, module):
                 templatized_command = (
                     "%(ovs-vsctl)s -t %(timeout)s set-fail-mode %(bridge)s %(fail_mode)s"
                 )
+                command = templatized_command % module.params
+                commands.append(command)
+
+            if want["mtu_request"]:
+                templatized_command = "%(ovs-vsctl)s -t %(timeout)s set Interface %(bridge)s mtu_request=%(mtu_request)s"
                 command = templatized_command % module.params
                 commands.append(command)
 
@@ -234,6 +268,13 @@ def map_config_to_obj(module):
         rc, out, err = module.run_command(command, check_rc=True)
         obj["external_ids"] = _external_ids_to_dict(out)
 
+        templatized_command = (
+            "%(ovs-vsctl)s -t %(timeout)s --if-exists get Interface %(bridge)s mtu_request"
+        )
+        command = templatized_command % module.params
+        rc, out, err = module.run_command(command, check_rc=True)
+        obj["mtu_request"] = _mtu_request_to_str(out)
+
     return obj
 
 
@@ -243,6 +284,7 @@ def map_params_to_obj(module):
         "parent": module.params["parent"],
         "vlan": module.params["vlan"],
         "fail_mode": module.params["fail_mode"],
+        "mtu_request": module.params["mtu_request"],
         "external_ids": module.params["external_ids"],
         "set": module.params["set"],
     }
@@ -260,6 +302,7 @@ def main():
         "timeout": {"default": 5, "type": "int"},
         "external_ids": {"default": None, "type": "dict"},
         "fail_mode": {"default": None},
+        "mtu_request": {"default": None, "type": "int"},
         "set": {"required": False, "default": None, "type": "raw"},
         "database_socket": {"default": None},
     }
