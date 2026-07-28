@@ -1,0 +1,3 @@
+minor_changes:
+  - openvswitch_bridge - add ``mtu_request`` option to set the MTU request for the
+    bridge's internal interface.
