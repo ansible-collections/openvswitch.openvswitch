@@ -1,0 +1,7 @@
+minor_changes:
+  - openvswitch_bridge - import ``to_text`` from the public
+    ``ansible.module_utils.common.text.converters`` instead of the internal
+    ``ansible.module_utils._text``, and use ``collections.abc`` instead of
+    ``ansible.module_utils.common._collections_compat`` in the unit tests. Both internal paths are
+    deprecated in ansible-core 2.21 and scheduled for removal in ansible-core 2.24; this also stops
+    the deprecation warning that ansible-core 2.21 emits on every task run.
