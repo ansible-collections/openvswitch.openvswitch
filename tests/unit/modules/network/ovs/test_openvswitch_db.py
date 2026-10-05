@@ -96,6 +96,17 @@ test_name_side_effect_matrix = {
     "test_openvswitch_db_present_adds_key_check_mode": [
         (0, "openvswitch_db_disable_in_band_missing.cfg", None),
     ],
+    "test_openvswitch_db_column_not_found": [
+        (0, "openvswitch_db_disable_in_band_true.cfg", None),
+    ],
+    "test_openvswitch_db_get_hyphenated_col": [
+        (0, "openvswitch_db_external_ids.cfg", None),
+        (0, "openvswitch_db_read_quoted_value.cfg", None),
+    ],
+    "test_openvswitch_db_present_hyphenated_col": [
+        (0, "openvswitch_db_external_ids.cfg", None),
+        (0, None, None),
+    ],
 }
 
 
@@ -467,4 +478,64 @@ class TestOpenVSwitchDBModule(TestOpenVSwitchModule):
             changed=False,
             commands=["/usr/bin/ovs-vsctl -t 5 get Bridge test-br name"],
             test_name="test_openvswitch_db_get_non_dict",
+        )
+
+    def test_openvswitch_db_column_not_found(self):
+        set_module_args(
+            dict(
+                state="present",
+                table="Bridge",
+                record="test-br",
+                col="nonexistent_column",
+                value="true",
+            )
+        )
+        result = self.execute_module(
+            failed=True,
+            test_name="test_openvswitch_db_column_not_found",
+        )
+        self.assertEqual(
+            result["msg"],
+            "Column 'nonexistent_column' not found in table 'Bridge', record 'test-br'",
+        )
+
+    def test_openvswitch_db_get_hyphenated_col(self):
+        set_module_args(
+            dict(
+                state="read",
+                table="open_vswitch",
+                record=".",
+                col="external-ids",
+                key="ovn-chassis-mac-mappings",
+            )
+        )
+        result = self.execute_module(
+            changed=False,
+            commands=[
+                "/usr/bin/ovs-vsctl -t 5 get open_vswitch . external-ids:ovn-chassis-mac-mappings"
+            ],
+            test_name="test_openvswitch_db_get_hyphenated_col",
+        )
+        self.assertEqual(
+            result["output"],
+            {"ovn-chassis-mac-mappings": "physnet1:fa:16:3f:93:18:29"},
+        )
+
+    def test_openvswitch_db_present_hyphenated_col(self):
+        set_module_args(
+            dict(
+                state="present",
+                table="open_vswitch",
+                record=".",
+                col="external-ids",
+                key="ovn-encap-ip",
+                value="172.29.240.100",
+            )
+        )
+        self.execute_module(
+            changed=True,
+            commands=[
+                "/usr/bin/ovs-vsctl -t 5 set open_vswitch . external-ids:ovn-encap-ip=172.29.240.100"
+            ],
+            test_name="test_openvswitch_db_present_hyphenated_col",
         )
