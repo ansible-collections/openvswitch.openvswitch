@@ -1,0 +1,4 @@
+---
+bugfixes:
+  - openvswitch_db - `col` parameter allows underscores alike to ovs-vsctl
+  - openvswitch_db - a descriptive error is raised if `col` is not found.

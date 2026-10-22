@@ -205,7 +205,13 @@ def map_config_to_obj(module):
     if rc != 0:
         module.fail_json(msg=err)
 
-    match = re.search(r"^" + module.params["col"] + r"(\s+):(\s+)(.*)$", out, re.M)
+    col = module.params["col"].replace("-", "_")
+    match = re.search(r"^" + re.escape(col) + r"(\s*):(\s*)(.*)$", out, re.M)
+    if not match:
+        module.fail_json(
+            msg="Column '%s' not found in table '%s', record '%s'"
+            % (module.params["col"], module.params["table"], module.params["record"])
+        )
 
     col_value = match.group(3)
 
