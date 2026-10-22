@@ -38,6 +38,7 @@ def patched_openvswitch_bridge(monkeypatch):
         "parent": "test-br",
         "vlan": 200,
         "fail_mode": None,
+        "mtu_request": None,
         "external_ids": None,
         "set": None,
     }
@@ -54,6 +55,7 @@ test_name_side_effect_matrix = {
         (0, "", ""),
         (0, "", ""),
         (0, "", ""),
+        (0, "", ""),
     ],
     "test_openvswitch_bridge_present_idempotent": [
         (0, "list_br_test_br.cfg", ""),
@@ -61,9 +63,23 @@ test_name_side_effect_matrix = {
         (0, "br_to_vlan_zero.cfg", ""),
         (0, "get_fail_mode_secure.cfg", ""),
         (0, "br_get_external_id_foo_bar.cfg", ""),
+        (0, "get_mtu_request_none.cfg", ""),
+    ],
+    "test_openvswitch_bridge_present_mtu_request_idempotent": [
+        (0, "list_br_test_br.cfg", ""),
+        (0, "br_to_parent_test_br.cfg", ""),
+        (0, "br_to_vlan_zero.cfg", ""),
+        (0, "get_fail_mode_secure.cfg", ""),
+        (0, "br_get_external_id_foo_bar.cfg", ""),
+        (0, "get_mtu_request_1500.cfg", ""),
     ],
     "test_openvswitch_bridge_present_creates_bridge": [
         (0, "", ""),
+        (0, "", ""),
+        (0, "", ""),
+        (0, "", ""),
+    ],
+    "test_openvswitch_bridge_present_creates_bridge_with_mtu_request": [
         (0, "", ""),
         (0, "", ""),
         (0, "", ""),
@@ -80,12 +96,19 @@ test_name_side_effect_matrix = {
         (0, "", ""),
         (0, "", ""),
     ],
+    "test_openvswitch_bridge_updates_mtu_request": [
+        (0, "", ""),
+        (0, "", ""),
+        (0, "", ""),
+        (0, "", ""),
+    ],
     "test_openvswitch_bridge_present_adds_external_id": [
         (0, "list_br_test_br.cfg", ""),
         (0, "br_to_parent_test_br.cfg", ""),
         (0, "br_to_vlan_zero.cfg", ""),
         (0, "get_fail_mode_secure.cfg", ""),
         (0, "br_get_external_id_foo_bar.cfg", ""),
+        (0, "get_mtu_request_none.cfg", ""),
         (0, "", ""),
     ],
     "test_openvswitch_bridge_present_clears_external_id": [
@@ -94,6 +117,7 @@ test_name_side_effect_matrix = {
         (0, "br_to_vlan_zero.cfg", ""),
         (0, "get_fail_mode_secure.cfg", ""),
         (0, "br_get_external_id_foo_bar.cfg", ""),
+        (0, "get_mtu_request_none.cfg", ""),
         (0, "", ""),
     ],
     "test_openvswitch_bridge_present_changes_fail_mode": [
@@ -102,6 +126,16 @@ test_name_side_effect_matrix = {
         (0, "br_to_vlan_zero.cfg", ""),
         (0, "get_fail_mode_secure.cfg", ""),
         (0, "br_get_external_id_foo_bar.cfg", ""),
+        (0, "get_mtu_request_none.cfg", ""),
+        (0, "", ""),
+    ],
+    "test_openvswitch_bridge_present_changes_mtu_request": [
+        (0, "list_br_test_br.cfg", ""),
+        (0, "br_to_parent_test_br.cfg", ""),
+        (0, "br_to_vlan_zero.cfg", ""),
+        (0, "get_fail_mode_secure.cfg", ""),
+        (0, "br_get_external_id_foo_bar.cfg", ""),
+        (0, "get_mtu_request_1500.cfg", ""),
         (0, "", ""),
     ],
     "test_openvswitch_bridge_present_runs_set_mode": [
@@ -122,6 +156,7 @@ test_name_side_effect_matrix = {
         (0, "br_to_vlan_zero.cfg", ""),
         (0, "get_fail_mode_secure.cfg", ""),
         (0, "br_get_external_id_foo_bar.cfg", ""),
+        (0, "get_mtu_request_none.cfg", ""),
     ],
     "test_openvswitch_bridge_present_creates_bridge_check_mode": [
         (0, "", ""),
@@ -132,6 +167,7 @@ test_name_side_effect_matrix = {
         (0, "br_to_vlan_zero.cfg", ""),
         (0, "get_fail_mode_secure.cfg", ""),
         (0, "br_get_external_id_foo_bar.cfg", ""),
+        (0, "get_mtu_request_none.cfg", ""),
         (0, "", ""),
     ],
     "test_openvswitch_bridge_present_idempotent_no_fail_mode": [
@@ -140,6 +176,7 @@ test_name_side_effect_matrix = {
         (0, "br_to_vlan_zero.cfg", ""),
         (0, "get_fail_mode_standalone.cfg", ""),
         (0, "br_get_external_id_foo_bar.cfg", ""),
+        (0, "get_mtu_request_none.cfg", ""),
     ],
 }
 
@@ -197,6 +234,18 @@ class TestOpenVSwitchBridgeModule(TestOpenVSwitchModule):
         )
         self.execute_module(test_name="test_openvswitch_bridge_present_idempotent")
 
+    def test_openvswitch_bridge_present_mtu_request_idempotent(self):
+        set_module_args(
+            dict(
+                state="present",
+                bridge="test-br",
+                fail_mode="secure",
+                external_ids={"foo": "bar"},
+                mtu_request=1500,
+            )
+        )
+        self.execute_module(test_name="test_openvswitch_bridge_present_mtu_request_idempotent")
+
     def test_openvswitch_bridge_present_creates_bridge(self):
         set_module_args(
             dict(
@@ -215,6 +264,24 @@ class TestOpenVSwitchBridgeModule(TestOpenVSwitchModule):
             changed=True,
             commands=commands,
             test_name="test_openvswitch_bridge_present_creates_bridge",
+        )
+
+    def test_openvswitch_bridge_present_creates_bridge_with_mtu_request(self):
+        set_module_args(
+            dict(
+                state="present",
+                bridge="test-br",
+                mtu_request=1500,
+            )
+        )
+        commands = [
+            "/usr/bin/ovs-vsctl -t 5 add-br test-br",
+            "/usr/bin/ovs-vsctl -t 5 set Interface test-br mtu_request=1500",
+        ]
+        self.execute_module(
+            changed=True,
+            commands=commands,
+            test_name="test_openvswitch_bridge_present_creates_bridge_with_mtu_request",
         )
 
     def test_openvswitch_bridge_present_creates_fake_bridge(self):
@@ -258,6 +325,22 @@ class TestOpenVSwitchBridgeModule(TestOpenVSwitchModule):
             changed=True,
             commands=commands,
             test_name="test_openvswitch_bridge_updates_vlan",
+        )
+
+    @pytest.mark.usefixtures("patched_openvswitch_bridge")
+    def test_openvswitch_bridge_updates_mtu_request(self):
+        set_module_args(
+            {
+                "state": "present",
+                "bridge": "test-br2",
+                "mtu_request": 1500,
+            }
+        )
+        commands = ["/usr/bin/ovs-vsctl -t 5 set Interface test-br2 mtu_request=1500"]
+        self.execute_module(
+            changed=True,
+            commands=commands,
+            test_name="test_openvswitch_bridge_updates_mtu_request",
         )
 
     def test_openvswitch_bridge_present_adds_external_id(self):
@@ -306,6 +389,23 @@ class TestOpenVSwitchBridgeModule(TestOpenVSwitchModule):
             changed=True,
             commands=commands,
             test_name="test_openvswitch_bridge_present_changes_fail_mode",
+        )
+
+    def test_openvswitch_bridge_present_changes_mtu_request(self):
+        set_module_args(
+            dict(
+                state="present",
+                bridge="test-br",
+                fail_mode="secure",
+                external_ids={"foo": "bar"},
+                mtu_request=9000,
+            )
+        )
+        commands = ["/usr/bin/ovs-vsctl -t 5 set Interface test-br mtu_request=9000"]
+        self.execute_module(
+            changed=True,
+            commands=commands,
+            test_name="test_openvswitch_bridge_present_changes_mtu_request",
         )
 
     def test_openvswitch_bridge_present_runs_set_mode(self):
@@ -404,6 +504,7 @@ class TestOpenVSwitchBridgeModule(TestOpenVSwitchModule):
                 "parent": None,
                 "vlan": None,
                 "fail_mode": "secure",
+                "mtu_request": None,
                 "external_ids": {"foo": "bar"},
                 "set": None,
             },
@@ -427,6 +528,7 @@ class TestOpenVSwitchBridgeModule(TestOpenVSwitchModule):
                 "parent": "test-br",
                 "vlan": "0",
                 "fail_mode": "secure",
+                "mtu_request": None,
                 "external_ids": {"foo": "bar"},
             },
         )
@@ -437,6 +539,7 @@ class TestOpenVSwitchBridgeModule(TestOpenVSwitchModule):
                 "parent": None,
                 "vlan": None,
                 "fail_mode": None,
+                "mtu_request": None,
                 "external_ids": None,
                 "set": None,
             },

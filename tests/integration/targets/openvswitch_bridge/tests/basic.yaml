@@ -60,6 +60,28 @@
     that:
       - result is not changed
 
+- name: Set MTU request on bridge
+  register: result
+  become: true
+  openvswitch.openvswitch.openvswitch_bridge:
+    bridge: br-test
+    mtu_request: 1500
+
+- assert:
+    that:
+      - result is changed
+
+- name: Set MTU request on bridge again (idempotent)
+  register: result
+  become: true
+  openvswitch.openvswitch.openvswitch_bridge:
+    bridge: br-test
+    mtu_request: 1500
+
+- assert:
+    that:
+      - result is not changed
+
 - name: Tear down test bridges
   become: true
   command: ovs-vsctl del-br br-test
