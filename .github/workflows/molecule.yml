@@ -1,0 +1,50 @@
+---
+name: Molecule
+on:
+  workflow_call:
+jobs:
+  test:
+    name: ${{ matrix.os }} - ${{ matrix.ansible-env['ansible-version'] }} - py${{ matrix.ansible-env['python-version'] }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - centos-systemd:stream10
+          - debian-systemd:13
+          - ubuntu-systemd:24.04
+          - ubuntu-systemd:26.04
+        ansible-env:
+          - ansible-version: stable-2.18
+            python-version: "3.12"
+          - ansible-version: stable-2.21
+            python-version: "3.14"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          path: "${{ github.repository }}"
+      - name: Set up Python ${{ matrix.ansible-env['python-version'] }}
+        uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.ansible-env['python-version'] }}
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r ${{ github.repository }}/test-requirements.txt
+      - name: Install ansible
+        run: |
+          if [[ "${{ matrix.ansible-env['ansible-version'] }}" =~ ^(stable-|devel) ]]; then
+            python3 -m pip install "git+https://github.com/ansible/ansible.git@${{ matrix.ansible-env['ansible-version'] }}"
+          else
+            python3 -m pip install "ansible-core==${{ matrix.ansible-env['ansible-version'] }}"
+          fi
+      - name: Load openvswitch kernel module
+        run: |
+          sudo modprobe openvswitch
+      - name: Test with molecule
+        run: |
+          cd ${{ github.repository }}
+          export DOCKER_IMAGE="${{ matrix.os }}"
+          molecule test --all

@@ -1,0 +1,23 @@
+---
+dependency:
+  name: galaxy
+
+driver:
+  name: docker
+
+platforms:
+  - name: ovs-default
+    image: "${DOCKER_REGISTRY:-quay.io/gotmax23}/${DOCKER_IMAGE:-ubuntu-systemd:noble}"
+    command: ${DOCKER_COMMAND:-""}
+    privileged: true
+    pre_build_image: true
+
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      callbacks_enabled: ansible.posix.profile_tasks
+      inject_facts_as_vars: false
+
+scenario:
+  name: default

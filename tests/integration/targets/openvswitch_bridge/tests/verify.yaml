@@ -1,0 +1,43 @@
+---
+- name: Verify br-test exists
+  ansible.builtin.command: ovs-vsctl br-exists br-test
+  become: true
+  changed_when: false
+
+- name: Verify fake-br-test exists
+  ansible.builtin.command: ovs-vsctl br-exists fake-br-test
+  become: true
+  changed_when: false
+
+- name: Get parent of fake-br-test
+  ansible.builtin.command: ovs-vsctl br-to-parent fake-br-test
+  become: true
+  register: fake_parent
+  changed_when: false
+
+- name: Assert parent of fake-br-test is br-test
+  ansible.builtin.assert:
+    that:
+      - fake_parent.stdout.strip() == 'br-test'
+
+- name: Get VLAN of fake-br-test
+  ansible.builtin.command: ovs-vsctl br-to-vlan fake-br-test
+  become: true
+  register: fake_vlan
+  changed_when: false
+
+- name: Assert VLAN of fake-br-test is 300
+  ansible.builtin.assert:
+    that:
+      - fake_vlan.stdout.strip() == '300'
+
+- name: Get MTU request of br-test
+  ansible.builtin.command: ovs-vsctl get Interface br-test mtu_request
+  become: true
+  register: br_mtu_request
+  changed_when: false
+
+- name: Assert MTU request of br-test is 1500
+  ansible.builtin.assert:
+    that:
+      - br_mtu_request.stdout.strip() == '1500'

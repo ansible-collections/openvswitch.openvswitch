@@ -1,0 +1,32 @@
+---
+- name: Ensure test bridge exists
+  become: true
+  openvswitch.openvswitch.openvswitch_bridge:
+    bridge: br-test
+    state: present
+
+- name: Set other_config disable-in-band on test bridge
+  become: true
+  openvswitch.openvswitch.openvswitch_db:
+    table: Bridge
+    record: br-test
+    col: other_config
+    key: disable-in-band
+    value: true
+
+- name: Set key value with quotes in open_vswitch
+  become: true
+  openvswitch.openvswitch.openvswitch_db:
+    table: open_vswitch
+    record: .
+    col: other_config
+    key: pmd-cpu-mask
+    value: "0xaaa00000000"
+
+- name: Set stp_enable column value on test bridge
+  become: true
+  openvswitch.openvswitch.openvswitch_db:
+    table: Bridge
+    record: br-test
+    col: stp_enable
+    value: true

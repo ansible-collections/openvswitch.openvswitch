@@ -1,0 +1,109 @@
+---
+- name: Remove key value with quotes
+  become: true
+  register: result
+  openvswitch.openvswitch.openvswitch_db:
+    table: open_vswitch
+    record: .
+    col: other_config
+    key: pmd-cpu-mask
+    value: "0xaaa00000000"
+    state: absent
+
+- name: Assert key value removal changed
+  ansible.builtin.assert:
+    that:
+      - result is changed
+
+- name: Remove key value with quotes again (idempotent)
+  become: true
+  register: result
+  openvswitch.openvswitch.openvswitch_db:
+    table: open_vswitch
+    record: .
+    col: other_config
+    key: pmd-cpu-mask
+    value: "0xaaa00000000"
+    state: absent
+
+- name: Assert key value removal is idempotent
+  ansible.builtin.assert:
+    that:
+      - result is not changed
+
+- name: Change column value in a map
+  become: true
+  register: result
+  openvswitch.openvswitch.openvswitch_db:
+    table: Bridge
+    record: br-test
+    col: other_config
+    key: disable-in-band
+    value: false
+
+- name: Assert map column value change was applied
+  ansible.builtin.assert:
+    that:
+      - result is changed
+
+- name: Change column value in a map again (idempotent)
+  become: true
+  register: result
+  openvswitch.openvswitch.openvswitch_db:
+    table: Bridge
+    record: br-test
+    col: other_config
+    key: disable-in-band
+    value: false
+
+- name: Assert map column value change is idempotent
+  ansible.builtin.assert:
+    that:
+      - result is not changed
+
+- name: Remove key from map
+  become: true
+  register: result
+  openvswitch.openvswitch.openvswitch_db:
+    table: Bridge
+    record: br-test
+    col: other_config
+    key: disable-in-band
+    value: false
+    state: absent
+
+- name: Assert key removal changed
+  ansible.builtin.assert:
+    that:
+      - result is changed
+
+- name: Remove key from map again (idempotent)
+  become: true
+  register: result
+  openvswitch.openvswitch.openvswitch_db:
+    table: Bridge
+    record: br-test
+    col: other_config
+    key: disable-in-band
+    value: false
+    state: absent
+
+- name: Assert key removal is idempotent
+  ansible.builtin.assert:
+    that:
+      - result is not changed
+
+- name: Try to set value on a map type without a key (negative)
+  ignore_errors: true
+  become: true
+  register: result
+  openvswitch.openvswitch.openvswitch_db:
+    table: Bridge
+    record: br-test
+    col: other_config
+    value: true
+
+- name: Assert invalid map assignment failed
+  ansible.builtin.assert:
+    that:
+      - result is failed

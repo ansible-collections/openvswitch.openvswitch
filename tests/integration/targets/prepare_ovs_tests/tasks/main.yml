@@ -10,18 +10,36 @@
       ansible.builtin.setup:
       become: true
 
-    - name: Install openvswitch-switch package if we are on Ubuntu
-      ansible.builtin.apt:
-        name: openvswitch-switch
+    - name: Enable repositories on RedHat/CentOS/Rocky
+      when: ansible_facts['os_family'] == 'RedHat'
+      ansible.builtin.package:
+        name:
+          - epel-release
+          - centos-release-nfv-openvswitch
         state: present
-        update_cache: true
-      become: true
-      when: ansible_distribution == 'Ubuntu'
 
-    - name: Install openvswitch package if we are on Fedora
-      ansible.builtin.dnf:
-        name: openvswitch
-        state: installed
-        update_cache: true
+    - name: Install openvswitch-switch package
+      vars:
+        _ovs_packages:
+          debian:
+            - iproute2
+            - openvswitch-switch
+          redhat:
+            - iproute
+            - "{{ (ansible_facts['distribution_major_version'] | int >= 10) | ternary('openvswitch3.5', 'openvswitch') }}"
+      ansible.builtin.package:
+        name: "{{ _ovs_packages[ansible_facts['os_family'] | lower] }}"
+        state: present
+        update_cache: "{{ (ansible_facts['os_family'] == 'Debian') | ternary(true, omit) }}"
       become: true
-      when: ansible_distribution == 'Fedora'
+
+    - name: Ensure openvswitch service is started
+      vars:
+        _ovs_service_name:
+          debian: openvswitch-switch
+          redhat: openvswitch
+      ansible.builtin.service:
+        name: "{{ _ovs_service_name[ansible_facts['os_family'] | lower] }}"
+        state: started
+        enabled: true
+      become: true
