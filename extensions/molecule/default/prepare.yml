@@ -1,0 +1,8 @@
+---
+- name: Prepare container for Open vSwitch testing
+  hosts: all
+  gather_facts: true
+  vars:
+    prepare_ovs_tests_task: true
+  roles:
+    - role: prepare_ovs_tests
