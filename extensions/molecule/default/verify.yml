@@ -1,0 +1,9 @@
+---
+- name: Verify - Run Open vSwitch integration tests
+  hosts: all
+  gather_facts: false
+  vars:
+    testcase: verify
+  roles:
+    - role: openvswitch_bridge
+    - role: openvswitch_db

@@ -1,0 +1,26 @@
+---
+- name: Change fake bridge vlan
+  register: result
+  become: true
+  openvswitch.openvswitch.openvswitch_bridge:
+    bridge: fake-br-test
+    parent: br-test
+    vlan: 300
+
+- name: Assert change was applied
+  ansible.builtin.assert:
+    that:
+      - result is changed
+
+- name: Change fake bridge vlan again (idempotent)
+  register: result
+  become: true
+  openvswitch.openvswitch.openvswitch_bridge:
+    bridge: fake-br-test
+    parent: br-test
+    vlan: 300
+
+- name: Assert change is idempotent
+  ansible.builtin.assert:
+    that:
+      - result is not changed

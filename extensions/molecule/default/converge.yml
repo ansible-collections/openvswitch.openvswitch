@@ -1,0 +1,9 @@
+---
+- name: Converge - Run Open vSwitch integration tests
+  hosts: all
+  gather_facts: false
+  vars:
+    testcase: converge
+  roles:
+    - role: openvswitch_bridge
+    - role: openvswitch_db

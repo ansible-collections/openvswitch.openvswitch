@@ -7,3 +7,8 @@ yamllint
 pytest-ansible
 pytest-xdist
 pytest-cov
+
+# Molecule integration test runner
+molecule==26.10.0
+molecule-plugins[docker]==26.10.12
+docker

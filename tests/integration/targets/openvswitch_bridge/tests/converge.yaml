@@ -1,0 +1,21 @@
+---
+- name: Create bridge
+  become: true
+  openvswitch.openvswitch.openvswitch_bridge:
+    bridge: br-test
+    state: present
+
+- name: Add fake bridge
+  become: true
+  openvswitch.openvswitch.openvswitch_bridge:
+    bridge: fake-br-test
+    parent: br-test
+    vlan: 100
+    state: present
+
+- name: Set MTU request on bridge
+  register: result
+  become: true
+  openvswitch.openvswitch.openvswitch_bridge:
+    bridge: br-test
+    mtu_request: 1500

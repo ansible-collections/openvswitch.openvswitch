@@ -1,0 +1,69 @@
+---
+- name: Verify stp_enable is true on br-test
+  ansible.builtin.command: ovs-vsctl get Bridge br-test stp_enable
+  become: true
+  register: stp_out
+  changed_when: false
+
+- name: Assert stp_enable is true
+  ansible.builtin.assert:
+    that:
+      - stp_out.stdout.strip() == "true"
+
+- name: Verify pmd-cpu-mask is absent from open_vswitch other_config
+  ansible.builtin.command: ovs-vsctl get open_vswitch . other_config:pmd-cpu-mask
+  become: true
+  register: pmd_out
+  failed_when: false
+  changed_when: false
+
+- name: Assert pmd-cpu-mask was removed
+  ansible.builtin.assert:
+    that:
+      - pmd_out.rc != 0
+
+- name: Verify disable-in-band is absent from br-test other_config
+  ansible.builtin.command: ovs-vsctl get Bridge br-test other_config:disable-in-band
+  become: true
+  register: in_band_out
+  failed_when: false
+  changed_when: false
+
+- name: Assert disable-in-band was removed
+  ansible.builtin.assert:
+    that:
+      - in_band_out.rc != 0
+- name: Verify stp_enable is true on br-test
+  ansible.builtin.command: ovs-vsctl get Bridge br-test stp_enable
+  become: true
+  register: stp_out
+  changed_when: false
+
+- name: Assert stp_enable is true
+  ansible.builtin.assert:
+    that:
+      - stp_out.stdout.strip() == "true"
+
+- name: Verify pmd-cpu-mask is absent from open_vswitch other_config
+  ansible.builtin.command: ovs-vsctl get open_vswitch . other_config:pmd-cpu-mask
+  become: true
+  register: pmd_out
+  failed_when: false
+  changed_when: false
+
+- name: Assert pmd-cpu-mask was removed
+  ansible.builtin.assert:
+    that:
+      - pmd_out.rc != 0
+
+- name: Verify disable-in-band is absent from br-test other_config
+  ansible.builtin.command: ovs-vsctl get Bridge br-test other_config:disable-in-band
+  become: true
+  register: in_band_out
+  failed_when: false
+  changed_when: false
+
+- name: Assert disable-in-band was removed
+  ansible.builtin.assert:
+    that:
+      - in_band_out.rc != 0
